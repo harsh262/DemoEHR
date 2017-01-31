@@ -1,0 +1,266 @@
+<html>
+<head>
+<style>
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 182px !important;
+}
+.padding-top10{
+padding-top: 10px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+text-align:center;
+}
+.input-text .form-control{
+width:60% !important;
+}
+textarea .form-control{
+width:100% !important;
+}
+</style>
+
+<!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+	 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <link rel="stylesheet" href="css/medical-icons/wfmi-style.css">
+	 <link rel="stylesheet" href="css/param.common.master.css">
+	 <link rel="stylesheet" href="css/param.common.master.popup.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<h4>Radiology Order</h4>
+		</div>
+		<div class="row">
+			<div class="col-md-4 col-sm-4">
+				<label class="radio-inline"> <input type="radio"
+				name="optradio">Solutions
+			</label>
+			<label class="radio-inline"> <input type="radio"
+				name="optradio">Additives
+			</label>
+			</div>
+			</div>
+		<div class="row">
+				<div class="col-md-12 col-sm-12">
+				<div class="col-md-4 col-sm-4">
+				<label></label><br />
+					<select class="selectpicker" multiple>
+					  <option>1</option>
+					  <option>2</option>
+					  <option>3</option>
+					</select>
+				</div>
+				<div class="col-md-4 col-sm-4">
+					    <div class="form-group">
+						      <label class="">Volume/Strength*</label>
+						      <div class="input-text">
+						        <input class="form-control" id="focusedInput" type="text" value="">
+						      </div>
+						    </div>
+				</div>
+				<div class="col-md-4 col-sm-4">
+					    <div class="form-group">
+						      <label class="">Additive Frequency</label>
+						      <div class="input-text">
+						        <input class="form-control" id="focusedInput" type="text" value="">
+						      </div>
+						    </div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="row padding-top10">
+			<div class="col-md-12 col-sm-12">
+			<div class="col-md-3 col-sm-3">
+			<label>Route</label><br />
+				<select class="selectpicker">
+				  <option>-</option>
+				</select>
+			</div>
+			<div class="col-md-3 col-sm-3">
+			<label>Type</label><br />
+				<select class="selectpicker">
+				  <option>1</option>
+				</select>
+			</div>
+			<div class="col-md-2 col-sm-2">
+				<label>Schedule</label><br />
+					<select class="selectpicker">
+					  <option>1</option>
+					  <option>2</option>
+					  <option>3</option>
+					</select>
+			</div>
+			<div class="col-md-1 col-sm-1 padding-top10">
+				<div class="checkbox">
+		               <label><input type="checkbox" value="">PRN</label>
+	  				 </div>
+			</div>
+		</div>
+	</div>
+	<div class="row padding-top10">
+			<div class="col-md-12 col-sm-12">
+			<div class="col-md-3 col-sm-3">
+			<label>Infusion Rate(m/hr)</label><br />
+				<select class="selectpicker">
+				  <option>-</option>
+				</select>
+			</div>
+			<div class="col-md-3 col-sm-3">
+			<label>Priority</label><br />
+				<select class="selectpicker">
+				  <option>-</option>
+				</select>
+			</div>
+				<!-- <div class="col-md-2 col-sm-2">
+				    <div class="form-group">
+					      <label class="">Duration</label>
+					      <div class="input-text">
+					        <input class="form-control" id="focusedInput" type="text" value="">
+					      </div>
+					 </div>
+				</div>
+				<div class="col-md-1 col-sm-1">
+					<label>OR</label>
+				</div>
+				<div class="col-md-1 col-sm-1">
+					<label class="">Total Volume</label><br />
+						<select class="selectpicker">
+						  <option>-</option>
+						</select>
+			</div> -->
+			<div class="col-md-6 col-sm-6">
+				<label>Duration OR Total Volume</label>
+				<div class="col-md-3">
+					<br /><div class="form-group">
+					      <div class="input-text">
+					        <input class="form-control" id="focusedInput" type="text" value="">
+					      </div>
+					 </div>
+				</div>
+				<div class="col-md-3">
+					<br /><select class="selectpicker">
+						  <option>-</option>
+						</select>
+				</div>
+			</div>
+				
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-3 float_right">
+					<div class="">
+						<button type="button" id="add_btn" class="btn btn-primary">Add</button>
+						<button type="button" id="cancel_btn" class="btn btn-primary">Cancel</button>
+					</div>
+				</div>
+	</div>
+	<div class="row padding-top10">
+			<div class="col-md-12 col-sm-12">
+				<div class="col-md-6 col-sm-6">
+					<div class="form-group">
+						      <span><label for="">History and Research for exam:</label>
+						      	<textarea class="form-control" rows="5" id=""></textarea>
+						      </span>
+						</div>
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<div class="form-group">
+						      <span><label for="">Exam over last 7 days:</label>
+						      	<textarea class="form-control" rows="5" id=""></textarea>
+						      </span>
+						</div>
+				</div>
+			</div>
+		</div>
+	<div class="row">
+		<div class="col-md-12">
+				<div class="col-md-1 col-sm-1">
+					<div class="checkbox">
+		               <label><input type="checkbox" value="">Isolation</label>
+	  				 </div>			
+				</div>
+				<div class="col-md-1 col-sm-1">
+					<div class="checkbox">
+		               <label><input type="checkbox" value="">Pregnant</label>
+	  				 </div>			
+				</div>
+				<div class="col-md-2 col-sm-2">
+					<span><label>Pre OP scheduled</label>
+						<select class="selectpicker">
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>
+						</select>
+					</span>
+				</div>
+				<div class="col-md-5 col-sm-5">
+				
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<div class="">
+						<button type="button" id="add_btn" class="btn btn-primary">Add</button>
+						<button type="button" id="cancel_btn" class="btn btn-primary">Cancel</button>
+					</div>
+				</div>
+		</div>
+	</div>
+	<div class="row">
+		<table class="table">
+			<thead>
+					<tr>
+					<th>Order</th>
+					<th>Modifier</th>
+					<th>Urgency</th>
+					<th>Requested Date</th>
+					<th>Transport</th>
+					<th>Category</th>
+					<th>Action</th>
+					</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Order 1</td>
+					<td>Left</td>
+					<td>Routine</td>
+					<td>22 Nov 16</td>
+					<td>Ambulatory</td>
+					<td>OP</td>
+					<td><i class="fa fa-times" aria-hidden="true"></i></td>
+				</tr>
+				<tr>
+					<td>Order 2</td>
+					<td>Left</td>
+					<td>Routine</td>
+					<td>22 Nov 16</td>
+					<td>Ambulatory</td>
+					<td>OP</td>
+					<td><i class="fa fa-times" aria-hidden="true"></i></td>
+				</tr>
+				<tr>
+					<td>Order 3</td>
+					<td>Left</td>
+					<td>Routine</td>
+					<td>22 Nov 16</td>
+					<td>Ambulatory</td>
+					<td>OP</td>
+					<td><i class="fa fa-times" aria-hidden="true"></i></td>
+				</tr>
+				<!-- <tr>
+					<td>More views</td>
+				</tr> -->
+			</tbody>	
+		</table>
+	</div>
+</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>  
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+</body>
+</html>

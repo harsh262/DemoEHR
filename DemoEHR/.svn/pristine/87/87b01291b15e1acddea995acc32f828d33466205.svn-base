@@ -1,0 +1,64 @@
+/**
+ * 
+ */
+patientSearchApp.service('patientSearchService',['$http','urlConfig',function($http,urlConfig) {
+	// service to get all patients
+	this.fetchAllPatientList = function(doctorId){
+		var URI = urlConfig.url + 'doctors/'+doctorId+'/patients';
+		var promis = $http.get(URI)
+		.then(function(response){
+			console.log(response.data.result.patients);
+			if(response.data._status_Code === 200){
+				console.log("success");
+				return (response.data.result.patients);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promis;
+	};
+	
+	this.searchBy = function(doctorId,keyword,value){
+		var URI = urlConfig.url + 'doctors/'+doctorId+'/searchPatient?searchBy='+keyword+'&searchValue='+value;
+		console.log(URI);
+		var promis = $http.get(URI)
+		.then(function(response){
+			//console.log(response.data.result.patients);
+			if(response.data._status_Code === 200){
+				console.log(response.data.result);
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promis;
+	};
+	
+	// autocomplete
+	/*this.getPatientByMRN = function(){
+		alert();
+	    $http({
+	        method: 'GET',
+	        url:urlConfig.url + 'doctors/93d380b6-f678-460e-a5b9-4287e2a12f87/patients'
+	    }).then(function (data) {
+			console.log(data.data.result.patients);
+	        return  data.data.result.patients;
+	    }, function () {
+	        alert('Error');
+	    })
+	};*/
+		/*var URI = 'http://54.84.170.46:5100/ehr/doctors/93d380b6-f678-460e-a5b9-4287e2a12f87/patients';
+		 $http.get(URI)
+		.then(function(response){
+			console.log(response.data.result.patients);
+			if(response.data._status === 'done'){
+				console.log("success");
+				return (response.data.result.patients);
+			}
+		})
+	}*/
+}]);
+
+

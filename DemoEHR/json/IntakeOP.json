@@ -1,0 +1,9 @@
+{
+  "patientId" : "583be6e7a4c3a50ae4ac317d",
+  "intakeOutputType" : "Intake",
+  "value" : 2,
+  "qualifiers" : "Bowel",
+  "timeStamp":12547863445,
+  "parameter":"coffee",
+  "POPFlag":true  
+}

@@ -1,0 +1,138 @@
+homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','commonCrudService','VitalReviewService',function($scope,$rootScope,$cookies,commonCrudService,VitalReviewService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+	
+	$scope.saveLabOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$scope.patientInfo,"Lab Order").then(function(data){
+			getOrderList();
+		});
+	};
+	
+	getOrderList();
+
+	$scope.cancelOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getOrderList();
+		});
+	}
+		
+	$scope.getOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateLabOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$scope.patientInfo,"Lab Order").then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getOrderList();
+		});
+	}
+	
+	function getOrderList(){
+		commonCrudService.getOrderByCategory("Lab Order").then(function(data) {
+			$scope.getLabOrderList = data;
+		});
+	}
+	
+	
+	
+}]);
+
+homePageApp.controller("imagingOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveImagingOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$scope.patientInfo,"Imaging Order").then(function(data){
+			getImagingOrderList();
+		});
+	};
+	
+	getImagingOrderList();
+
+	$scope.cancelImagingOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getImagingOrderList();
+		});
+	}
+		
+	$scope.getImagingOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateImagingOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$scope.patientInfo,"Imaging Order").then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getImagingOrderList();
+		});
+	}
+	
+	function getImagingOrderList(){
+	commonCrudService.getOrderByCategory("Imaging Order").then(function(data) {
+		$scope.getImagingOrderList = data;
+		});
+	}
+}]);
+
+
+homePageApp.controller("ipPharmacy",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveIpPharmacyOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$scope.patientInfo,"IP Pharmacy").then(function(data){
+			getIpPharmacyOrderList();
+		});
+	};
+	
+	getIpPharmacyOrderList();
+
+	$scope.cancelIpPharmacyOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getIpPharmacyOrderList();
+		});
+	}
+		
+	$scope.getIpPharmacyOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateIpPharmacyOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$scope.patientInfo,"IP Pharmacy").then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getIpPharmacyOrderList();
+		});
+	}
+	
+	function getIpPharmacyOrderList(){
+	commonCrudService.getOrderByCategory("IP Pharmacy").then(function(data) {
+		$scope.getIpPharmacyOrderList = data;
+		});
+	}
+	
+}]);
+
+

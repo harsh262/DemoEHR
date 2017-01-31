@@ -1,0 +1,66 @@
+/**
+ * 
+ */
+homePageApp.service('VitalReviewService',['$http', function($http) {
+	/*return{
+		getVitalReview:function(){
+			var response;
+			var URI = 'http://54.84.170.46:5100/ehr/patients/583be669a4c3a50ae4ac317c/getvitals';
+			var promis = $http.get(URI);
+			promis.then(function(data) {
+					console.log(data);
+					response = data;
+					return response;
+				});
+			return response;
+		}
+	}*/
+	
+	this.getVitalReview = function(patientInfo){
+		var URI = 'http://54.84.170.46:5100/ehr/patients/'+patientInfo._id+'/getvitals';
+		console.log(URI);
+		var promis = $http.get(URI)
+		.then(function(response){
+			console.log(response.data.result);
+			if(response.data._status === 'done'){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promis;
+	}
+	
+	
+	this.saveVitals = function(vitalObj, patientId){
+	
+		var URI = 'http://54.84.170.46:5100/ehr/doctor/'+ getCookie("doctorId")+'/patient/'+patientId+'/addvitals';
+		
+		var promise = $http.post(URI, JSON.stringify(vitalObj)).then(function(response) {
+			
+			console.log(response);
+			
+			return response;
+		});
+	}
+	
+	this.getPatientByFilter = function(searchBy,searchValue){
+		var URI = 'http://54.84.170.46:5100/ehr/doctors/'+getCookie("doctorId")+'/searchPatient?searchBy='+searchBy+'&searchValue='+searchValue;
+		console.log(URI);
+		var promis = $http.get(URI)
+		.then(function(response){
+			//console.log(response.data.result[0]);
+			if(response.data._status === 'Done'){
+				//console.log("success");
+				return (response.data.result[0]);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promis;
+	};
+	
+	
+}]);

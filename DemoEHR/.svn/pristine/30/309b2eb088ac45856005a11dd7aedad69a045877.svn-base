@@ -1,0 +1,53 @@
+[{
+    "_id":"1",
+    "test_name":"Hb",
+    "Parameter":[
+        {
+            "parameter_name":"",
+            "unit":"g/dL",
+            "range":[
+                {
+                    "key":"men",
+                    "min":"13",
+                    "max":"17"
+                },
+                {
+                    "key":"women",
+                    "min":"12",
+                    "max":"15"
+                }
+            ],
+            "default_Value":""
+        }
+    ]
+},{
+    "_id":"2",
+    "test_name":"ABG",
+    "Parameter":[
+        {
+            "parameter_name":"PaO2",
+            "unit":"mmHg",
+            "range":[
+                {
+                    "key":"",
+                    "min":"75",
+                    "max":"100"
+                }
+            ],
+            "default_Value":""
+        },
+        {
+            "parameter_name":"PaCO2",
+            "unit":"mmHg",
+            "range":[
+                {
+                    "key":"",
+                    "min":"38",
+                    "max":"42"
+                }
+            ],
+            "default_Value":""
+        }
+    ]
+
+}]

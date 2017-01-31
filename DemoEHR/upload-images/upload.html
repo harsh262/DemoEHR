@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <style>
+    	.margin-top10{
+    	margin-top: 10px;
+    	}
+    	.float-right{
+    	float:right
+    	}
+    </style>
+        <meta charset="UTF-8"/>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+        <link href="fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div class="container margin-top10">
+            
+            <form enctype="multipart/form-data">
+                <input id="file-0a" class="file" type="file" multiple data-min-file-count="1"  file-model = "myFile">
+                <br>
+                <div class="float-right">
+	                <button type="submit" class="btn btn-primary" ng-click = "uploadFile()">Submit</button>
+	                <button type="reset" class="btn btn-default">Reset</button>
+	            </div>
+            </form>
+          
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="fileinput.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+    </body>
+	<script>
+    
+   
+	</script>
+</html>

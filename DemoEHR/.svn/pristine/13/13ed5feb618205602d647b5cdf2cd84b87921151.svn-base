@@ -1,0 +1,26 @@
+function getNewDate(dateObj){
+    	var m_names = new Array("Jan", "Feb", "Mar", 
+    		"Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+    		"Oct", "Nov", "Dec");
+    		var month = dateObj.getUTCMonth();
+    		var day = dateObj.getUTCDate();
+    		var year = dateObj.getUTCFullYear();
+    		var formatedDay = '';
+    		var formatedMonth = '';
+    		var suffix = getDayOfMonthSuffix(day)
+    		formatedDay = day+"<sup>"+suffix+"</sup>";
+    		return formatedDay+" " + m_names[month]  + " " + year ;
+    }
+  
+function getDayOfMonthSuffix(n){
+	    if (n >= 11 && n <= 13) {
+	        return "th";
+	    }
+	    switch (n % 10) {
+	        case 1:  return "st";
+	        case 2:  return "nd";
+	        case 3:  return "rd";
+	        default: return "th";
+	    }
+	}
+  

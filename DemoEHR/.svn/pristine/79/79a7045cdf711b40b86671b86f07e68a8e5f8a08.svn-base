@@ -1,0 +1,160 @@
+homePageApp.controller("pateintComplaintController",['$scope','$rootScope','$cookies','pateintComplaintService','$timeout',function($scope,$rootScope,$cookies,pateintComplaintService,$timeout){
+	
+	$scope.patientComplaint = {};
+	//alert();
+	
+	$scope.removeDay = function(){
+		$scope.patientComplaint.duration = "";
+		if($scope.dt == ''){
+			$scope.patientComplaint.duration = "day";
+		}
+	}
+	
+	$scope.clearDate = function(){
+		$scope.dt = "";
+	} 
+	$scope.patientComplaint.duration = "day";
+	$scope.patientComplaint.severity = "Chronic";
+	$scope.patientComplaint.status = "active";
+	$scope.patientComplaint.type = "primary";
+	
+	/* $scope.example13model = [];
+     $scope.example13data = [
+         {id: 1, label: "David"},
+         {id: 2, label: "Jhon"},
+         {id: 3, label: "Lisa"},
+         {id: 4, label: "Nicole"},
+         {id: 5, label: "Danny"}];
+         
+       
+     
+     $scope.example13settings = {
+         smartButtonMaxItems: 3,
+          enableSearch: true,
+         smartButtonTextConverter: function(itemText, originalItem) {
+             if (itemText === 'Jhon') {
+             return 'Jhonny!';
+             }
+     
+             return itemText;
+         }
+     };
+         */
+	//**********************************ALERT**********************************//*
+	$scope.addAlert = function() {
+		alert();
+	    $scope.alerts.push({msg: 'Another alert!'});
+	  };
+
+	  $scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	  };
+     
+   //**********************************DATEPICKER**********************************//*
+     $scope.today = function() {
+   	    $scope.dt = new Date();
+   	  };
+   	 
+   	  $scope.open1 = function() {
+   	    $scope.popup1.opened = true;
+   	  };
+
+   	  $scope.popup1 = {
+   	    opened: false
+   	  };
+ 	
+ 	
+ 	
+     
+	/*$scope.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+	console.log("doctorName : " + $scope.doctorName);*/
+	$scope.patientComplaint = angular.copy({"duration"	  :"day",
+											"severity"	  :"",
+											"status"	  :"active",
+											"type"		  :"",
+											"description" :"Chest Pain",
+											"icdCode"	  :"ICD 1",
+											"date"		  :new Date().getTime(),
+											"doctorName"  :"",
+											"comment":""
+										   });
+	
+	$scope.setComplaint = function(icdCode,description){
+		$scope.patientComplaint.description = description;
+		$scope.patientComplaint.icdCode = icdCode;
+		$scope.patientComplaint.date = new Date();
+		$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+		//getPatientComplaintList();
+	}
+	
+	$scope.saveComplaint = function(){
+		$scope.$broadcast('show-errors-check-validity');
+		console.log("saveComplaint"+$scope.problemListForm.$valid);
+		if($scope.patientComplaint.dt == '')
+			$scope.patientComplaint.dt=" ";
+		if($scope.problemListForm.$valid){
+			$scope.patientComplaint.duration = $scope.dt != undefined ? $scope.dt : $scope.patientComplaint.duration;
+			var visitId = $rootScope.patientInfo.visitRecords[0]._id;
+			var patientId  = $rootScope.patientInfo._id;
+			$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+			pateintComplaintService.saveComplaint($scope.patientComplaint,patientId,visitId).then(function(data){
+				$scope.$broadcast('show-errors-reset');
+				getPatientComplaintList();
+				$scope.reset();
+			});
+		}
+	}
+	
+	/*
+	 * Get Problem List
+	 */
+	/*$scope.getProblemList = function(){
+		
+	}
+	*/
+	$scope.addComplaintToError = function(complaintId){
+		var patientId  = $rootScope.patientInfo._id;
+		pateintComplaintService.addComplaintToError(patientId,complaintId).then(function(data){
+			getPatientComplaintList();
+		});
+	}
+	
+	$scope.changeStatus = function(){
+		if($scope.status){
+			$scope.patientComplaint.status = "active";
+		}else{
+			$scope.patientComplaint.status = "inactive";
+		}
+	}
+	
+	
+	
+	function getPatientComplaintList(){
+		var patientId  = $rootScope.patientInfo._id;
+		$scope.patientComplaint.description = "Chest Pain";
+		$scope.patientComplaint.icdCode = "ICD 1";
+		$scope.patientComplaint.date = new Date();
+		$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+		pateintComplaintService.getPatientComplaintList(patientId).then(function(data){
+			$scope.getPatientComplaintList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.patientComplaint = angular.copy({
+			"duration"	  :"day",
+			"severity"	  :"",
+			"status"	  :"active",
+			"type"		  :"",
+			"description" :"",
+			"icdCode"	  :"",
+			"date"		  :"",
+			"doctorName"  :"",
+			"comment"     :""
+		});
+	};
+	
+	
+
+		
+}]);

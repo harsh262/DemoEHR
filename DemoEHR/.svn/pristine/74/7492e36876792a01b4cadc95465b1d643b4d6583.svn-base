@@ -1,0 +1,36 @@
+homePageApp.service('pateintComplaintService',['$http','urlConfig',function($http,urlConfig){
+	
+	this.saveComplaint = function(patientComplaint,patientId,visitId){
+		var URI = urlConfig.url+"patients/"+patientId+"/addComplaints/"+visitId;
+		var promise = $http.post(URI,JSON.stringify(patientComplaint)).then(function(response){
+			console.log(response);
+			return response;
+		},function(){
+			alert("error");
+		})
+		return promise;
+	}
+	
+	this.getPatientComplaintList = function(patientId){
+		var URI = urlConfig.url+"patients/"+patientId+"/getAllComplaints";
+		var promise = $http.get(URI).then(function(response){
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},function(){
+			alert("error");
+		});
+		return promise;
+	}
+	
+	this.addComplaintToError = function(patientId,complaintId){
+		var URI = urlConfig.url+"patients/"+patientId+"/complaints/"+complaintId+"/addToError";
+		var promise = $http.put(URI).then(function(response){
+			console.log(response);
+			return response;
+		},function(){
+			alert("error");
+		})
+		return promise;
+	}
+}])

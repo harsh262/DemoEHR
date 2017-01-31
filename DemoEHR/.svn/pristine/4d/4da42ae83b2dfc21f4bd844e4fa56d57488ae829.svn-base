@@ -1,0 +1,1039 @@
+<html>
+<head>
+<script src="js/app/common/url.config.js"></script> 
+<script src="js/angular.min.js"></script> 
+<script src="js/angular-cookies.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-sanitize.js"></script> -->
+<script src="js/app/controller/patientSearchController.js"></script>
+<script src="js/app/service/patientSearchService.js"></script>
+<script src="js/app/common/common.js"></script>
+<script src="js/autocomplete/angucomplete-alt.js"></script>
+<script src="js/app/config/cookie.js"></script>
+
+<script src="js/angularjsDesign/angular-animate.js"></script>
+<script src="js/angularjsDesign/angular-sanitize.js"></script>
+<script src="js/angularjsDesign/ui-bootstrap-tpls-2.3.1.js"></script>
+<!-- <script src="js/ui-bootstrap-tpls-0.9.0.js"></script> -->
+<!--     <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script> -->
+
+<style>
+.highlight{
+color: #e28797 !important;
+}
+.angucomplete-row {
+	color:#1c689e !important;
+}
+
+.patient-detail-row img{
+	height:35px;
+}
+.patient-detail-row{
+    background-color: #7BAFD4;
+    color: white;
+    margin-bottom: 0px !important;
+}
+.col-md-1
+{
+    width: 4.333333% !important;
+}
+.fa-bell-o{
+margin-left: 10px;
+}
+.fa-envelope-o{
+margin-left: 10px;
+}
+
+.width10{
+width: 10px;
+}
+.margin-left40{
+margin-left: -40px;
+}
+
+
+.picwidth{
+width: 30px;
+}
+.table>tbody>tr>td{
+	padding: 2px !important;
+    line-height: 1.42857143;
+    vertical-align: middle !important;
+}
+
+
+.calendar:before {
+    font-family: 'FontAwesome';
+    color:gray;
+    position: relative;
+    left: 158px;
+    content: "\f073";
+    top: 1px;
+}
+.search{
+margin-top: -8px;
+}
+.search input{
+border-radius: 15px;
+padding-left: 10px;
+}
+.margin-top-12{
+	margin-top: -12px;
+}
+.height28{
+	height: 28x !important;
+}
+.fa-angle-down:before {
+    content: "\f107";
+    position: relative;
+  /*   top: -17px; */
+    font-size:20px;
+	color: gray;
+	/* left:75px; */
+}
+
+.table> i{
+margin-top: -15px;
+}
+table>thead>tr>th i{
+	margin-left: 30px;
+}
+tr>td .profile_pic img{
+margin-left: 30px !important;
+}
+.skin-font-color{
+	color: #1c689e;
+}
+.tr-head{
+	     background-color: #f5fffd !important;
+    color: #39ab94 !important;
+    padding-left: 30px !important;
+}
+.tr-head> th i{
+    padding-left: 30px !important;
+}
+
+.margin-row{
+	margin-left:15px !important;
+	margin-right:-3px !important;
+}
+.patient-img{
+	height:100px;
+	 width:100px;
+}
+.red-font-color{
+	color: red;
+}
+</style>
+
+</head>
+<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="css/bootstrap/css/bootstrap-select.min.css">
+	 <link rel="stylesheet" type="text/css" href="css/daterangepicker/css/daterangepicker.css" />
+	 <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+	 <link rel="stylesheet" href="css/medical-icons/wfmi-style.css">
+	 <link rel="stylesheet" href="css/param.common.master.css">
+	 <link rel="stylesheet" href="css/param.common.master.popup.css">
+	 <link rel="stylesheet" href="Slider/jquery.range.css">
+	<link rel="stylesheet" type="text/css" href="css/slideshow.css">
+<link href="js/autocomplete/angucomplete-alt.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="css/autocomplete.css"/>
+     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700" rel="stylesheet" type="text/css">
+
+<body >
+<div ng-app="patientApp" ng-controller="patientSearchController">
+<script type="text/ng-template" id="customTemplate.html">
+  <a>
+      <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+  </a>
+</script>
+	<div class="container-fluid">
+		<div class="row patient-detail-row">
+			<div class="col-md-12 col-sm-12">
+				<div class="col-md-1 col-sm-1 profile_pic">
+					<img alt="" src="images/picture-4847-1455720684.jpg" class="img-circle" ><!-- data-toggle="modal" data-target="#patientDetailsModal" -->
+				</div>
+				<div class="col-md-7 col-sm-7 margin-top8">
+					<label >{{doctorName}}</label>
+					<i class="fa fa-bell-o" aria-hidden="true" data-toggle="modal" data-target="#notificationModal"> <span class="badge badge-notify">8</span></i>
+					<i class="fa fa-envelope-o" aria-hidden="true"></i>
+				</div>
+				<!-- <div class="col-md-5 col-sm-5">
+				
+				</div> -->
+				<div class="col-md-4 col-sm-4 margin-top8">
+					<span class="logout"><i class="fa fa-sign-out float_right" style="margin-left: 10px"></i></span>
+					<span class="float_right" ng-bind-html ="newDate"></span>
+					<div class="float_right unique-number margin-right16">C4501</div>
+				</div>
+			</div>
+		</div>
+		
+				<div class="row">
+					<div class="col-md-2 col-sm-2 search">
+						<div class="right-inner-addon"> 
+			                 <i class="fa fa-search"></i>
+			                 <!-- <div angucomplete-alt id="txtAutocomplete" placeholder="Name, MRN, MyKad" pause="100"
+                				  selected-object="afterSelectedName" local-data="Countries" search-fields="name"
+              					   title-field="name" minlength="1" input-class="form-control" match-class="highlight"  ng-keyup = "searchMRN(searchStr)" >
+            			  	</div> -->
+            			  	<!-- <input type="search" class="form-control" ng-model="mrn" value="" placeholder="Name, MRN, MyKad" ng-blur="searchBy('mrn',mrn);" /> -->
+		                 	<!-- <input type="search" class="form-control" ng-model="mrn"  value="" placeholder="Name, MRN, MyKad" typeahead="address.mrn for address in searchMRN($viewValue) | filter:$viewValue | limitTo:10" typeahead-min-length='1' typeahead-on-select='onSelectPart($item, $model, $label)' typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;" /> --> 
+		                	<input type="text" ng-model="mrn" placeholder="MRN" uib-typeahead="patient.mrn + ' - ' +patient.name for patient in searchMRN($viewValue,'mrn') " typeahead-on-select="on_mrn_selected($item, $model, $label,'mrn')" class="form-control" />
+		                 </div>
+					</div>
+					<div class="col-md-2 col-sm-2 search">
+						<div class="right-inner-addon"> 
+			                 <i class="fa fa-search"></i>
+			                 <!-- <input type="search" class="form-control"  placeholder="By Ward" /> -->
+			                 <input type="text" ng-model="ward" placeholder="By Ward" uib-typeahead="ward.wardCode + ' - ' + ward.wardDesc for ward in searchWard($viewValue) " typeahead-on-select="on_ward_selected($item, $model, $label)" class="form-control"  />
+		                 </div>
+					</div>
+					<div class="col-md-2 col-sm-2  search">
+						<div class="right-inner-addon"> 
+			                 <i class="fa fa-search"></i>
+			                 <input type="search" ng-model="department" class="form-control"  placeholder="By Department" uib-typeahead=" dept.desc for dept in searchDepartment($viewValue) " typeahead-on-select="on_department_selected($item, $model, $label)"/>
+		                 </div>
+					</div>
+					<div class="col-md-2 col-sm-2  search">
+						<div class="right-inner-addon"> 
+			                 <i class="fa fa-search"></i>
+			                 <input type="search" ng-model="clinic" class="form-control"  placeholder="By Clinic" uib-typeahead=" dept.desc for dept in searchClinic($viewValue) " typeahead-on-select="on_clinic_selected($item, $model, $label)" />
+		                 </div>
+					</div>
+					<div class="col-md-2 col-sm-2 search">
+						<div class="right-inner-addon"> 
+			                 <i class="fa fa-search"></i>
+			                 <input type="search" class="form-control"  placeholder="By Provider" />
+		                 </div>
+					</div>
+					<div class="col-md-2 col-sm-2 search">
+						<!-- <div class="right-inner-addon"> 
+			                 <i class="fa fa-calendar"></i>
+			                 <input type="text" class="form-control"  placeholder="28th Nov 2016" />
+		                 </div> -->
+		                  <span class="input-group">
+						          <input type="text" placeholder="Date" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="dt" is-open="popupPatientSearchDate.opened" datepicker-options="dateOptions" ng-required="true" />
+						          <span class="btn-patient-search input-group-btn ">
+						            <button type="button" class="btn btn-default" ng-click="openPatientSearchDate()" style="padding: 9.5px 5px !important;">
+						            	<i class="glyphicon glyphicon-calendar" style="color: grey;"></i>
+						            </button>
+						          </span>
+						</span>  
+					</div>
+				</div>
+
+		</div>
+		<div class="container-fluid" >
+
+
+			<div class="row">
+			<table class="table table-hover margin-top10">
+			      <thead class="thead-toggle">
+	                 <tr class="">
+	                   <th style="width: 20%;"><i class="fa fa-external-link"></i><span>New ({{newCount}})</span> <!-- <span class="span-count">OP Count :880 </span> --></th>
+	                   <th style="width: 10%;" class="text-center">Age/Gender</th>
+	                   <th style="width: 10%;" class="text-center">Location</th>
+	                   <th style="width: 7%;" class="text-center">MRN</th>
+	                   <th style="width: 15%;" class="text-center">Primary Diagnosis</th>
+	                   <th style="width: 10%;">Flag</th>
+	                   <th style="width: 8%;">Care Provider</th>
+	                   <th style="width: 18%;" class="text-center">Last Visit Date-Time</th>
+	                   <th></th>
+	                 </tr>
+	              </thead>
+			      <tbody>
+			   
+				      <tr ng-repeat-start="patient in patientList | orderBy : visitRecords[0].location" ng-if="patient.visitRecords[0].visitType == 'New'" ng-init="getNewCount()">
+				        <td style="width: 20%;" >
+					       	 <div class="col-md-3 col-sm-3 col-xs-3 patient-profile">
+							 	<img alt="" src="images/Temp-images/patient2.jpg" class="img-circle picwidth" id="searchedPatient" onclick="ShowHide(this)" ng-click="getPatientVitalLabPharmacy(patient._id)">
+							 </div>
+							 <div class="col-md-9 col-sm-9 col-xs-9 skin-font-color"><span class="name">{{patient.name}} </span> </div>
+						</td>
+						<td class="text-center"><span class="skin-font-color"> {{patient.age}} Y {{patient.gender | limitTo:1 | uppercase}}</span></td>
+						 <td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].location}}</span></td>
+				        <td class="text-center"><span class="skin-font-color">{{patient.mrn}}</span></td>
+				        <td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].primaryDiagnosis}}</span></td>
+				        <td>{{patient.visitRecords[0].flag}}</td>
+				        <td>{{patient.visitRecords[0].careProvider}}</td>
+				        <td class="text-center"><span class="skin-font-color">{{patient.lastVisit}}</span></td>
+				        <td ng-if="patient.status == 'Abnormal'" class="color-red"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+				        <td ng-if="patient.status == 'normal'" class="color-orange"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+				      </tr>
+				      <tr ng-repeat-end class="patient-profile-expand close1" ng-if="patient.visitRecords[0].visitType == 'New'" style="display:none" >
+						      <td colspan="8">
+						      <!-- 	<div class="arrow-up" style="display:none"></div> -->
+							     <div class="patient-info" >
+							     	<div class="row">
+							       		<div class="col-md-3 col-sm-3">
+												<table class="table" style="background-color: #f9f9f9;">
+												  <tr ng-repeat="vital in vitalLabPharmacyList.vitalsList[0].vitals">
+												  	<td style="width:22%" ng-if="$index == 0">vital :</td>
+												  	<td style="width:16%" ng-if="$index != 0"></td>
+												  	<td ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' " style="width:17%">{{vital.key}}</td>
+												  	<td ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' "> {{vital.value}} {{vital.unit}}</td>
+												  </tr>
+												</table>
+							       		</div>
+							       		<div class="col-md-4 col-sm-4">
+							       			<!-- <div><label>Lab	: Blood urea nitrogen <span style="margin-left: 17px;">	14 mg/dl</span></label></div>
+												<div style="padding-left: 45px"><label>Serum creatinine	 <span style="margin-left: 17px;">1.2 mg/dl</span></label></div>
+												<div style="padding-left: 45px"><label>Random serum glucose<span style="margin-left: 17px;">200 mg/dl</span></label></div>
+												<div style="padding-left: 45px"><label>T3<span>	80 ng/dl</span></label></div> -->
+											<table class="table" style="background-color: #f9f9f9;">
+												  <tr ng-repeat="lab in vitalLabPharmacyList.labResults">
+												  	<td style="width:10%" ng-if = "$index == 0">Lab :</td>
+												  	<td style="width:10%" ng-if = "$index != 0"></td>
+												  	<td style="width:35%">{{lab.testName}}</td>
+												  	<td>{{lab.resultValue}} {{lab.units}}</td>
+												  </tr>
+												  
+												</table>
+							       		</div>
+							       		<div class="col-md-4 col-sm-4">
+							       			<!-- <table class="table" style="background-color: #f9f9f9;">
+												  <tr>
+												  	<td style="width:30%">Pharmacy :</td>
+												  	<td style="width:31%">Glyburide</td>
+												  	<td>2.5 mg</td>
+												  </tr>
+												   <tr>
+												  	<td></td>
+												  	<td>Levothyroxine</td>
+												  	<td>125 mcg</td>
+												  </tr>
+												</table> -->
+							       		</div>
+							       		<div class="col-md-1 col-sm-1">
+							       			<div class="" style="padding: 20px">
+							       				<span ng-click="setPatient(parsejson(patient))"><i class="fa fa-arrow-right next-button" aria-hidden="true"></i></span>
+							       			</div>
+							       		</div>
+									</div>
+							     </div>
+							</td>
+				       	</tr> 
+				       	<tr>
+			                  <td colspan="9">
+			                     <div class="text-center">
+			                  <i class="one fa fa-angle-down" id="newAllPatient" aria-hidden="true"></i>
+			                </div> 
+			                  </td>
+			              </tr>
+				       	</tbody>
+				    </table>
+		          <table class="table table-hover margin-top10">
+		           <thead class="thead-toggle"> 
+		   				
+					      <tr>
+					        <th style="width: 20%;" colspan=""><i class="fa fa-arrow-right"></i> <span> Follow Up({{followUpCount}})</span> <span class="span-count"></span></th>
+					        <th style="width: 10%;" class="text-center"><span style="color:#f5fffd"></span></th>
+					        <th style="width: 10%;" class="text-center" ><span style="color:#f5fffd"></span></th>
+					        <th style="width: 7%;">
+					        	<!--  <div class="text-center" style="margin-top: -7px">
+				  					<i class="fa fa-angle-down" aria-hidden="true" id="newAllPatient"></i>
+			  					</div> -->
+					        </th>
+					        <th style="width: 15%;"></th>
+					        <th style="width: 10%;"></th>
+					        <th style="width: 8%;" class="text-center"><span style="color:#f5fffd"></span></th>
+					        <th style="width: 18%;"></th>
+					        <th></th>
+					      </tr>
+					      </thead>
+				      	<tbody>
+		
+						      <tr ng-repeat-start="patient in patientList | orderBy : visitRecords[0].location" ng-if="patient.visitRecords[0].visitType == 'Follow Up'" ng-init="getfollowUpCount()">
+						        <td>
+							       	  <div class="col-md-3 col-sm-3 col-xs-3 patient-profile">
+									 	<img alt="" src="images/Temp-images/patient4.jpg" class="img-circle picwidth" onclick="ShowHide(this)" ng-click="getPatientVitalLabPharmacy(patient._id)">
+									 </div>
+									 <div class="col-md-9 col-sm-9 col-xs-9 skin-font-color">
+									 	<span class="skin-font-color"><span class="name">{{patient.name}}</span></span>
+									 </div>
+								</td>
+								<td class="text-center"><span class="skin-font-color">{{patient.age}} Y {{patient.gender | limitTo:1 | uppercase}} </span></td>
+								<td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].location}}</span></td>
+						        <td class="text-center"><span class="skin-font-color">{{patient.mrn}}</span></td>
+						        <td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].primaryDiagnosis}}</span></td>
+						        <td>{{patient.visitRecords[0].flag}}</td>
+						        <td>{{patient.visitRecords[0].careProvider}}</td>
+						        <td class="text-center"><span class="skin-font-color">{{patient.lastVisit}}</span></td>
+						        <td ng-if="patient.status == 'Abnormal'" class="color-red"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+				        		<td ng-if="patient.status == 'normal'" class="color-orange"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+						      </tr>
+				      
+						      <tr ng-repeat-end   class="patient-profile-expand close1" ng-if="patient.visitRecords[0].visitType == 'Follow Up'" style="display:none" >
+								      <td colspan="8">
+								      <!-- 	<div class="arrow-up" style="display:none"></div> -->
+									     <div class="patient-info" >
+									     	<div class="row">
+									       		<div class="col-md-3 col-sm-3">
+														<table class="table" style="background-color: #f9f9f9;">
+														  <tr ng-repeat="vital in vitalLabPharmacyList.vitalsList[0].vitals">
+														  	<td style="width:16%" ng-if="$index == 0">vital :</td>
+														  	<td style="width:16%" ng-if="$index != 0"></td>
+														  	<td ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' " style="width:17%">{{vital.key}}</td>
+														  	<td ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' ">{{vital.value}}{{vital.unit}}</td>
+														</table>
+									       		</div>
+									       		<div class="col-md-4 col-sm-4">
+									       			<!-- <div><label>Lab	: Blood urea nitrogen <span style="margin-left: 17px;">	14 mg/dl</span></label></div>
+														<div style="padding-left: 45px"><label>Serum creatinine	 <span style="margin-left: 17px;">1.2 mg/dl</span></label></div>
+														<div style="padding-left: 45px"><label>Random serum glucose<span style="margin-left: 17px;">200 mg/dl</span></label></div>
+														<div style="padding-left: 45px"><label>T3<span>	80 ng/dl</span></label></div> -->
+													<table class="table" style="background-color: #f9f9f9;">
+												  <tr ng-repeat="lab in vitalLabPharmacyList.labResults">
+												  	<td style="width:10%" ng-if = "$index == 0">Lab :</td>
+												  	<td style="width:10%" ng-if = "$index != 0"></td>
+												  	<td style="width:35%">{{lab.testName}}</td>
+												  	<td>{{lab.resultValue}} {{lab.units}}</td>
+												  </tr>
+												  
+												</table>
+									       		</div>
+									       		<div class="col-md-4 col-sm-4">
+									       			<!-- <table class="table" style="background-color: #f9f9f9;">
+														  <tr>
+														  	<td style="width:21%">Pharmacy :</td>
+														  	<td style="width:31%">Glyburide</td>
+														  	<td>2.5 mg</td>
+														  </tr>
+														   <tr>
+														  	<td></td>
+														  	<td>Levothyroxine</td>
+														  	<td>125 mcg</td>
+														  </tr>
+														</table> -->
+									       		</div>
+									       		<div class="col-md-1 col-sm-1">
+									       			<div class="" style="padding: 20px">
+									       				<span ng-click="setPatient(parsejson(patient))" ><i class="fa fa-arrow-right next-button" aria-hidden="true"></i></span>
+									       			</div>
+									       		</div>
+											</div>
+									     </div>
+									</td>
+						       	</tr>
+						       	<tr>
+					                  <td colspan="9">
+					                     <div class="text-center">
+					                  <i class="one fa fa-angle-down" id="newAllPatient" aria-hidden="true"></i>
+					                </div> 
+					                  </td>
+					              </tr>
+						   </tbody>
+						 </table>
+						 <table class="table table-hover margin-top10">
+         						<thead class="thead-toggle">
+								      <tr>
+								        <th style="width: 20%;" colspan=""><i class="fa Example of bed fa-bed"></i> <span> Admitted({{admitedCount}})</span> <span class="span-count"></span></th>
+								        <th style="width: 10%;" class="text-center"><span style="color:#f5fffd"></span></th>
+								       
+								        <th style="width: 10%;" class="text-center" ><span style="color:#f5fffd"></span></th>
+								         <th style="width: 7%;">
+								        	<!--  <div class="text-center" style="margin-top: -7px">
+							  					<i class="fa fa-angle-down" aria-hidden="true" id="newAllPatientFollowUp"></i>
+						  					</div> -->
+								        </th>
+								        <th style="width: 15%;"></th>
+								        <th style="width: 10%;"></th>
+								        <th style="width: 8%;" class="text-center"><span style="color:#f5fffd"></span></th>
+								        <th style="width: 18%;"></th>
+								        <th></th>
+								      </tr>
+								 </thead>
+			  
+			    				<tbody> 
+								       <tr ng-repeat-start="patient in patientList | orderBy : visitRecords[0].location" ng-if="patient.visitRecords[0].visitType == 'Admitted'" ng-init="getAdmitedCount()">
+								        <td>
+									       	  <div class="col-md-3 col-sm-3 col-xs-3 patient-profile">
+											 	<img alt="" src="images/Temp-images/patient8.jpg" class="img-circle picwidth" onclick="ShowHide(this)" ng-click="getPatientVitalLabPharmacy(patient._id)">
+											 </div>
+ 											 <div class="col-md-9 col-sm-9 col-xs-9 skin-font-color">
+											 	<span class="skin-font-color"><span class="name">{{patient.name}}</span></span>
+											 </div>
+										</td>
+										<td class="text-center"><span class="skin-font-color"> {{patient.age}} Y {{patient.gender | limitTo:1 | uppercase}}</span> </td>
+										<td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].location}}</span></td>
+								        <td class="text-center"><span class="skin-font-color">{{patient.mrn}}</span></td>
+								        <td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].primaryDiagnosis}}</span></td>
+								        <td>{{patient.visitRecords[0].flag}}</td>
+								        <td>{{patient.visitRecords[0].careProvider}}</td>
+								        <td class="text-center"><span class="skin-font-color">{{patient.lastVisit}}</span></td>
+										<td ng-if="patient.status == 'Abnormal'" class="color-red"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+				       					<td ng-if="patient.status == 'normal'" class="color-orange"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+										
+								      </tr>
+				    
+								    <tr ng-repeat-end   class="patient-profile-expand close1" ng-if="patient.visitRecords[0].visitType == 'Admitted'" style="display:none" >
+										      <td colspan="9">
+										      <!-- 	<div class="arrow-up" style="display:none"></div> -->
+											     <div class="patient-info" >
+											     	<div class="row">
+											       		<div class="col-md-3 col-sm-3">
+																<table class="table" style="background-color: #f9f9f9;">
+																  <tr ng-repeat="vital in vitalLabPharmacyList.vitalsList[0].vitals" >
+																  	<td style="width:16%" ng-if="$index == 0">vital :</td>
+																  	<td style="width:16%" ng-if="$index != 0"></td>
+																  	<td style="width:17%" ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' ">{{vital.key}}</td>
+																  	<td ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' ">{{vital.value}} {{vital.unit}}</td>
+																  </tr>
+																</table>
+											       		</div>
+											       		<div class="col-md-4 col-sm-4">
+											       			<!-- <div><label>Lab	: Blood urea nitrogen <span style="margin-left: 17px;">	14 mg/dl</span></label></div>
+																<div style="padding-left: 45px"><label>Serum creatinine	 <span style="margin-left: 17px;">1.2 mg/dl</span></label></div>
+																<div style="padding-left: 45px"><label>Random serum glucose<span style="margin-left: 17px;">200 mg/dl</span></label></div>
+																<div style="padding-left: 45px"><label>T3<span>	80 ng/dl</span></label></div> -->
+															<table class="table" style="background-color: #f9f9f9;">
+															  <tr ng-repeat="lab in vitalLabPharmacyList.labResults">
+															  	<td style="width:10%" ng-if = "$index == 0">Lab :</td>
+															  	<td style="width:10%" ng-if = "$index != 0"></td>
+															  	<td style="width:35%">{{lab.testName}}</td>
+															  	<td>{{lab.resultValue}} {{lab.units}}</td>
+															  </tr>
+												  
+															</table>
+											       		</div>
+											       		<div class="col-md-4 col-sm-4">
+											       			<!-- <table class="table" style="background-color: #f9f9f9;">
+																  <tr>
+																  	<td style="width:21%">Pharmacy :</td>
+																  	<td style="width:31%">Glyburide</td>
+																  	<td>2.5 mg</td>
+																  </tr>
+																   <tr>
+																  	<td></td>
+																  	<td>Levothyroxine</td>
+																  	<td>125 mcg</td>
+																  </tr>
+																</table> -->
+											       		</div>
+											       		<div class="col-md-1 col-sm-1">
+											       			<div class="" style="padding: 20px">
+											       				<span ng-click="setPatient(parsejson(patient))"><i class="fa fa-arrow-right next-button" aria-hidden="true"></i></span>
+											       			</div>
+											       		</div>
+													</div>
+											     </div>
+											</td>
+								       	</tr>
+				    					<tr>
+							                  <td colspan="9">
+							                     <div class="text-center">
+							                  <i class="one fa fa-angle-down" id="newAllPatient" aria-hidden="true"></i>
+							                </div> 
+							                  </td>
+							              </tr>
+				     				</tbody>
+				     		</table>
+				    
+				     	<table class="table table-hover margin-top10">
+           				<thead class="thead-toggle">
+				    
+				    		<tr>
+							        <th style="width: 20%;" colspan=""><i class="fa fa-spinner"></i> <span> Scheduled Surgery/Procedure </span> <span class="span-count">({{otherCount}})</span></th>
+							        <th style="width: 10%;" class="text-center"><span style="color:#f5fffd"></span></th>
+							        <th style="width: 10%;" class="text-center" ><span style="color:#f5fffd"></span></th>
+							         <th style="width: 7%;">
+							        	 <!-- <div class="text-center" style="margin-top: -7px">
+						  					<i class="fa fa-angle-down" id="newPatientListAdmited" aria-hidden="true"></i>
+					  					</div> -->
+							        </th>
+							        <th style="width: 15%;"></th>
+							        <th style="width: 10%;"></th>
+							        <th style="width: 8%;" class="text-center"><span style="color:#f5fffd"></span></th>
+							        <th style="width: 18%;"></th>
+							        <th></th>
+				      	</tr>
+					     </thead>
+					    <tbody> 
+						      <tr ng-repeat-start="patient in patientList | orderBy : visitRecords[0].location" ng-if="patient.visitRecords[0].visitType == 'Other'" ng-init="getOtherCount()">
+						        <td>
+							       	 <div class="col-md-3 col-sm-3 col-xs-3 patient-profile">
+									 	<img alt="" src="images/Temp-images/patient12.jpg" class="img-circle picwidth" onclick="ShowHide(this)" ng-click="getPatientVitalLabPharmacy(patient._id)">
+									 </div>
+ 									 <div class="col-md-9 col-sm-9 col-xs-9 skin-font-color">
+									 	<span class="skin-font-color"><span class="name">{{patient.name}}</span>  </span>
+									 </div>
+								</td>
+								<td class="text-center"><span class="skin-font-color"> {{patient.age}} Y {{patient.gender | limitTo:1 | uppercase}}</span> </td>
+								<td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].location}}</span></td>
+						        <td class="text-center"><span class="skin-font-color">{{patient.mrn}}</span></td>
+						        <td class="text-center"><span class="skin-font-color">{{patient.visitRecords[0].primaryDiagnosis}}</span></td>
+						        <td>{{patient.visitRecords[0].flag}}</td>
+						        <td>{{patient.visitRecords[0].careProvider}}</td>
+						        <td class="text-center"><span class="skin-font-color">{{patient.lastVisit}}</span></td>
+						        <td ng-if="patient.status == 'Abnormal'" class="color-red"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+				        		<td ng-if="patient.status == 'normal'" class="color-orange"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></td>
+						      </tr>
+				     
+						     	 <tr ng-repeat-end   class="patient-profile-expand close1" ng-if="patient.visitRecords[0].visitType == 'Other'" style="display:none" >
+								      <td colspan="8">
+								      <!-- 	<div class="arrow-up" style="display:none"></div> -->
+									     <div class="patient-info" >
+									     	<div class="row">
+									       		<div class="col-md-3 col-sm-3">
+														<table class="table" style="background-color: #f9f9f9;">
+														  <tr ng-repeat="vital in vitalLabPharmacyList.vitalsList[0].vitals">
+														  	<td style="width:16%" ng-if="$index == 0">vital :</td>
+														  	<td style="width:16%" ng-if="$index != 0"></td>
+														  	<td style="width:17%" ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' ">{{vital.key}}</td>
+														  	<td ng-class = "vitalRangeCheck(vital.value, vital.min, vital.max) ? 'red-font-color' : '' ">{{vital.value}} {{vital.unit}}</td>
+														  </tr>
+														</table>
+									       		</div>
+									       		<div class="col-md-4 col-sm-4">
+									       			<!-- <div><label>Lab	: Blood urea nitrogen <span style="margin-left: 17px;">	14 mg/dl</span></label></div>
+														<div style="padding-left: 45px"><label>Serum creatinine	 <span style="margin-left: 17px;">1.2 mg/dl</span></label></div>
+														<div style="padding-left: 45px"><label>Random serum glucose<span style="margin-left: 17px;">200 mg/dl</span></label></div>
+														<div style="padding-left: 45px"><label>T3<span>	80 ng/dl</span></label></div> -->
+													<table class="table" style="background-color: #f9f9f9;">
+														  <tr ng-repeat="lab in vitalLabPharmacyList.labResults">
+														  	<td style="width:10%" ng-if = "$index == 0">Lab :</td>
+														  	<td style="width:10%" ng-if = "$index != 0"></td>
+														  	<td style="width:35%">{{lab.testName}}</td>
+														  	<td>{{lab.resultValue}} {{lab.units}}</td>
+														  </tr>
+													</table>
+									       		</div>
+									       		<div class="col-md-4 col-sm-4">
+									       			<!-- <table class="table" style="background-color: #f9f9f9;">
+														  <tr>
+														  	<td style="width:21%">Pharmacy :</td>
+														  	<td style="width:31%">Glyburide</td>
+														  	<td>2.5 mg</td>
+														  </tr>
+														   <tr>
+														  	<td></td>
+														  	<td>Levothyroxine</td>
+														  	<td>125 mcg</td>
+														  </tr>
+														</table> -->
+									       		</div>
+									       		<div class="col-md-1 col-sm-1">
+									       			<div class="" style="padding: 20px">
+									       				<span ng-click="setPatient(parsejson(patient))" ><i class="fa fa-arrow-right next-button" aria-hidden="true"></i></span>
+									       			</div>
+									       		</div>
+											</div>
+									     </div>
+									</td>
+						       	</tr>	      
+						      <tr>
+				                  <td colspan="9">
+				                     <div class="text-center">
+				                  <i class="one fa fa-angle-down" id="newAllPatient" aria-hidden="true"></i>
+				                </div> 
+				                  </td>
+				              </tr>
+		    			</tbody>
+		  		</table>
+		  </div>
+	 </div>
+
+		 <!--Notidication Model Start-->
+		<div class="modal fade" id="notificationModal" role="dialog">
+			  <div class="modal-dialog">
+				    <div class="modal-content panel-bg-color">
+					      <div class="modal-header">
+					      	<!-- <div class="modal-title patient-detail-row">Notification 
+					      		<span class="unique-number margin-right16">C4503</span>
+				          		<span class="pull-right"><button type="button" class="close" data-dismiss="modal">&times;</button></span>
+				          	</div>  -->
+				          	<div class="modal-title patient-detail-row model-title-padding">Notification
+		             			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		             			<div class="float_right unique-number margin-right16">C4503</div>
+		            		</div>
+					      </div>
+					      <div class="modal-body panel" style="padding:0px;">
+					      	<div class="row">
+					      		<div class="col-md-12 col-sm-12 margin-set-search">
+					      			<div class="col-md-3 col-sm-3">
+					      				<label>Urgency</label>
+				       					<select class="selectpicker" multiple data-live-search="true">
+				       					  <option selected>--</option>
+										  <option>High</option>
+										  <option>Moderate</option>
+										  <option>Low</option>
+										</select>
+					      			</div>
+					      			<div class="col-md-3 col-sm-3">
+					      				<label>Type</label>
+				       					<select class="selectpicker" multiple data-live-search="true">
+				       					   <option selected>--</option>
+										  <option>Abnormal Report</option>
+										  <option>Patient Movement </option>
+										  <option>Report Available </option>
+										  <option>Consult</option>
+										</select>
+					      			</div>
+					      			<div class="col-md-3 col-sm-3"></div>
+					      			<div class="col-md-3 col-sm-3">
+					      				<!-- <div class="notify-setting"><i class="fa fa-cog" aria-hidden="true"></i></div> -->
+					      			</div>
+					      		</div>
+					      	</div>
+					      		<div class="row">
+					      			<div class="col-md-12 col-sm-12">
+						      			<table class="table table-hover margin-top10" style="margin-top:0px;">
+									    <thead>
+										      <tr>
+										        <th style="width:12%">
+											     Patient 
+										        </th>
+										        <th style="width:10%">
+											     Location
+										        </th>
+										        <th style="width:12%">
+											    Urgency 
+										        </th>
+										         <th style="width:19%">
+											     Date & Time
+										        </th>
+										        <th style="width:30%">
+											    Message
+										        </th>
+										         <th>
+											    Type
+										        </th>
+										      </tr>
+									    </thead>
+									      <tbody>
+									      	 <tr>
+										        <td>
+											       <span>Uma Thurman</span>
+										        </td>
+										        <td>
+											      <span>Clinical1</span> 
+										        </td>
+										        <td>
+											       <span>High</span>
+										        </td>
+										         <td>
+											      <span>12th Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>New consult CONSULT</span>
+										        </td>
+										        <td>
+											      <span>Consult </span>
+										        </td>
+									      	 </tr>
+									      	  <tr>
+										        <td>
+											       <span>Maliya Shopa</span>
+										        </td>
+										        <td>
+											      <span>Clinical2</span> 
+										        </td>
+										        <td>
+											       <span>Moderate</span>
+										        </td>
+										         <td>
+											      <span>22nd Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>Imaging Result</span>
+										        </td>
+										        <td>
+											      <span>Report Available </span>
+										        </td>
+									      	 </tr>
+									      	 <tr>
+										        <td>
+											       <span>Parker Cyrus</span>
+										        </td>
+										        <td>
+											      <span>Ward A/Bed2</span> 
+										        </td>
+										        <td>
+											       <span>High</span>
+										        </td>
+										         <td>
+											      <span>12th Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>Lab Result HB=13</span>
+										        </td>
+										        <td>
+											      <span>Report Available </span>
+										        </td>
+									      	 </tr>
+									      	  <tr>
+										        <td>
+											       <span>Priya Gates</span>
+										        </td>
+										        <td>
+											      <span>Clinical1</span> 
+										        </td>
+										        <td>
+											       <span>Moderate</span>
+										        </td>
+										         <td>
+											      <span>22nd Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>HbA1c9</span>
+										        </td>
+										        <td>
+											      <span>Consult </span>
+										        </td>
+									      	 </tr>
+									      	 <tr>
+										        <td>
+											       <span>Olivia katya</span>
+										        </td>
+										        <td>
+											      <span>Ward B/Bed 4</span> 
+										        </td>
+										        <td>
+											       <span>Moderate</span>
+										        </td>
+										         <td>
+											      <span>12th Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>RBS 60 mg/ dl</span>
+										        </td>
+										        <td>
+											      <span>Abnormal Report</span>
+										        </td>
+									      	 </tr>
+									      	  <tr>
+										        <td>
+											       <span>siya khan</span>
+										        </td>
+										        <td>
+											      <span>Clinical2</span> 
+										        </td>
+										        <td>
+											       <span>Low</span>
+										        </td>
+										         <td>
+											      <span>22nd Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>New Consult</span>
+										        </td>
+										        <td>
+											      <span>Report Available </span>
+										        </td>
+									      	 </tr>
+									      	 <tr>
+										        <td>
+											       <span>surya sonni</span>
+										        </td>
+										        <td>
+											      <span>Ward C/ Bed 1</span> 
+										        </td>
+										        <td>
+											       <span>Moderate</span>
+										        </td>
+										         <td>
+											      <span>12th Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>HbA1c9.8</span>
+										        </td>
+										        <td>
+											      <span>Abnormal Report</span>
+										        </td>
+									      	 </tr>
+									      	  <tr>
+										        <td>
+											       <span>anita rao</span>
+										        </td>
+										        <td>
+											      <span>Clinical3</span> 
+										        </td>
+										        <td>
+											       <span>Moderate</span>
+										        </td>
+										         <td>
+											      <span>22nd Oct 2016 11.30am</span>
+										        </td>
+										         <td>
+											      <span>AFB Report -ve</span>
+										        </td>
+										        <td>
+											      <span>Abnormal Report</span>
+										        </td>
+									      	 </tr>
+									      </tbody>
+		  							</table>
+					      			</div>
+					      		</div>
+						  </div>
+				  	</div>
+			 </div>
+		</div>
+	    <!--Notidication Model End -->
+	    
+	    <!--Patient Details  Model Start-->
+		<div class="modal fade" id="patientDetailsModal" role="dialog">
+			  <div class="modal-dialog">
+				    <div class="modal-content panel-bg-color">
+					      <div class="modal-header">
+					      	<div class="modal-title patient-detail-row">Patient Details 
+				          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+				          	</div> 
+					      </div>
+					      <div class="modal-body panel order-model" style="padding:5px;">
+				      		<div class="row">
+					      			<div class="col-md-2 col-sm-2" >
+					      				<a href="index.html"><img src="images/Temp-images/patient2.jpg" class="patient-img" ></a>
+					      			</div>
+					      			<div class="col-md-10 col-sm-10">
+							      		<div class="row patient-detail-row margin-row">
+							      			<div class="col-md-12 col-sm-12">
+							      				<label>Joe Mathew</label>
+							      			</div>
+							      		</div>
+							      		<div class="row margin-row">
+							      			<div class="col-md-12 col-sm-12">
+								      			<table class="margin-top10" style="font-size:15px">
+								      				<tr>
+								      					<td><label>Gender</label></td>
+								      					<td>:<span class="margin-left-for-span">53Yr M</span></td>
+								      				</tr>
+								      				<tr>
+								      					<td><label>Date Of Birth</label></td>
+								      					<td>:<span class="margin-left-for-span">04 /03 /1963</span></td>
+								      				</tr>
+								      				<tr>
+								      					<td style="width:47%"><label>Address</label></td>
+								      					<td>:<span class="margin-left-for-span">Central Garden ,Level 3 ,Unit -2 ,73 C Batu Lanchang ,Jelutong Highway ,
+								      					Georgetown ,Penang</span></td>
+								      				</tr>
+								      				<tr>
+								      					<td><label>Mobile No</label></td>
+								      					<td>:<span class="margin-left-for-span">0169675234</span></td>
+								      				</tr>
+								      				<tr>
+								      					<td><label>Email Id </label></td>
+								      					<td>:<span class="margin-left-for-span">johnmathew63@gmail.com</span></td>
+								      				</tr>
+								      				<!-- <tr>
+								      					<td><label>Status</label></td>
+								      					<td>:<span class="margin-left-for-span">Inactive Inpatient-on ward</span></td>
+								      				</tr> -->
+								      				
+								      			</table>
+							      			</div>
+						      			</div>
+					      		</div>
+				      		</div>
+						  </div>
+				  	</div>
+			 </div>
+		</div>
+	    <!--Patient Details Model End -->
+	    {{patient}}
+</div>   
+	    
+	      
+	 <!--  
+	  Patient search Model
+			<div class="modal fade" id="patientSearchModal" role="dialog">
+			  <div class="modal-dialog">
+				    <div class="modal-content panel-bg-color">
+					      <div class="modal-body panel order-model">
+					      		<ul>
+					      			<li>Hemant Patel</li>
+					      			<li>Hadley Ranne</li>
+					      		</ul>
+						  </div>
+				  	</div>
+			 </div>
+			</div>
+	    End Patient Details -->
+		
+	 <script src="js/jquery/jquery.min.js"></script>	
+<script src="js/gallery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/moment/moment.min.js"></script>  
+<script type="text/javascript" src="js/daterangepicker/daterangepicker.js"></script>
+<script src="js/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="Slider/jquery.range.js"></script>
+	 
+	 <script type="text/javascript">
+	 
+	 
+	 $(document).ready(function(){
+		   
+		   $(".thead-toggle").siblings().hide();
+		      $(".thead-toggle").click(function(){
+		       //alert("ok1");
+		          $(this).siblings().toggle();
+		      });
+		  });
+	 
+	 $('#search-patient').keyup(function(e){ 
+		  var text = "Joe"; 
+		/*  var text = $('#search-patient').val(); */
+		 if(text.length>0){
+			  $('.name').each(function(){
+			    if($(this).text().match(text)){
+			    $('#searched').show();
+			    flag = true; 
+			    }
+			  
+			   } );
+			  }
+	 });
+	 $('#searched').click(function(e){ 
+		 $('#searched').hide();
+	 });
+	/*  $('#searched').click(function(){
+		    $('.patient-info').show("slow");
+		    $('.arrow-up').show("slow");
+		});
+	 
+	 $('#searchedPatient').click(function(){
+		 $('.patient-info').hide("slow");
+		    $('.arrow-up').hide("slow");
+	 }); */
+	 
+	 function ShowHide(arg){
+		 if($(arg).closest('tr').next('tr').css("display") == "none")
+		 	$(".close1").hide();
+		 $(arg).closest('tr').next('tr').toggle("slow");
+	 }
+	 $('#searchedPatient').click(function(){
+		 alert("click");
+		 $('.patient-profile-expand').toggle("slow");
+		  /*   $('.arrow-up').toggle("slow"); */
+	 });
+	 
+	 $('.fa-angle-down').click(function(){
+		 $('.all-patients-list').toggle("slow");
+		 $(this).toggleClass('fa-angle-down fa-angle-up');
+		 
+	 });
+	 
+	 $('#newAllPatientFollowUp').click(function(){
+		 $('.all-patients-list-follow').toggle("slow");
+		 $(this).toggleClass('fa-angle-down fa-angle-up');
+		 
+	 });
+	 
+	 $('#newPatientListAdmited').click(function(){
+		 $('.all-patients-list-admited').toggle("slow");
+		 $(this).toggleClass('fa-angle-down fa-angle-up');
+		 
+	 });
+	 
+	 $('#newPatientListOther').click(function(){
+		 $('.all-patients-list-other').toggle("slow");
+		 $(this).toggleClass('fa-angle-down fa-angle-up');
+		 
+	 });
+	
+	 
+	 
+	 </script>
+</body>
+</html>

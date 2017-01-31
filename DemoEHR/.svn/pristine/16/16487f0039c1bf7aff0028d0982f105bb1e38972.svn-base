@@ -1,0 +1,107 @@
+homePageApp.controller("pateintComplaintController",['$scope','$rootScope','$cookies','pateintComplaintService',function($scope,$rootScope,$cookies,pateintComplaintService){
+	
+	$scope.patientComplaint = {};
+	
+	//alert();
+	
+	
+	$scope.patientComplaint.duration = "day";
+	$scope.patientComplaint.severity = "Chronic";
+	$scope.patientComplaint.status = "active";
+	$scope.patientComplaint.type = "primary";
+	
+	 $scope.example13model = [];
+     $scope.example13data = [
+         {id: 1, label: "David"},
+         {id: 2, label: "Jhon"},
+         {id: 3, label: "Lisa"},
+         {id: 4, label: "Nicole"},
+         {id: 5, label: "Danny"}];
+     
+     
+   //**********************************DATEPICKER**********************************//*
+     $scope.today = function() {
+   	    $scope.dt = new Date();
+   	  };
+   	 
+   	
+   	  $scope.open1 = function() {
+   	    $scope.popup1.opened = true;
+   	  };
+
+   	  $scope.popup1 = {
+   	    opened: false
+   	  };
+ 	
+ 	
+ 	
+     
+     $scope.example13settings = {
+         smartButtonMaxItems: 3,
+          enableSearch: true,
+         smartButtonTextConverter: function(itemText, originalItem) {
+             if (itemText === 'Jhon') {
+             return 'Jhonny!';
+             }
+     
+             return itemText;
+         }
+     };
+     
+	/*$scope.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+	console.log("doctorName : " + $scope.doctorName);*/
+	$scope.patientComplaint = angular.copy({"duration"	  :"day",
+											"severity"	  :"Chronic",
+											"status"	  :"active",
+											"type"		  :"",
+											"description" :"",
+											"icdCode"	  :"",
+											"date"		  :"",
+											"doctorName"  :""
+										   });
+	
+	$scope.setComplaint = function(icdCode,description){
+		$scope.patientComplaint.description = description;
+		$scope.patientComplaint.icdCode = icdCode;
+		$scope.patientComplaint.date = new Date();
+		$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+		//getPatientComplaintList();
+	}
+	
+	$scope.saveComplaint = function(){
+		var visitId = $rootScope.patientInfo.visitRecords[0]._id;
+		var patientId  = $rootScope.patientInfo._id;
+		pateintComplaintService.saveComplaint($scope.patientComplaint,patientId,visitId).then(function(data){
+			getPatientComplaintList();
+			$scope.reset();
+		});
+	}
+	
+	$scope.addComplaintToError = function(complaintId){
+		var patientId  = $rootScope.patientInfo._id;
+		pateintComplaintService.addComplaintToError(patientId,complaintId).then(function(data){
+			getPatientComplaintList();
+		});
+	}
+	
+	$scope.changeStatus = function(){
+		if($scope.status){
+			$scope.patientComplaint.status = "active";
+		}else{
+			$scope.patientComplaint.status = "inactive";
+		}
+	}
+	
+	function getPatientComplaintList(){
+		console.log("AAAAAAAAAAAAAAAAAAAAAAA");
+		var patientId  = $rootScope.patientInfo._id;
+		pateintComplaintService.getPatientComplaintList(patientId).then(function(data){
+			$scope.getPatientComplaintList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.patientComplaint = angular.copy({});
+	};
+	
+}]);

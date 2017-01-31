@@ -1,0 +1,21 @@
+  function getNewDate(dateObj){
+    	var m_names = new Array("Jan", "Feb", "Mar", 
+    		"Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+    		"Oct", "Nov", "Dec");
+    		var month = dateObj.getUTCMonth();
+    		var day = dateObj.getUTCDate();
+    		var year = dateObj.getUTCFullYear();
+    		var formatedDay = '';
+    		var formatedMonth = '';
+    		if(day == 1){
+    			formatedDay = day+"<sup>st</sup>";
+    		}else if(day == 2){
+    			formatedDay = day+"<sup>nd</sup>";
+    		}else if(day == 3){
+    			formatedDay = day+"<sup>rd</sup>";
+    		}else{
+    				formatedDay = day+"<sup>th</sup>";
+    		}
+    		return formatedDay+" " + m_names[month]  + " " + year ;
+    }
+  

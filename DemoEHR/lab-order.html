@@ -1,0 +1,218 @@
+<html>
+<head>
+<style>
+.dropdown .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 330px !important;
+}
+.padding-top10{
+padding-top: 10px;
+}
+.input-text .form-control{
+width:60% !important;
+}
+textarea .form-control{
+width:100% !important;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+text-align:center;
+}
+.btnpadding12{
+padding-top:12% !important;
+}
+</style>
+<!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+	 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <link rel="stylesheet" href="css/medical-icons/wfmi-style.css">
+	 <link rel="stylesheet" href="css/param.common.master.css">
+	 <link rel="stylesheet" href="css/param.common.master.popup.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<h4>Order Consult</h4>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-8">
+					<label>Consult to Service/Special</label><br />
+					<div class="dropdown">
+							<select class="selectpicker dropdown">
+							  <option>Technical imaging Comp Master</option>
+							  <option>Genetic Extended Core</option>
+							  <option>Hemotology Consult</option>
+							</select>
+						</div>	
+				</div>
+			</div>
+		</div>
+			<div class="row padding-top10">
+				<div class="col-md-12 col-sm-12">
+					<div class="col-md-3 col-sm-6">
+						<label>Urgency</label><br />
+							<select class="selectpicker">
+							  <option>1</option>
+							</select>
+					</div>
+					<div class="col-md-3 col-sm-6">
+					<label>Attention</label><br />
+						<select class="selectpicker">
+						  <option>-</option>
+						</select>
+					</div>
+					<div class="col-md-3 col-sm-6">
+							<div class="form-group">
+							      <label class="">Clinical indicate Date</label>
+							      <div class="input-text">
+							        <input class="form-control" id="focusedInput" type="text" value="">
+							      </div>
+							    </div>
+						</div>
+					</div>
+				</div>
+			<div class="row padding-top10">
+					<div class="col-md-12 col-sm-12">
+						<div class="col-md-3 col-sm-6">
+							<label>Patient will be seen as</label><br />
+								<div class="customRadioBtn margin-set-search marginleft8">
+										<span>
+										<input id="Inpatient" name="patient" type="radio" checked="checked" style="display:none;">
+										<label for="Inpatient">Inpatient</label>
+										</span>
+										<span>
+										<input id="Outpatient" name="patient" type="radio" style="display:none;" class="">
+										<label for="Outpatient">Outpatient</label>
+										</span>
+								</div>
+						</div>
+					<div class="col-md-3 col-sm-6">
+						<label>Place to Consultation</label><br />
+							<select class="selectpicker">
+							  <option>Beside</option>
+							</select>
+					</div>
+				</div>
+			</div>
+			<div class="row padding-top10">
+				<div class="col-md-12 col-sm-12">
+					<div class="form-group">
+						      <span><label for="">Provisional Diagnosis:</label>
+						      	<textarea class="form-control" rows="4" id=""></textarea>
+						      </span>
+						</div>
+				</div>
+			</div>
+			<div class="row padding-top10">
+				<div class="col-md-12 col-sm-12">
+					<div class="form-group">
+						      <span><label for="">Reason for Request:</label>
+						      	<textarea class="form-control" rows="6" id=""></textarea>
+						      </span>
+						</div>
+				</div>
+			</div>
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+					<div class="float_right">
+						<button type="button" id="cancel_btn" class="btn btn-primary">Accept Order</button>
+					</div>
+			</div>
+		</div>
+		<div class="row padding-top10">
+			<div class="col-md-12 col-sm-12">
+				<div class="col-md-3 col-sm-3">
+					<label>Service to perform this Procedure</label><br />
+						<select class="selectpicker">
+						  <option>Cordiology</option>
+						</select>
+				</div>
+				<div class="col-md-9 col-sm-9">
+					<div class="form-group">
+					      <span><label for="">Reason for Request:</label>
+					      	<textarea class="form-control" rows="6" id=""></textarea>
+					      </span>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div class="row padding-top10">
+				<div class="col-md-12 col-sm-12">
+					<div class="col-md-6 col-sm-6">
+						<label>Vital Sign</label><br />
+							<select class="selectpicker">
+							  <option>-</option>
+							</select>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<label>Start Date Time</label><br />
+							<select class="selectpicker">
+							  <option>-</option>
+							</select>
+					</div>
+				</div>
+			</div>
+			<div class="row padding-top10">
+				<div class="col-md-6 col-sm-6">
+					<div class="form-group">
+					      <span><label for="">Schedule:</label>
+					      	<textarea class="form-control" rows="4" id=""></textarea>
+					      </span>
+					</div>
+				</div>
+					<div class="col-md-6 col-sm-6">
+						<label>Stop Date Time</label><br />
+							<select class="selectpicker">
+							  <option>-</option>
+							</select>
+					</div>
+			</div>
+			<div class="row padding-top10">
+				<div class="col-md-12 col-sm-12">
+					<div class="form-group">
+					      <span><label for="">Special Instruction:</label>
+					      	<textarea class="form-control" rows="5" id=""></textarea>
+					      </span>
+					</div>
+				</div>
+			</div>	
+			<div class="row">
+				<table class="table">
+					<thead>
+							<tr>
+							<th style="width: 25%;">Test/Component</th>
+							<th>Qty</th>
+							<th>Modifiers</th>
+							<th>Action</th>
+							</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Red Blood Cells</td>
+							<td>2</td>
+							<td>Immediate</td>
+							<td><i class="fa fa-times" aria-hidden="true"></i></td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-6">
+						<label class="radio-inline">
+						 	<input type="radio" name="optradio">Blood Components
+							</label>
+						<select class="selectpicker">
+						  <option>Red Blood Cells</option>
+						</select>
+					</div>
+		</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>  
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+</body>
+</html>

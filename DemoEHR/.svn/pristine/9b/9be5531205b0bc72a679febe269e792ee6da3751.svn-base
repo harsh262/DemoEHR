@@ -1,0 +1,187 @@
+/**
+ * 
+ */
+homePageApp.service('VitalReviewService',['$http', function($http) {
+
+	
+	this.getVitalReview = function(patientInfo){
+		var URI = BASE_URL + ROOT_URL + PATIENTS +'/'+patientInfo._id+'/getvitals';
+		console.log(URI);
+		var promis = $http.get(URI)
+		.then(function(response){
+			console.log(response.data.result);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promis;
+	}
+	
+	
+	this.saveVitals = function(vitalObj, doctorId,patientId){
+		var URI = BASE_URL + ROOT_URL + DOCTOR +'/'+ doctorId + PATIENT +'/'+ patientId +'/addvitals';
+		var promise = $http.post(URI, JSON.stringify(vitalObj)).then(function(response) {
+			
+			console.log(response);
+			
+			return response;
+		});
+	}
+	
+	this.getPatientByFilter = function(doctorId,searchBy,searchValue){
+	//	var URI = urlConfig.url+'doctors/'+doctorId+'/searchPatient?searchBy='+searchBy+'&searchValue='+searchValue;
+		var URI = BASE_URL + ROOT_URL + DOCTORS + '/' + doctorId + '/searchPatient?searchBy='+searchBy+'&searchValue='+searchValue;
+		console.log(URI);
+		var promis = $http.get(URI)
+		.then(function(response){
+			//console.log(response.data.result[0]);
+			if(response.data._status_Code === 200){
+				//console.log("success");
+				return (response.data.result[0]);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promis;
+	};
+	
+	
+}]);
+
+
+//-------------- Allergy Service -------------------//
+homePageApp.service('allergyService',['$http', function($http) {
+	this.saveAllergy = function(allery,patientId){
+		//var URI = urlConfig.url+'patient/'+patientId+'/allergies';
+		var URI = BASE_URL + ROOT_URL + PATIENT +'/'+patientId+'/allergies';
+		console.log(URI);
+		var promise = $http.post(URI, JSON.stringify(allery)).then(function(response) {
+			//console.log(response.data.result[0]);
+			console.log(response);
+			return response;
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	};
+	
+	
+	this.getAllergyList = function(patientId){
+//		var URI = urlConfig.url+"patient/"+patientId+"/allergies";
+		var URI = BASE_URL + ROOT_URL + PATIENT + '/'+ patientId+"/allergies";
+		var promise = $http.get(URI)
+		.then(function(response){
+			//console.log(response.data.result);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	}
+	
+	this.deleteAllergy = function(allergy){
+		//var URI = urlConfig.url+"patient/"+allergy.patientId+"/allergies/"+allergy._id;
+		var URI = BASE_URL + ROOT_URL + PATIENT + '/'+allergy.patientId+"/allergies/"+allergy._id;
+		var promise = $http['delete'](URI)
+		.then(function(response){
+			console.log(response.data.result);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+		
+	}
+}]);
+
+//-------------- Lab Result Service -----------------//
+homePageApp.service('labResultService',['$http',function($http){
+	this.getLabResult = function(patientId, patientMrn){
+		var URI = BASE_URL + ROOT_URL + LAB_RESULTS + '/'+ patientId +'/'+ patientMrn;
+		var promise = $http.get(URI)
+		.then(function(response){
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	}
+}]);
+
+//--------------- Posting Service-----------------//
+homePageApp.service('postingService',['$http',function($http){
+	this.savePosting = function(postingObj){
+		console.log(postingObj);
+		var URI = BASE_URL + ROOT_URL + PATIENT + '/' + postingObj.patientId + '/postings';
+		var promise = $http.post(URI, JSON.stringify(postingObj)).then(function(response) {
+			console.log(response);
+			return response;
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	}
+	
+	
+	this.getPostingList = function(patientId){
+		var URI = BASE_URL + ROOT_URL + PATIENT + '/'+ patientId+"/postings";
+		var promise = $http.get(URI)
+		.then(function(response){
+			console.log(response);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	}
+}]);
+
+
+//---------------Intake Output Module----------------//
+homePageApp.service('intakeOutputService',['$http', function($http){
+	
+	this.saveIntake = function(intakeObj){
+		console.log(intakeObj);
+		var URI = BASE_URL + ROOT_URL + PATIENT + '/' + intakeObj.patientId + '/intakeOutput';
+		var promise = $http.post(URI, JSON.stringify(intakeObj)).then(function(response){
+			console.log(response);
+			return response;
+		},function(){
+			alert("error");
+		})
+		return promise;
+	}
+	
+	this.getIntakeOutputList = function(patientId){
+		var URI = BASE_URL + ROOT_URL + PATIENT + '/' + patientId + '/intakeOutput';
+		var promise = $http.get(URI)
+		.then(function(response){
+			console.log(response);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function(){
+			alert("error");
+		})
+		return promise;
+	}
+}]);

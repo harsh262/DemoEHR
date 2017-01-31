@@ -1,0 +1,335 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <link rel="stylesheet" href="css/medical-icons/wfmi-style.css">
+	 <link rel="stylesheet" href="css/param.common.master.css">
+	 <link rel="stylesheet" href="css/param.common.master.popup.css">
+<style>
+#orders .modal-dialog{
+width:100% !important;
+margin: 10px 0px 0 0px !important;
+}
+#orders .modal-body {
+    position: relative;
+    padding: 3px;
+}
+
+/*  bhoechie tab */
+div.bhoechie-tab-container{
+  z-index: 10;
+  background-color: #ffffff;
+  padding: 0 !important;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  margin-top: 0px;
+  margin-left: 0px;
+  background-clip: padding-box;
+  opacity: 0.97;
+  filter: alpha(opacity=97);
+}
+div.bhoechie-tab-menu{
+  padding-right: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+}
+div.bhoechie-tab-menu div.list-group{
+  margin-bottom: 0;
+}
+div.bhoechie-tab-menu div.list-group>a{
+  margin-bottom: 0;
+}
+div.bhoechie-tab-menu div.list-group>a .glyphicon,
+div.bhoechie-tab-menu div.list-group>a .fa {
+  color: #39ab94;
+}
+div.bhoechie-tab-menu div.list-group>a:first-child{
+  border-top-right-radius: 0;
+  -moz-border-top-right-radius: 0;
+}
+div.bhoechie-tab-menu div.list-group>a:last-child{
+  border-bottom-right-radius: 0;
+  -moz-border-bottom-right-radius: 0;
+}
+div.bhoechie-tab-menu div.list-group>a.active,
+div.bhoechie-tab-menu div.list-group>a.active .glyphicon,
+div.bhoechie-tab-menu div.list-group>a.active .fa{
+  background-color: #39ab94;
+  background-image: #39ab94;
+  color: #ffffff;
+}
+div.bhoechie-tab-menu div.list-group>a.active:after{
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-top: -13px;
+  border-left: 0;
+  border-bottom: 13px solid transparent;
+  border-top: 13px solid transparent;
+  border-left: 10px solid #39ab94;
+}
+
+div.bhoechie-tab-content{
+  background-color: #ffffff;
+  /* border: 1px solid #eeeeee; */
+  padding-left: 0px;
+  padding-top: 0px;
+}
+
+div.bhoechie-tab div.bhoechie-tab-content:not(.active){
+  display: none;
+}
+.bhoechie-tab-menu .list-group .list-group-item {
+    position: relative;
+    display: block;
+    padding: 8px !important;
+}
+</style>
+</head>
+<body>
+
+<div><i class="fa fa-window-restore fa-2x" aria-hidden="true" data-toggle="modal" data-target="#ordersModel" ></i></div>
+	
+	 <!--Start Recommendation modal-->
+		  <div class="modal fade" id="ordersModel" role="dialog">
+		    <div class="modal-dialog ">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content panel-bg-color">
+		        <div class="modal-header">
+		          <div class="modal-title patient-detail-row" style="font-size:16px; font-weight:700;padding:8px; margin-bottom:0px;">Recommendation
+		           <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          </div>
+		        </div>
+		        <div class="modal-body" style="overflow-y: auto;overflow-x:hidden;">
+		          	<div class="row">
+		          		<div class="col-md-12 col-sm-12">
+		          			<fieldset class="scheduler-border">
+							    <legend class="scheduler-border">Fall Risk Assessment</legend>
+							    <!-- <div class="control-group">
+							    <div class="col-md-4 col-sm-3">
+							    	<div class="radio">
+								      <label><input type="radio" name="optradio">Clinic</label>
+								    </div>
+							    </div>
+							        <div class="col-md-4 col-sm-3">
+							    	<div class="radio">
+								      <label><input type="radio" name="optradio">Mail</label>
+								    </div>
+							    </div>
+							     <div class="col-md-4 col-sm-3">
+							    	<div class="radio">
+								      <label><input type="radio" name="optradio">Window</label>
+								    </div>
+							    </div>
+							    </div> -->
+							    <div class="col-md-10 col-sm-10">
+							    	<div class="checkbox">
+						               <label><input type="checkbox" value="">Have you fallen in the last 12 month?</label>
+					  				</div>
+							    </div>
+							    <div class="col-md-1 col-sm-1">
+							    	<div class="checkbox">
+						               <label><input type="checkbox" value="">Yes</label>
+					  				</div>
+							    </div>
+							    <div class="col-md-1 col-sm-1">
+							    	<div class="checkbox">
+						               <label><input type="checkbox" value="">No</label>
+					  				</div>
+							    </div>
+							    <div class="row container-fluid">
+							    	<div class="col-md-12 col-sm-12">
+										<div class="form-group">
+										      <span><label for="">Comment :</label>
+										      	<textarea class="form-control" rows="1" id=""></textarea>
+										      </span>
+										</div>
+									</div>
+							    </div>
+							    <div class="row container-fluid">
+							    	<div class="col-md-2 col-sm-2">
+								    	<div class="checkbox">
+							               <label><input type="checkbox" value="">How did fall occur?</label>
+						  				</div>
+							    	</div>
+								    <div class="col-md-10 col-sm-10">
+								    	<div class="form-group">
+										      <span><label for="">Comment :</label>
+										      	<textarea class="form-control" rows="2" id=""></textarea>
+										      </span>
+										</div>
+								    </div>
+							    </div>
+							    <div class="row container-fluid">
+							    	<div class="col-md-10 col-sm-10">
+							    	<div class="checkbox">
+						               <label><input type="checkbox" value="">Altered cognitive status?</label>
+					  				</div>
+							    </div>
+							    <div class="col-md-1 col-sm-1">
+							    	<div class="checkbox">
+						               <label><input type="checkbox" value="">Yes</label>
+					  				</div>
+							    </div>
+							    <div class="col-md-1 col-sm-1">
+							    	<div class="checkbox">
+						               <label><input type="checkbox" value="">No</label>
+					  				</div>
+							    </div>
+							    </div>
+							    <div class="row container-fluid">
+							    	<div class="col-md-12 col-sm-12">
+										<div class="form-group">
+										      <span><label for="">Comment :</label>
+										      	<textarea class="form-control" rows="1" id=""></textarea>
+										      </span>
+										</div>
+									</div>
+							    </div>
+							</fieldset>
+						    	<fieldset class="scheduler-border">
+						    	<legend class="scheduler-border">Get Up and Go Screening</legend>
+							    		<div class="col-md-3 col-sm-3">
+							    			<div class="radio">
+								      		<label><input type="radio" name="screenradio">Can Perform Screen.</label>
+								   		</div>
+							    		</div>
+							    		<div class="col-md-6 col-sm-6">
+							    			<div class="radio">
+								      		<label><input type="radio" name="screenradio">Cannot Perform Screen.Provider notified of positive screen.</label>
+								   		</div>
+							    		</div>
+								   		<div class="col-md-3 col-sm-3">
+								   			<div class="radio">
+								      		<label><input type="radio" name="screenradio">Screen is not performed due to:</label>
+								   		</div>
+								   		</div>
+								   		
+						   		</fieldset>
+						   		<fieldset class="scheduler-border">
+						    	<legend class="scheduler-border">Fall Risk Education</legend>
+						    		<div class="row container-fluid">
+							    		<div class="col-md-12">
+							    			<div class="radio">
+								      		<label><input type="radio" name="fallrisk">Fall Risk education. Handout entited "Home Fall safety" Guidelines 
+								      		reviewed and give to patient and/or significant other.</label>
+									   		</div>
+							    		</div>
+						    		</div>
+						    		<div class="row container-fluid">
+									   	<div class="col-md-12 col-sm-12">
+				                    		<div class="col-md-3 col-sm-3">
+											<label>Level of Understanding</label><br />
+												<select class="selectpicker">
+												  <option>Good</option>
+												</select>
+											</div>
+											<div class="col-md-9 col-sm-9">
+												<div class="form-group">
+												      <span><label for="">Comment</label>
+												      	<textarea class="form-control" rows="1" id=""></textarea>
+												      </span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row container-fluid">
+							    		<div class="col-md-12">
+							    			<div class="radio">
+								      		<label><input type="radio" name="fallrisk">Patient not provided Fall Risk education due to:</label>
+									   		</div>
+							    		</div>
+						    		</div>
+						    		<div class="row container-fluid">
+							    		<div class="col-md-12">
+							    			<div class="radio">
+								      		<label><input type="radio" name="fallrisk">Fall Risk education is not needed as patient is not a fall risk candidate.</label>
+									   		</div>
+							    		</div>
+						    		</div>
+						    	</fieldset>
+		          		</div>
+		          		<div class="row container-fluid text-center">
+		          			<div class="col-md-12 col-sm-12">
+		          				<div class="customRadioBtn">
+									<span>
+									<input id="Clear" name="solutionsRdo" type="radio" value="Solutions" checked="checked" style="display:none;">
+									<label for="Clear">Clear</label>
+									</span>
+									
+									<span>
+									<input id="ClinicalMaint" name="solutionsRdo" type="radio" value="ClinicalMaint" style="display:none;">
+									<label for="ClinicalMaint">Clinical Maint</label>
+									</span>
+									
+									<span>
+									<input id="Visitinfo" name="solutionsRdo" type="radio" value="Visitinfo" style="display:none;">
+									<label for="Visitinfo">Visit info</label>
+									</span>
+									
+									<span>
+									<input id="Back" name="solutionsRdo" type="radio" value="Back" style="display:none;">
+									<label for="Back"><i class="fa fa-angle-left" aria-hidden="true"> </i> Back</label>
+									</span>
+									
+									<span>
+									<input id="Next" name="solutionsRdo" type="radio" value="Next" style="display:none;">
+									<label for="Next">Next <i class="fa fa-angle-right" aria-hidden="true"> </i></label>
+									</span>
+									
+									<span>
+									<input id="Finish" name="solutionsRdo" type="radio" value="Finish" style="display:none;">
+									<label for="Finish">Finish</label>
+									</span>
+									
+									<span>
+									<input id="Cancel" name="solutionsRdo" type="radio" value="Cancel" style="display:none;">
+									<label for="Cancel">Cancel</label>
+									</span>
+								</div>
+		          			</div>
+		          		</div>
+		          		<div class="row container-fluid">
+					    	<div class="col-md-12 col-sm-12">
+								<div class="form-group">
+								      <span><label for=""></label>
+								      	<textarea class="form-control" rows="4" id=""></textarea>
+								      </span>
+								</div>
+							</div>
+					    </div>
+					    <div class="row container-fluid">
+					    	<div class="col-md-12 col-sm-12">
+								<div class="form-group">
+								      <span><label for=""></label>
+								      	<textarea class="form-control" rows="3" id=""></textarea>
+								      </span>
+								</div>
+							</div>
+					    </div>
+		          	</div>
+		      </div>
+		    </div>
+		  </div>
+		  </div>  
+	  <!-- End Recommendation Modal -->
+	
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
+        e.preventDefault();
+        $(this).siblings('a.active').removeClass("active");
+        $(this).addClass("active");
+        var index = $(this).index();
+        $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+        $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+    });
+});
+</script>
+</body>
+</html>

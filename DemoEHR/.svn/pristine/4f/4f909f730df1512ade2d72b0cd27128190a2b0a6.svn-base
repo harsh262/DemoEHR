@@ -1,0 +1,85 @@
+homePageApp.service('commonCrudService',['$http',function($http){
+	this.saveOrder = function(orderItems,patientInfo,category){
+		var commonObj = {"doctorId": getCookie("doctorId"),
+				  "patientId": patientInfo._id,
+				  "visitId":  patientInfo.visitRecords[0]._id,
+				  "orderSubCategory": "BioChemestry",
+				  "encounterType": "OPD","orderCategory": category,"orderItems":orderItems};
+		
+		var URI = "http://54.84.170.46:5100/ehr/cpoe/createOrder";
+		console.log(commonObj.toString());
+		var promise = $http.post(URI, JSON.stringify(commonObj)).then(function(response) {
+					console.log(response);
+					return response;
+				},
+				function() {
+					alert("error");
+				})
+				return promise;
+	}
+	
+	this.updateOrder = function(orderId,orderItems,patientInfo,category){
+		var commonObj = {"doctorId": getCookie("doctorId"),
+				  "patientId": patientInfo._id,
+				  "visitId":  patientInfo.visitRecords[0]._id,
+				  "orderSubCategory": "BioChemestry",
+				  "encounterType": "OPD","orderCategory": category,"orderItems":orderItems,"orderDate": "17-11-2016",
+				  "isFavorite": true,"frequencyMaster": []};
+		
+		var URI = "http://54.84.170.46:5100/ehr/cpoe/"+orderId+"/updateOrder";
+		console.log(commonObj.toString());
+		var promise = $http.put(URI, JSON.stringify(commonObj)).then(function(response) {
+					console.log(response);
+					return response;
+				},
+				function() {
+					alert("error");
+				})
+				return promise;
+	}
+	
+	this.cancelOrder = function(orderId){
+		var URI = "http://54.84.170.46:5100/ehr/cpoe/"+orderId+"/cancelOrder";
+		var promise = $http.get(URI)
+		.then(function(response){
+			console.log(response.data.result);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	}
+	
+	this.getOrderById = function(orderId){
+		var URI = "http://54.84.170.46:5100/ehr/cpoe/"+orderId+"/getDetails";
+		var promise = $http.get(URI)
+		.then(function(response){
+			console.log(response.data.result);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	}
+	
+	this.getOrderByCategory = function(category){
+		var URI = "http://54.84.170.46:5100/ehr/cpoe/getOrder/category?category="+category;
+		var promise = $http.get(URI)
+		.then(function(response){
+			//console.log(response.data.result);
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},
+		function() {
+			alert("error");
+		})
+		return promise;
+	}
+}]);

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<style>
+.col-md-1{
+    width: 4.333333% !important;
+}
+input[type='radio'] {
+    -webkit-appearance:none;
+    width:30px;
+    height:30px;
+    border:1px solid darkgray;
+    border-radius:50%;
+    outline:none;
+    
+}
+
+input[type='radio']:before {
+    content:'';
+    display:block;
+    width:80%;
+    height:80%;
+    margin: 10% auto;    
+    border-radius:50%;    
+}
+input[type='radio']:checked:before {
+    background:gray;
+}
+
+</style>
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+ <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <link rel="stylesheet" href="css/medical-icons/wfmi-style.css">
+ <link rel="stylesheet" href="css/param.common.master.css">
+ <link rel="stylesheet" href="css/param.common.master.popup.css">
+ <link rel="stylesheet" href="Slider/jquery.range.css">
+</head>
+<body>
+ 	<div class="container-fluid panel-bg-color">
+		<div class="row patient-detail-row">
+				<div class="col-md-1 col-sm-1 profile_pic">
+					<span class="icon-cardiology icon-i-level2" aria-hidden="true" style="color:white"></span>
+				</div>
+				<div class="col-md-2 col-sm-2">
+					<h4>Vitals</h4>
+				</div>
+				<div class="col-md-7 col-sm-9 col-xs-8 padding-top8" style="text-align:right;">
+					<span><label class="label-margin10">Patient On Pass</label></span>
+					<span>
+						<label class="switch">
+						<input type="checkbox" checked>
+						<span class="slider round"></span>
+						</label>
+					</span>
+					<span class="margin-right20" style="margin-left:105px;"><i class="fa fa-calendar font-size28" aria-hidden="true"></i></span>
+					<span class="margin-right20">Nov 6,2016 @11:17</span>
+					<span><button type="button" class="btn btn-primary btn-sm btn-style" ><i class="fa fa-square" aria-hidden="true" style="margin-right:5px;"></i>Vital Template</button></span>
+				</div>
+		</div>
+	</div>
+	<div class="container-fluid panel-bg-color" style="height:588px;">
+		<div class="row ht-border"><!--One row start-->
+	   		<div class="col-md-12 col-sm-12">
+	   			<div class="col-md-5 col-sm-5">
+	   				
+	   				<span style="font-size:12px;">TEMPERATURE</span>
+	   				<div class="margin-left22" >
+	   					<section class="body demo">
+							<div class="container">
+								<div class="demo-container clearfix">
+									 <div class="demo-section">
+									  	<div class="demo-output">
+									   		<input class="single-slider" type="hidden" value="0.0"/>
+									  	</div>
+									 </div>
+								</div>
+							</div>
+						</section>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+	   				
+	   				<div class="marginleft8">
+	   					<input type="text" placeholder="" class="text-set"><span style="margin-left:2px;">c</span>
+	   				</div>
+	   				<div>
+		   				<span class="btn-group btn-border btn-margin margin-left-top5" >
+						    <button type="button" class="btn btn-sm btn-default active-btn-set btn-width45">C</button>
+						    <button type="button" class="btn btn-sm btn-default btn-width45">A</button>
+		   				</span>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-3 col-sm-3" style="padding-left: 0px;">
+	   				<select class="btn btn-sm btn-default">
+				  		<option value="volvo">Qualifiers</option>
+					</select>
+					<div class="font-size12 margin-left-top5">
+						ORAL
+					</div>
+				
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+					<span><input type='radio' name='a' checked/></span><span><label class="margin-left-top5">U</label></span>
+					<span><input type='radio' name='a' /></span><span><label class="margin-left-top5">R</label></span>
+	   			</div>
+	   			
+	   		</div>
+		</div><!--One row end-->
+		
+		<div class="row ht-border" style="margin-top:5px"><!--Two row start-->
+	   		<div class="col-md-12 col-sm-12">
+	   			<div class="col-md-5 col-sm-5">
+	   			
+	   				<span class="font-size12">PLUSE</span>
+	   				<div class="margin-left22" >
+	   					<section class="body demo">
+							<div class="container">
+								<div class="demo-container clearfix">
+									 <div class="demo-section">
+									  	<div class="demo-output">
+									   		<input class="single-slider" type="hidden" value="0.0"/>
+									  	</div>
+									 </div>
+								</div>
+							</div>
+						</section>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+	   				
+	   				<div class="marginleft8">
+	   					<input type="text" placeholder="" class="text-set"><span style="margin-left:2px;">c</span>
+	   				</div>
+	   				<div class="ht-20">
+	   					
+	   				</div>
+	   			</div>
+	   			<div class="col-md-3 col-sm-3"  style="padding-left: 0px;">
+	   				<select class="btn btn-sm btn-default">
+				  		<option value="volvo">Qualifiers</option>
+					</select>
+					<div class="font-size12 margin-left-top5">
+						RAIDAL| AT REST | SITTING
+					</div>
+					<div class="ht-20">
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+				<span><input type='radio' name='b' checked/></span><span class="margin-left-top5">U</span>
+				<span><input type='radio' name='b' /></span><span class="margin-left-top5">R</span>
+	   			</div>
+	   			
+	   		</div>
+		</div><!--Two row end-->
+		
+		<div class="row ht-border" style="margin-top:5px"><!--Three row start-->
+	   		<div class="col-md-12 col-sm-12">
+	   			<div class="col-md-5 col-sm-5">
+	   				<span style="font-size:12px;">RESPIRATION</span>
+	   				
+	   				<div class="margin-left22" >
+	   					<section class="body demo">
+							<div class="container">
+								<div class="demo-container clearfix">
+									 <div class="demo-section">
+									  	<div class="demo-output">
+									   		<input class="single-slider" type="hidden" value="0.0"/>
+									  	</div>
+									 </div>
+								</div>
+							</div>
+						</section>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+	   				
+	   				<div class="marginleft8">
+	   					<input type="text" placeholder="" class="text-set"><span style="margin-left:2px;">c</span>
+	   				</div>
+	   				<div class="ht-20">
+	   					
+	   				</div>
+	   			</div>
+	   			<div class="col-md-3 col-sm-3"  style="padding-left: 0px;">
+	   				<select class="btn btn-sm btn-default">
+				  		<option value="volvo">Qualifiers</option>
+					</select>
+					<div class="font-size12 margin-left-top5">
+						AT REST | SITTING
+					</div>
+					<div class="ht-20">
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+				<span><input type='radio' name='c' checked/></span><span class="margin-left-top5">U</span>
+				<span><input type='radio' name='c' /></span><span class="margin-left-top5">R</span>
+	   			</div>
+	   			
+	   		</div>
+		</div><!--Three row end-->
+		
+		<div class="row ht-border" style="margin-top:5px"><!--Four row start-->
+	   		<div class="col-md-12 col-sm-12">
+	   			<div class="col-md-5 col-sm-5">
+	   				
+	   				<span style="font-size:12px;">BLOOD PRESSURE</span>
+	   				<div class="margin-left22" >
+	   					<section class="body demo">
+							<div class="container">
+								<div class="demo-container clearfix">
+									 <div class="demo-section">
+									  	<div class="demo-output">
+									   		<input class="single-slider" type="hidden" value="0.0"/>
+									  	</div>
+									 </div>
+								</div>
+							</div>
+						</section>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+	   				
+	   				<div class="marginleft8">
+	   					<input type="text" placeholder="" class="text-set"><span style="margin-left:2px;">c</span>
+	   				</div>
+	   				<div class="ht-20">
+	   					
+	   				</div>
+	   			</div>
+	   			<div class="col-md-3 col-sm-3"  style="padding-left: 0px;">
+	   				<select class="btn btn-sm btn-default">
+				  		<option value="volvo">Qualifiers</option>
+					</select>
+					<div class="font-size12 margin-left-top5">
+						BRACHIAL | AT REST | SITTING
+					</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+				<span><input type='radio' name='d' checked/></span><span class="margin-left-top5">U</span>
+				<span><input type='radio' name='d' /></span><span class="margin-left-top5">R</span>
+	   			</div>
+	   		
+	   		</div>
+		</div><!--Four row end-->
+		
+		<div class="row ht-border" style="margin-top:5px"><!--Five row start-->
+	   		<div class="col-md-12 col-sm-12">
+	   			<div class="col-md-5 col-sm-5">
+	   			
+	   				<span style="font-size:12px;">PLASE OXIMATRY</span>
+	   				
+	   				<div class="margin-left22">
+	   					<section class="body demo">
+							<div class="container">
+								<div class="demo-container clearfix">
+									 <div class="demo-section">
+									  	<div class="demo-output">
+									   		<input class="single-slider" type="hidden" value="0.0"/>
+									  	</div>
+									 </div>
+								</div>
+							</div>
+						</section>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+	   				<div class="marginleft8">
+	   					<input type="text" placeholder="" class="text-set"><span style="margin-left:2px;">c</span>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-3 col-sm-3"  style="padding-left: 0px;">
+	   				<select class="btn btn-sm btn-default">
+				  		<option value="volvo">Qualifiers</option>
+					</select>
+					<div class="font-size12 margin-left-top5">
+					 AT REST
+					</div>
+					<div class="ht-20">
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+				<span><input type='radio' name='e' checked/></span><span class="margin-left-top5">U</span>
+				<span><input type='radio' name='e' /></span><span class="margin-left-top5">R</span>
+	   			</div>
+	   		</div>
+		</div><!--Five row end-->
+		
+		<div class="row ht-border" style="margin-top:5px"><!--Six row start-->
+	   		<div class="col-md-12 col-sm-12">
+	   			<div class="col-md-5 col-sm-5">
+	   				
+	   				<span style="font-size:12px;">WEIGHT</span>
+	   				<div class="margin-left22" >
+	   					<section class="body demo">
+							<div class="container">
+								<div class="demo-container clearfix">
+									 <div class="demo-section">
+									  	<div class="demo-output">
+									   		<input class="single-slider" type="hidden" value="0.0"/>
+									  	</div>
+									 </div>
+								</div>
+							</div>
+						</section>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+	   				
+	   				<div class="marginleft8">
+	   					<input type="text" placeholder="" class="text-set"><span style="margin-left:2px;">c</span>
+	   				</div>
+	   				<div>
+		   				<span class="btn-group btn-border btn-margin margin-left-top5" >
+						    <button type="button" class="btn btn-sm btn-default active-btn-set btn-width45">C</button>
+						    <button type="button" class="btn btn-sm btn-default btn-width45">A</button>
+		   				</span>
+	   				</div>
+	   			</div>
+	   			<div class="col-md-3 col-sm-3"  style="padding-left: 0px;">
+	   				<select class="btn btn-sm btn-default">
+				  		<option value="volvo">Qualifiers</option>
+					</select>
+					<div class="font-size12 margin-left-top5">
+						STANDING WEIGHT| ACTUAL
+					</div>
+	   			</div>
+	   			<div class="col-md-2 col-sm-2">
+					<span><input type='radio' name='f' checked/></span><span class="margin-left-top5">U</span>
+					<span><input type='radio' name='f' /></span><span class="margin-left-top5">R</span>
+	   			</div>
+	   		</div>
+		</div><!--Six row end-->
+		
+	</div>
+	 <div class="row activity" >
+			<span>
+				<span class="icon-laboratory icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				 <span class="icon-mri-pet icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-mri-pet icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-nutrition icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-health-education icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-mental-health icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-pharmacy icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-physical-therapy icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-medical-records icon-i-level2" aria-hidden="true"></span>
+			</span>
+			<span>
+				<span class="icon-cardiology icon-i-level2" aria-hidden="true"></span>
+			</span>
+		</div>
+ 	 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>  
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<script src="Slider/jquery.range.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$('.single-slider').jRange({
+from: -2.0,
+to: 2.0,
+step: 0.5,
+scale: [-2.0,-1.0,0.0,1.0,2.0],
+format: '%s',
+width: 300,
+showLabels: true,
+snap: true
+});
+});
+</script>
+</body>
+</html>
+ 

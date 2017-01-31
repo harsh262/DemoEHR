@@ -1,0 +1,814 @@
+//======================================Lab Order==============================================================
+homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','commonCrudService','VitalReviewService',function($scope,$rootScope,$cookies,commonCrudService,VitalReviewService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+	$scope.orderItems = angular.copy({  "category"		:"",
+										"labTest"		:"",
+										"collectSample"	:"",
+										"specimen"		:"",
+										"billingCode"	:"",
+										"urgency"		:"",
+										"collectionType":"",
+										"collectionDate":"",
+										"howOften"		:"",
+										"howLong"		:"",
+										"description"	:""
+									});
+	
+	$scope.saveLabOrder = function(){
+		$scope.$broadcast('show-errors-check-validity');
+		if($scope.lab.$valid){
+			orderItemsNew.push($scope.orderItems);
+			console.log(orderItemsNew);
+			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Lab Order",$rootScope.subCategoryValue).then(function(data){
+				$scope.getOrderList();
+				$scope.reset();
+			});
+		}
+	};
+	
+	//getOrderList();
+
+	$scope.cancelOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			$scope.getOrderList();
+		});
+	}
+		
+	$scope.getOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateLabOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Lab Order",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			$scope.getOrderList();
+			$scope.reset();
+		});
+	}
+	
+	 $scope.getOrderList = function(){
+		console.log($rootScope.patientInfo);
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Lab Order",$rootScope.subCategoryValue).then(function(data) {
+			$scope.getLabOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+}]);
+
+//==========================================Imaging Order==========================================================
+homePageApp.controller("imagingOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveImagingOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Imaging Order", $rootScope.subCategoryValue).then(function(data){
+			getImagingOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getImagingOrderList();
+
+	$scope.cancelImagingOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getImagingOrderList();
+		});
+	}
+		
+	$scope.getImagingOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateImagingOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Imaging Order",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getImagingOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getImagingOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Imaging Order",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getImagingOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+
+//=====================================IP Pharmacy==========================================================================================
+homePageApp.controller("ipPharmacyController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveIpPharmacyOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"IP Pharmacy",$rootScope.subCategoryValue).then(function(data){
+			getIpPharmacyOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getIpPharmacyOrderList();
+
+	$scope.cancelIpPharmacyOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getIpPharmacyOrderList();
+		});
+	}
+		
+	$scope.getIpPharmacyOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateIpPharmacyOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"IP Pharmacy",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getIpPharmacyOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getIpPharmacyOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"IP Pharmacy",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getIpPharmacyOrderList = data;
+		});
+	}
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+	
+}]);
+
+//==================================IV Pharmacy============================================================================================
+homePageApp.controller("ivPharmacyController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveIvPharmacyOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"IV Pharmacy",$rootScope.subCategoryValue).then(function(data){
+			getIvPharmacyOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getIvPharmacyOrderList();
+
+	$scope.cancelIvPharmacyOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getIvPharmacyOrderList();
+		});
+	}
+		
+	$scope.getIvPharmacyOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateIvPharmacyOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"IV Pharmacy",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getIvPharmacyOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getIvPharmacyOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"IV Pharmacy",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getIvPharmacyOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+
+//=====================================Procedure Surgical=========================================================================================
+homePageApp.controller("procedureSurgicalOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveProcedureSurgicalOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Procedure/Surgical",$rootScope.subCategoryValue).then(function(data){
+			getProcedureSurgicalOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getProcedureSurgicalOrderList();
+
+	$scope.cancelProcedureSurgicalOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getProcedureSurgicalOrderList();
+		});
+	}
+		
+	$scope.getProcedureSurgicalOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateProcedureSurgicalOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Procedure/Surgical",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getProcedureSurgicalOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getProcedureSurgicalOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Procedure/Surgical",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getProcedureSurgicalOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+
+//======================================General========================================================================================
+homePageApp.controller("generalController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveGeneralOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"General",$rootScope.subCategoryValue).then(function(data){
+			getGeneralOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getGeneralOrderList();
+
+	$scope.cancelGeneralOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getGeneralOrderList();
+		});
+	}
+		
+	$scope.getGeneralOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateGeneralOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"General",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getGeneralOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getGeneralOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"General",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getGeneralOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+
+//=========================================Consult=====================================================================================
+homePageApp.controller("consultController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveConsultOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Consult",$rootScope.subCategoryValue).then(function(data){
+			getConsultOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getConsultOrderList();
+
+	$scope.cancelConsultOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getConsultOrderList();
+		});
+	}
+		
+	$scope.getConsultOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateConsultOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Consult",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getConsultOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getConsultOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Consult",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getConsultOrderList = data;
+		});
+	}
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+	
+}]);
+
+//==========================================Vitals Order====================================================================================
+homePageApp.controller("vitalOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveVitalOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Vital",$rootScope.subCategoryValue).then(function(data){
+			getVitalOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getVitalOrderList();
+
+	$scope.cancelVitalOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getVitalOrderList();
+		});
+	}
+		
+	$scope.getVitalOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateVitalOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Vital",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getVitalOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getVitalOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Vital",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getVitalOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+
+//===============================================Nursing Order===============================================================================
+homePageApp.controller("nursingOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveNursingOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Nursing",$rootScope.subCategoryValue).then(function(data){
+			getNursingOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getNursingOrderList();
+
+	$scope.cancelNursingOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getNursingOrderList();
+		});
+	}
+		
+	$scope.getNursingOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateNursingOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Nursing",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getNursingOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getNursingOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Nursing",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getNursingOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+
+//===============================================Order Sets===============================================================================
+homePageApp.controller("orderSetsController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+
+	$scope.saveOrderSetsOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"OrderSets",$rootScope.subCategoryValue).then(function(data){
+			getOrderSetsOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getOrderSetsOrderList();
+
+	$scope.cancelOrderSetsOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getOrderSetsOrderList();
+		});
+	}
+		
+	$scope.getOrderSetsOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateOrderSetsOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"OrderSets",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getOrderSetsOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getOrderSetsOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"OrderSets",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getOrderSetsOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+
+//===============================================Diet===============================================================================
+homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	$scope.subCategory = "Diet";
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+	
+	//getDietOrderList();
+	
+	$scope.saveDietOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Diet",$scope.subCategory ).then(function(data){
+			getDietOrderList();
+			$scope.reset();
+		});
+	};
+	
+	
+	
+	$scope.cancelDietOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getDietOrderList();
+		});
+	}
+		
+	$scope.getDietOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateDeitOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Diet",$scope.subCategory).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getDietOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getDietOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Diet",$scope.subCategory).then(function(data) {
+		$scope.getDietOrderList = data;
+		});
+	}
+	
+	
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+	
+	$scope.diet = function(){
+		$scope.subCategory = "Diet";
+		getDietOrderList();
+	}
+	
+	$scope.tubeFeeding = function(){
+		$scope.subCategory = "Tube Feeding";
+		getDietOrderList();
+	}
+	
+	$scope.earkyLateTray = function(){
+		$scope.subCategory = "Early/Late Tray";
+		getDietOrderList();
+	}
+	
+	$scope.addtionalOrders = function(){
+		$scope.subCategory = "Additional Orders";
+		getDietOrderList();
+	}
+}]);
+
+/*==================== patient movemwnt ===========*/
+homePageApp.controller("patientMovementController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+	$scope.subCategory = 'Admit';
+	$scope.setAdmitCategory = function(){
+		$scope.subCategory = "Admit";
+		getPatientMovementAdmitOrderList();
+	}
+	
+	$scope.setTransferCategory = function(){
+		$scope.subCategory = "Transfer";
+		getPatientMovementAdmitOrderList();
+	}
+	
+	$scope.setDischargeCategory = function(){
+		$scope.subCategory = "Discharge";
+		getPatientMovementAdmitOrderList();
+	}
+	
+	$scope.savePatientMovementAdmitOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory).then(function(data){
+			getPatientMovementAdmitOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getPatientMovementAdmitOrderList();
+
+	$scope.cancelPatientMovementAdmitOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getPatientMovementAdmitOrderList();
+		});
+	}
+		
+	$scope.getPatientMovementAdmitOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updatePatientMovementAdmitOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getPatientMovementAdmitOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getPatientMovementAdmitOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Patient Movement",$scope.subCategory).then(function(data) {
+		$scope.getPatientMovementOrderList = data;
+		});
+	}
+	
+	
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+	
+	
+}]);
+
+//===============================================Blood Component===============================================================================
+homePageApp.controller("bloodComponentController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	
+/*	//validation
+	$scope.vm = {};
+
+    $scope.vm.next = function()
+    {
+        if (! $scope.vm.isFormValid())            
+            return;            
+        //move to the next page with your current code
+    }
+
+    $scope.vm.isFormValid = function()
+    {
+        $scope.vm.shouldShowError = $scope.form.valid; //add vm.shouldShowError to your error message ng-show in the view so it will display only after clicking continue
+        return $scope.form.valid;
+    }
+    
+    //end validation
+*/    
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+	
+	$scope.saveBloodComponentOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"BloodComponent",$rootScope.subCategoryValue).then(function(data){
+			getBloodComponentOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getBloodComponentOrderList();
+
+	$scope.cancelBloodComponentOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getBloodComponentOrderList();
+		});
+	}
+		
+	$scope.getBloodComponentOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateBloodComponentOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"BloodComponent",$rootScope.subCategoryValue).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getBloodComponentOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getBloodComponentOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id, "BloodComponent",$rootScope.subCategoryValue).then(function(data) {
+		$scope.getBloodComponentOrderList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);
+/*============================ OP Pharmacy =========================*/
+homePageApp.controller("opPharmacyController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+	var orderItemsNew = new Array();
+	$scope.orderId1;
+	$scope.subCategory = "Dosage";
+	
+	$scope.saveOpPharmacyOrder = function(){
+		orderItemsNew.push($scope.orderItems);
+		console.log(orderItemsNew);
+		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Op Pharmacy",$scope.subCategory).then(function(data){
+			getOpPharmacyOrderList();
+			$scope.reset();
+		});
+	};
+	
+	//getOpPharmacyOrderList();
+
+	$scope.cancelOpPharmacyOrder = function(orderId){
+		commonCrudService.cancelOrder(orderId).then(function(data) {
+			getOpPharmacyOrderList();
+		});
+	}
+		
+	$scope.getOpPharmacyOrderById = function(orderId){
+		commonCrudService.getOrderById(orderId).then(function(data){
+			$scope.orderItems = angular.copy(data.orderItems[0]);
+		});
+		$scope.orderId = orderId;
+	}
+	
+	$scope.updateOpPharmacyOrder = function(){
+		orderItemsNew = new Array();
+		orderItemsNew.push($scope.orderItems);
+		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Op Pharmacy",$scope.subCategory).then(function(data) {
+			console.log("update");
+			console.log($scope.orderItems);
+			getOpPharmacyOrderList();
+			$scope.reset();
+		});
+	}
+	
+	function getOpPharmacyOrderList(){
+	commonCrudService.getOrderByCategory($rootScope.patientInfo._id, "Op Pharmacy",$scope.subCategory).then(function(data) {
+		$scope.getOpPharmacyOrderList = data;
+		});
+	}
+	
+	$scope.dosage = function(){
+		$scope.subCategory = "Dosage";
+		getOpPharmacyOrderList();
+	}
+	
+	$scope.complex = function(){
+		$scope.subCategory = "Complex";
+		getOpPharmacyOrderList();
+	}
+	$scope.reset = function() {
+		$scope.orderItems = angular.copy({});
+	};
+	$scope.reset();
+}]);

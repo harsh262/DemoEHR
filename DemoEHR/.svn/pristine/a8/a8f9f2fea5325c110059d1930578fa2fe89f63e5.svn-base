@@ -1,0 +1,629 @@
+<html>
+<head>
+<style>
+
+.patient-detail-row img{
+height:35px;
+}
+.patient-detail-row{
+    background-color: #7BAFD4;
+    color: white;
+    margin-bottom: 0px !important;
+}
+.col-md-1
+{
+    width: 4.333333% !important;
+}
+.fa-bell-o{
+margin-left: 10px;
+}
+.fa-envelope-o{
+margin-left: 10px;
+}
+.width10{
+width: 10px;
+}
+.margin-left40{
+margin-left: -40px;
+}
+
+
+.picwidth{
+width: 30px;
+}
+.table>tbody>tr>td{
+	padding: 2px !important;
+    line-height: 1.42857143;
+    vertical-align: middle !important;
+}
+
+
+.calendar:before {
+    font-family: 'FontAwesome';
+    color:gray;
+    position: relative;
+    left: 158px;
+    content: "\f073";
+    top: 1px;
+}
+
+.search{
+margin-top: -8px;
+}
+.search input{
+border-radius: 12px;
+padding-left: 10px;
+}
+.margin-top-12{
+	margin-top: -12px;
+}
+.height28{
+	height: 28x !important;
+}
+.fa-angle-down:before {
+    content: "\f107";
+    position: relative;
+    top: -14px;
+    font-size:20px;
+	color: gray;
+	left:75px;
+}
+
+.table> i{
+margin-top: -15px;
+}
+table>thead>tr>th i{
+	margin-left: 30px;
+}
+tr>td .profile_pic img{
+margin-left: 30px !important;
+}
+.skin-font-color{
+	color: #1c689e;
+}
+.tr-head{
+	    background-color: #ebf6fc !important;
+    color: #1c689e !important;
+    padding-left: 30px !important;
+}
+.tr-head> th{
+    padding-left: 39px !important;
+}
+.span-count{
+	float: right;
+}
+.margin-left-25{
+margin-left: -25px;
+}
+.padding-right0{
+padding-right: 0px !important;
+}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/medical-icons/wfmi-style.css">
+<link rel="stylesheet" href="css/param.common.master.css">
+ <link rel="stylesheet" href="css/param.common.master.popup.css">
+</head>
+<body>
+<div class="row">
+		<div class="col-md-3 col-sm-3 border-right padding-right0">
+			<div class="row "><!-- <div class="panel-heading">   -->
+				<div class="col-sm-12 search">
+					<div class="right-inner-addon">
+						<i class="fa fa-search"></i> 
+						<input type="search" class="form-control-search" placeholder="Search" />
+					</div>
+				</div>
+			</div>
+			<table class="table table-hover margin-top10">
+				<thead>
+					<tr>
+						<th><i class="fa fa-external-link"></i><span>New</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-hover margin-top10">
+				<thead>
+					<tr>
+						<th><i class="fa fa-arrow-right"></i><span>Follow Up</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-hover margin-top10">
+				<thead>
+					<tr>
+						<th><i class="fa Example of bed fa-bed"></i><span>Admitted</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-hover margin-top10">
+				<thead>
+					<tr>
+						<th><i class="fa fa-spinner"></i><span>Other</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/picture-4847-1455720684.jpg"
+									class="img-circle picwidth"> <span>Hemant Patel
+									30 M </span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="order-patient-profile">
+								<img alt="" src="images/patient2.png"
+									class="img-circle picwidth"> <span>Sam Khan 25 F
+								</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-9 col-sm-9">
+		<div class="row patient-detail-row">
+			<div class="col-md-1 col-sm-1 order-patient-profile" >
+				<img alt="" src="images/picture-4847-1455720684.jpg" class="img-circle">
+			</div>
+			<div class="col-md-2 col-sm-3">
+				<label>Hemant Patel 30 M</label>
+				<label>2190</label>
+			</div>
+			<div class="col-md-7 col-sm-6">
+			
+			</div>
+			<div class="col-md-2 col-sm-2">
+				<span class="logout"><i class="fa fa-sign-out float_right"></i></span>
+			</div>
+		</div>
+		
+			<div class="">
+			<div class="row">
+    			<table class="table table-hover margin-top10 th-width">
+					 <tr>
+						  <th style="width:31%">Name</th>
+						  <th style="width:30%">Provider</th>
+				          <th style="width:23.2%">Date Of Order</th>
+						  <th>Status</th>
+					 </tr>   
+				</table>	
+			</div>
+			<div class="row">
+				<table class="table table-hover margin-top10"  style="margin-top:0px;">
+					<thead>
+						<tr>
+							<th>
+								<span class="icon icon-i-laboratory" aria-hidden="true"></span>
+							    <span>Lab</span>
+						     </th>
+						</tr>
+				    </thead>
+				</table>
+				<table class="table table-hover">
+					<tbody>
+						<tr>
+							<td>
+								<span>Sayali Manna</span>
+					        </td>
+						    <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span> Confirm</span>
+					        </td>
+					    </tr>
+				      	<tr>
+					        <td>
+						       <span>Rakkesh Kumar</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+				      	</tr>
+				      	<tr>
+					        <td>
+						       <span>Dhiraj Bhosle</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+			      		</tr>
+			      		<tr>
+					        <td>
+						       <span>Yogesh Bhosle</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+			      		</tr>
+				      	<tr>
+					        <td>
+						       <span>Seema Rane</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+				      	</tr>
+				      </tbody>
+					</table>
+			</div>
+			<div class="row">
+				<table class="table table-hover margin-top10">
+				    <thead>
+					      <tr>
+					        <th>
+						        <span class="icon icon-i-mri-pet" aria-hidden="true"></span>
+						        <span>Radiology</span>
+					        </th>
+					      </tr>
+				    </thead>
+						</table>
+						<table class="table table-hover">
+				      <tbody>
+				      	 <tr>
+					        <td>
+						       <span>Sayali Manna</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span> Confirm</span>
+					        </td>
+				      	</tr>
+				      	<tr>
+					        <td>
+						       <span>Rakkesh Kumar</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+				      	</tr>
+				      	<tr>
+					        <td>
+						       <span>Dhiraj Bhosle</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+				      	</tr>
+				      	<tr>
+					        <td>
+						       <span>Yogesh Bhosle</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+				      	</tr>
+				      	<tr>
+					        <td>
+						       <span>Seema Rane</span>
+					        </td>
+					        <td>
+						      <span>Suresh Jadhav</span> 
+					        </td>
+					        <td>
+						       <span>06-11-2016</span>
+					        </td>
+					         <td>
+						     <span>Confirm</span>
+					        </td>
+				      	</tr>
+				      </tbody>
+					</table>
+			</div>
+			<div class="row">
+					<table class="table table-hover margin-top10">
+					    <thead>
+						      <tr>
+						        <th>
+							        <span class="icon icon-i-pharmacy " aria-hidden="true"></span>
+							        <span>Pharmacy</span>
+						        </th>
+						      </tr>
+					    </thead>
+							</table>
+							<table class="table table-hover">
+					      <tbody>
+					      	 <tr>
+						        <td>
+							       <span>Sayali Manna</span>
+						        </td>
+						        <td>
+							      <span>Suresh Jadhav</span> 
+						        </td>
+						        <td>
+							       <span>06-11-2016</span>
+						        </td>
+						         <td>
+							     <span> Confirm</span>
+						        </td>
+					      	</tr>
+					      	<tr>
+						        <td>
+							       <span>Rakkesh Kumar</span>
+						        </td>
+						        <td>
+							      <span>Suresh Jadhav</span> 
+						        </td>
+						        <td>
+							       <span>06-11-2016</span>
+						        </td>
+						         <td>
+							     <span>Confirm</span>
+						        </td>
+					      	</tr>
+					      	<tr>
+						        <td>
+							       <span>Dhiraj Bhosle</span>
+						        </td>
+						        <td>
+							      <span>Suresh Jadhav</span> 
+						        </td>
+						        <td>
+							       <span>06-11-2016</span>
+						        </td>
+						         <td>
+							     <span>Confirm</span>
+						        </td>
+					      	</tr>
+					      	<tr>
+						        <td>
+							       <span>Yogesh Bhosle</span>
+						        </td>
+						        <td>
+							      <span>Suresh Jadhav</span> 
+						        </td>
+						        <td>
+							       <span>06-11-2016</span>
+						        </td>
+						         <td>
+							     <span>Confirm</span>
+						        </td>
+					      	</tr>
+					      	<tr>
+						        <td>
+							       <span>Seema Rane</span>
+						        </td>
+						        <td>
+							      <span>Suresh Jadhav</span> 
+						        </td>
+						        <td>
+							       <span>06-11-2016</span>
+						        </td>
+						         <td>
+							     <span>Confirm</span>
+						        </td>
+					      	</tr>
+					      </tbody>
+							</table>
+			</div>
+			<!-- <div class="row order-signature-div">
+				<div class="col-md-5 col-sm-6 col-xs-6">
+					<i class="fa fa-file-text fa-text-icon" aria-hidden="true"></i>
+					<input type="text" class="text-height" placeholder="Electronic Signature">
+				</div>
+			</div> -->
+	 	</div>
+	 	<div class="row activity">
+		<span>
+			<span class="icon-laboratory icon-i-level2" aria-hidden="true" title="Lab"></span>
+		</span>
+		<span>
+			 <span class="icon-mri-pet icon-i-level2" aria-hidden="true" title="Radiology"></span>
+		</span>
+		<span>
+			<span class="icon-nutrition icon-i-level2" aria-hidden="true" title="Diet"></span>
+		</span>
+		<span>
+			<span class="icon-health-education icon-i-level2" aria-hidden="true" title="Health Education"></span>
+		</span>
+		<span>
+			<span class="icon-mental-health icon-i-level2" aria-hidden="true" title="Psychology"></span>
+		</span>
+		<span>
+			<span class="icon-pharmacy icon-i-level2" aria-hidden="true" title="Pharmacy"></span>
+		</span>
+		<span>
+			<span class="icon-physical-therapy icon-i-level2" aria-hidden="true" title="Physical Therapy"></span>
+		</span>
+		<span>
+			<span class="icon-cardiology icon-i-level2" aria-hidden="true"  title="Vitals"></span>
+		</span>
+		<span>
+			<span class="icon-medical-records icon-i-level2" aria-hidden="true" title="Order Sign"></span>
+		</span>
+		<span>
+			<span class="icon-medical-records icon-i-level2" aria-hidden="true" title="Order Review"></span>
+		</span>
+		
+	</div>
+	</div><!-- col-md-9 -->
+</div>						
+</body>
+</html>

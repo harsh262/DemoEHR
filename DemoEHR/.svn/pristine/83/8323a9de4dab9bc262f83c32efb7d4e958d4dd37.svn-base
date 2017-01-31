@@ -1,0 +1,36 @@
+homePageApp.service('pateintComplaintService',['$http',function($http){
+	
+	this.saveComplaint = function(patientComplaint,patientId,visitId){
+		var URI = "http://54.84.170.46:5100/ehr/patients/"+patientId+"/addComplaints/"+visitId;
+		var promise = $http.post(URI,JSON.stringify(patientComplaint)).then(function(response){
+			console.log(response);
+			return response;
+		},function(){
+			alert("error");
+		})
+		return promise;
+	}
+	
+	this.getPatientComplaintList = function(patientId){
+		var URI = "http://54.84.170.46:5100/ehr/patients/"+patientId+"/getAllComplaints";
+		var promise = $http.get(URI).then(function(response){
+			if(response.data._status_Code === 200){
+				return (response.data.result);
+			}
+		},function(){
+			alert("error");
+		});
+		return promise;
+	}
+	
+	this.addComplaintToError = function(patientId,complaintId){
+		var URI = "http://54.84.170.46:5100/ehr/patients/"+patientId+"/complaints/"+complaintId+"/addToError";
+		var promise = $http.put(URI).then(function(response){
+			console.log(response);
+			return response;
+		},function(){
+			alert("error");
+		})
+		return promise;
+	}
+}])

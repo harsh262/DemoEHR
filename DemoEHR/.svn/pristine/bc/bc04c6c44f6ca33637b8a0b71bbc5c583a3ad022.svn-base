@@ -1,0 +1,74 @@
+/**
+ * Common Date Utils
+ */
+homePageApp.factory('CommonDateUtils', function ($window) {
+    var root = {};
+    root.show = function(msg){
+        $window.alert(msg);
+    };
+    
+    root.getTime = function(){
+    	return DisplayCurrentTime();
+    }
+    
+   root.convertJSONStringToDate = function(dateStr){
+    	return convertJSONStringToDate(dateStr);
+    }
+    return root;
+    
+    function DisplayCurrentTime() {
+        var date = new Date();
+        var hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+        var am_pm = date.getHours() >= 12 ? "PM" : "AM";
+        hours = hours < 10 ? "0" + hours : hours;
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        time = hours + ":" + minutes + ":" + seconds + " " + am_pm;
+        return hours + ":" + minutes + " " + am_pm;
+    };
+    
+    function getNewDate(dateObj){
+    	var m_names = new Array("Jan", "Feb", "Mar", 
+    		"Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+    		"Oct", "Nov", "Dec");
+    		var month = dateObj.getUTCMonth();
+    		var day = dateObj.getUTCDate();
+    		var year = dateObj.getUTCFullYear();
+    		var formatedDay = '';
+    		var formatedMonth = '';
+    		if(day == 1){
+    			formatedDay = day+"<sup>st</sup>";
+    		}else if(day == 2){
+    			formatedDay = day+"<sup>nd</sup>";
+    		}else if(day == 3){
+    			formatedDay = day+"<sup>rd</sup>";
+    		}else{
+    				formatedDay = day+"<sup>th</sup>";
+    		}
+    		return formatedDay+" " + m_names[month]  + " " + year ;
+    }
+    
+    function convertJSONStringToDate(dateString){
+    	var dateObj = new Date(dateString);
+    	var m_names = new Array("Jan", "Feb", "Mar", 
+        		"Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+        		"Oct", "Nov", "Dec");
+        		var month = dateObj.getUTCMonth();
+        		var day = dateObj.getUTCDate();
+        		var year = dateObj.getUTCFullYear();
+        		var formatedDay = '';
+        		var formatedMonth = '';
+        		if(day == 1){
+        			formatedDay = day+"<sup>st</sup>";
+        		}else if(day == 2){
+        			formatedDay = day+"<sup>nd</sup>";
+        		}else if(day == 3){
+        			formatedDay = day+"<sup>rd</sup>";
+        		}else{
+        				formatedDay = day+"<sup>th</sup>";
+        		}
+        		if(formatedDay == 'Nan' || m_names[month] == undefined ||  year == 'NaN')
+        			return "-";
+        		return formatedDay+" " + m_names[month]  + " " + year ;
+    }
+});

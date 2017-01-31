@@ -1,0 +1,27 @@
+/**
+ * 
+ */
+homePageApp.controller("patientFlagController",['$scope','$rootScope','$cookies','$http',function($scope,$rootScope,$cookies,$http){
+	//----------------------- FLAG  DROP DOWN ------------------------// 
+
+	$scope.flagDropModel = [];
+	$scope.flagData = [
+	        {id: 1, label: "HIV"},
+	        {id: 2, label: "HBS AG"},
+	        {id: 3, label: "Mental Health"}
+	    ];
+	    
+	  
+
+	$scope.flagSettings = {
+	    smartButtonMaxItems: 3,
+	     enableSearch: true,
+	    smartButtonTextConverter: function(itemText, originalItem) {
+	        if (itemText === 'HIV') {
+	        return 'HIV!';
+	        }
+
+	        return itemText;
+	    }
+	};
+}]);

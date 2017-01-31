@@ -1,0 +1,222 @@
+homePageApp.controller("pateintComplaintController",['$scope','$rootScope','$cookies','pateintComplaintService','$timeout','$http',function($scope,$rootScope,$cookies,pateintComplaintService,$timeout,$http){
+	
+	$scope.patientComplaint = {};
+	//alert();
+	getPatientProblemList();
+	$scope.removeDay = function(){
+		$scope.patientComplaint.duration = "";
+		if($scope.dt == ''){
+			$scope.patientComplaint.duration = "day";
+		}
+	}
+	
+	$scope.clearDate = function(){
+		$scope.dt = "";
+	} 
+	$scope.patientComplaint.duration = "day";
+	$scope.patientComplaint.severity = "Chronic";
+	$scope.patientComplaint.status = "active";
+	$scope.patientComplaint.type = "primary";
+	
+	 $scope.example13model = [];
+     $scope.example13data = [
+         {id: 1, label: "David"},
+         {id: 2, label: "Jhon"},
+         {id: 3, label: "Lisa"},
+         {id: 4, label: "Nicole"},
+         {id: 5, label: "Danny"}];
+         
+       
+     
+     $scope.example13settings = {
+         smartButtonMaxItems: 3,
+          enableSearch: true,
+         smartButtonTextConverter: function(itemText, originalItem) {
+             if (itemText === 'Jhon') {
+             return 'Jhonny!';
+             }
+     
+             return itemText;
+         }
+     };
+         
+	//**********************************ALERT**********************************//*
+	$scope.addAlert = function() {
+		alert();
+	    $scope.alerts.push({msg: 'Another alert!'});
+	  };
+
+	  $scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	  };
+     
+   //**********************************DATEPICKER**********************************//*
+     $scope.today = function() {
+   	    $scope.dt = new Date();
+   	  };
+   	 
+   	  $scope.open1 = function() {
+   	    $scope.popup1.opened = true;
+   	  };
+
+   	  $scope.popup1 = {
+   	    opened: false
+   	  };
+ 	
+ 	
+ 	
+     
+	/*$scope.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+	console.log("doctorName : " + $scope.doctorName);*/
+	$scope.patientComplaint = angular.copy({"duration"	  :"day",
+											"severity"	  :"Unknown",
+											"status"	  :"active",
+											"type"		  :"",
+											"description" :"",
+											"icdCode"	  :"",
+											"date"		  :"",
+											"doctorName"  :"",
+											"comment":""
+										   });
+	
+	$scope.setComplaint = function(icdCode,description){
+		//alert(icdCode +"/"+description);
+		$scope.patientComplaint.description = description;
+		$scope.patientComplaint.icdCode = icdCode;
+		$scope.patientComplaint.date = new Date().getTime();
+		$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+		//getPatientComplaintList();
+	}
+	
+	$scope.saveComplaint = function(){
+		$scope.$broadcast('show-errors-check-validity');
+		console.log("saveComplaint"+$scope.problemListForm.$valid);
+		if($scope.patientComplaint.dt == '')
+			$scope.patientComplaint.dt=" ";
+		if($scope.problemListForm.$valid){
+			$scope.patientComplaint.duration = $scope.dt != undefined ? $scope.dt : $scope.patientComplaint.duration;
+			var visitId = $rootScope.patientInfo.visitRecords[0]._id;
+			var patientId  = $rootScope.patientInfo._id;
+			$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+			pateintComplaintService.saveComplaint($scope.patientComplaint,patientId,visitId).then(function(data){
+				$scope.$broadcast('show-errors-reset');
+				getPatientComplaintList();
+				$scope.reset();
+			});
+			$scope.searchProblem="";
+		}
+	}
+	
+	/*
+	 * Get Problem List
+	 */
+	function getPatientProblemList(){
+		pateintComplaintService.getPatientProblemList().then(function(data){
+			$scope.getPatientProblemList =  data;
+		});
+	}
+	
+	$scope.addComplaintToError = function(complaintId){
+		var patientId  = $rootScope.patientInfo._id;
+		pateintComplaintService.addComplaintToError(patientId,complaintId).then(function(data){
+			getPatientComplaintList();
+		});
+	}
+	
+	$scope.changeStatus = function(){
+		if($scope.status){
+			$scope.patientComplaint.status = "active";
+		}else{
+			$scope.patientComplaint.status = "inactive";
+		}
+	}
+	
+	
+	$scope.searchPreferredProblemList = function(val){
+		//if(val.length >= 2){
+	    	var problemList = [];
+	    	return $http.get('http://35.154.76.183:5100/icdCodeSearch/'+val, {
+	        }).then(function(res){
+	          angular.forEach(res.data, function(item){
+	        	  var obj = {id:'',code:'', desc:''};
+	            obj.id = item._id;
+	            obj.code = item.CODE;
+	            obj.desc = item.SHORT_Discription;
+	            problemList.push(obj);
+	          });
+	          console.log(problemList);
+	          return problemList;
+	        });
+	    //  };
+	}
+	
+	/*
+	 * autocompkte on seletede 
+	 */
+	 $scope.on_problem_selected = function($item, $model, $label){
+		 $scope.patientComplaint.description = $item.desc;
+			$scope.patientComplaint.icdCode = $item.code;
+			$scope.patientComplaint.date = new Date().getTime();
+			$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+	 }
+	function getPatientComplaintList(){
+		var patientId  = $rootScope.patientInfo._id;
+		$scope.patientComplaint.description = "";
+		$scope.patientComplaint.icdCode = "";
+		$scope.patientComplaint.date = new Date().getTime();
+		$scope.patientComplaint.doctorName = $rootScope.patientInfo.visitRecords[0].careProvider;
+		pateintComplaintService.getPatientComplaintList(patientId).then(function(data){
+			$scope.getPatientComplaintList = data;
+		});
+	}
+	
+	$scope.reset = function() {
+		$scope.patientComplaint = angular.copy({
+			"duration"	  :"day",
+			"severity"	  :"Unknown",
+			"status"	  :"active",
+			"type"		  :"",
+			"description" :"",
+			"icdCode"	  :"",
+			"date"		  :"",
+			"doctorName"  :"",
+			"comment"     :""
+		});
+	};
+	
+/***************************************	EXPAND COLLAPSE PROBLEM LIST ***********************/
+	$scope.oneAtATime = true;
+
+	  $scope.status = {
+	    isCustomHeaderOpen: false,
+	    isFirstOpen: true,
+	    isFirstDisabled: false
+	  };
+	  
+	  
+	  /*self.toggleActivation = function() {
+		 
+          if ( !self.activated ) self.modes = [ ];
+          if (  self.activated ) j = counter = 0;
+       };*/
+	  
+	  /*$scope.data = {
+              switch6: true
+           };*/
+           $scope.message = 'Active';
+           $scope.status = true;
+           $scope.onChange = function(state) {
+               if($scope.status)
+            	   {
+            	   $scope.message = 'Active';
+            	   $scope.patientComplaint.status = "active";
+            	   }
+               else
+            	   {
+            	   $scope.message = 'InActive';
+            	   $scope.patientComplaint.status = "inactive";
+            	   }
+              
+           };
+		
+}]);

@@ -1,0 +1,530 @@
+/**
+ * Angular Homepage Controller
+ */
+var homePageApp = angular.module('homePageApp',['ngCookies','ngAnimate', 'ngSanitize', 'ui.bootstrap','angularjs-dropdown-multiselect']).run(['$rootScope','VitalReviewService','$cookies','pateintComplaintService', function ($rootScope,VitalReviewService,$cookies,pateintComplaintService) {
+	$rootScope.patientInfoMethod = VitalReviewService.getPatientByFilter($cookies.get('doctorId'),'mrn',$cookies.get('patientMrn')).then(function(data) {
+		$rootScope.patientInfo = data;
+	});
+	$rootScope.subCategoryValue = "none"; 
+	console.log($rootScope);
+	$rootScope.globalFoo = function() {
+        //alert("I'm global foo!");
+    };
+}]);
+
+
+homePageApp.controller("HomePageController",['$scope','$rootScope','VitalReviewService','$window','CommonDateUtils','$cookies','pateintComplaintService','commonCrudService','allergyService','labResultService','postingService', function($scope,$rootScope,VitalReviewService,$window,CommonDateUtils,$cookies,pateintComplaintService,commonCrudService,allergyService,labResultService,postingService) {
+	$scope.leftHeaderList = [];
+	$scope.vitalList = [];
+	
+	$scope.patientId = $cookies.get("patientId");
+	$scope.patientMrn = $cookies.get("patientMrn");
+	//Cover Sheet Complaint List
+	pateintComplaintService.getPatientComplaintList($scope.patientId).then(function(data){
+		$scope.getCoverSheetComplaintList = data;
+	});
+	
+	//Cover Page Lab Result List
+	labResultService.getLabResult($scope.patientId, $scope.patientMrn).then(function(data){
+		$scope.getCoverSheetLabResult = data;
+	});
+	
+	
+	 $scope.decodeFunction = function(patient){
+		 return decodeURIComponent(patient);
+	 }
+	 console.log($rootScope.patientInfo);
+	 //$scope.patientInfo = $rootScope.patientInfo;// = VitalReviewService.getPatientByFilter('mrn',$cookies.get('patientMrn'));//JSON.parse(getCookie("patientInfo"));
+	 
+		$scope.getVitalList = function(){
+			console.log($rootScope.patientInfo);
+			VitalReviewService.getVitalReview($rootScope.patientInfo).then(function(data) {
+				$scope.vitalReviewList = data;
+				generateVitalReviewTable();
+			})
+		}
+		
+	
+	/* 
+	 * Add Row in vital table 
+	 */
+	$scope.AddData = function(){
+		$scope.$broadcast('show-errors-check-validity');
+		if($scope.vitalform.$valid){
+			$scope.$broadcast('show-errors-reset');
+			var vital ={
+					vitalName: $scope.vitalName,
+					value: $scope.value,
+					unit: $scope.unit,
+					range: $scope.range,
+					key : $scope.key,
+					min : $scope.min, 
+					max : $scope.max,
+					qualifiers : $scope.qualifiers
+			}		
+			$scope.vitalList.push(vital);
+			clearVitals();
+			console.log($scope.vitalList);
+		}
+	};
+	
+	/*
+	 * Remove Row in vital table
+	 */
+	$scope.removeData = function(index) {
+		if( $window.confirm('Are you absolutely sure you want to delete?')){
+			$scope.vitalList.splice(index, 1);
+		}
+		
+	};
+	/*
+	 * function to set text boxes.
+	 */
+	$scope.setVital = function(vitalName, min, max, unit, range, key) {
+		$scope.vitalName = vitalName;
+		$scope.min = min;
+		$scope.max = max;
+		$scope.unit = unit;
+		$scope.range = range;
+		$scope.key = key;
+	}
+	 var clearVitals = function () {
+			$scope.min = '';
+			$scope.max ='';
+			$scope.unit = '';
+			$scope.value = '';
+		}
+	 
+	 //save vitals
+	 $scope.saveVitlas = function(){
+		var currDt = new Date();
+		var datetext = currDt.toTimeString();
+		var vitalObj = {
+				"date": currDt.getTime(),
+				"timeStamp":CommonDateUtils.getTime(),
+				"visitId":$rootScope.patientInfo.visitRecords[0]._id,
+				"vitals":$scope.vitalList
+		}
+		
+		VitalReviewService.saveVitals(vitalObj, $cookies.get('doctorId'), $rootScope.patientInfo._id);
+		$scope.vitalList = [];
+	 }
+	 
+	 $scope.decodeFunction = function(patient){
+		 return decodeURIComponent(patient);
+	 }
+	 
+	 function getParamValuesFromUrl(){
+			  // This function is anonymous, is executed immediately and 
+			  // the return value is assigned to QueryString!
+			  var query_string = {};
+			  var query = window.location.search.substring(1);
+			  console.log(query);
+			  var vars = query.split("&");
+			  for (var i=0;i<vars.length;i++) {
+			    var pair = vars[i].split("=");
+			        // If first entry with this name
+			    if (typeof query_string[pair[0]] === "undefined") {
+			      query_string[pair[0]] = decodeURIComponent(pair[1]);
+			        // If second entry with this name
+			    } else if (typeof query_string[pair[0]] === "string") {
+			      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+			      query_string[pair[0]] = arr;
+			        // If third or later entry with this name
+			    } else {
+			      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+			    }
+			  } 
+			  console.log(query_string);
+			  //alert(location.href.replace(query, ""));
+			  //location.href=location.href.replace(query, "");
+			  //$rootScope.patientInfo = 
+			 //return JSON.parse($scope.decodeFunction(query_string.pData));
+			  return JSON.parse(query_string.pData);
+			 // console.log($rootScope.patientInfo);
+			 // return query_string.pData;
+	 }
+	 
+	 
+	 function generateVitalReviewTable(){
+		 var tb = angular.element( document.querySelector( '#myTable' ) );
+		 tb.empty();
+		 var max = 0;
+			var index = 0;
+			var vital ={
+					vitalName: $scope.vitalName,
+					value: $scope.value,
+					unit: $scope.unit,
+					range: $scope.range,
+			}
+			
+			
+			angular.forEach($scope.vitalReviewList, function(value, key) {
+				 angular.forEach(value.vitals, function(value, key) {
+						console.log(value.key);
+						
+						if ($scope.leftHeaderList.indexOf(value.key) == -1) {
+							$scope.leftHeaderList.push(value.key);
+						}
+					});
+					
+				});
+			
+			
+			 console.log(index + ': ' + $scope.leftHeaderList);
+			 var tableStr = "";
+			 var i = 0;
+			 	tableStr += "<tr class=\"border-bottom\"><td style = \"background-color: #f5fffd; color: #39ab94; padding-right:15px;padding-top: 5px;padding-bottom: 5px;\">&nbsp;<br><br></td>";
+			 	angular.forEach($scope.leftHeaderList, function(topHeading, key) {
+			 		tableStr += "<td style=\"padding:4px;\">"+topHeading+"</td>";
+			 		
+				});
+			 	tableStr += "</tr>";
+			 	
+			 
+			 //--------
+			 	angular.forEach($scope.vitalReviewList, function(value, key) {
+			 		if(key <= 9){
+			 		var jsondate = "/Date("+value.date+")/";
+			 		var jsDate = new Date(parseInt(jsondate.substr(6)));
+			 		var vitalDate = getNewDate(jsDate);
+				 tableStr   += "<tr class=\"border-bottom\">"
+				 	    	+"<th style = \"background-color: #f5fffd; color: #39ab94; padding-right:15px;padding-top: 5px;padding-bottom: 5px;\"> <div>"+ vitalDate+"</div><div>"+value.timeStamp+"</div></th>" 
+				 	    		angular.forEach($scope.leftHeaderList, function(header, key) {
+				 	    			angular.forEach(value.vitals, function(value1, key) {
+				 				 if(header == value1.key){
+				 					 if(value1.value >= value1.max || value1.value <= value1.min)
+				 						 tableStr += "<td style=\"padding:4px;\" class=\"red-font-color\">"+ value1.value +" "+value1.unit+"</td>";
+				 					 else
+				 						 tableStr += "<td style=\"padding:4px;\">"+ value1.value +" "+value1.unit+"</td>";
+				 					 i = 1;
+				 					 return;
+				 				 }
+				 			 });
+				 	    	if(i==0)
+				 	    		 tableStr += "<td>-</td>";
+				 	    	else
+				 	    		i=0;
+							});
+				
+				 tableStr += "</tr>";
+			 		}
+				});
+			 
+			 	var myEl = angular.element( document.querySelector( '#myTable' ) );
+			 	myEl.append(tableStr);
+	 }
+ 
+	
+	 $scope.getLabOrderList = function(){
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Lab Order",$rootScope.subCategoryValue).then(function(data) {
+			$scope.getLabOrderList = data;
+		});
+	 }
+	 
+	 $scope.getImagingOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Imaging Order",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getImagingOrderList = data;
+		});
+	}
+	 
+	 $scope.getIpPharmacyOrderList = function(){
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"IP Pharmacy",$rootScope.subCategoryValue).then(function(data) {
+		  $scope.getIpPharmacyOrderList = data;
+		 });
+	 }
+	 
+	 $scope.getIvPharmacyOrderList = function() {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"IV Pharmacy",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getIvPharmacyOrderList = data;
+			  });
+	 }
+	
+	 $scope.getProcedureSurgicalOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Procedure/Surgical",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getProcedureSurgicalOrderList = data;
+			  });
+	}
+	 
+	 $scope.getGeneralOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"General",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getGeneralOrderList = data;
+			  });
+	}
+
+	 $scope.getConsultOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Consult",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getConsultOrderList = data;
+			  });
+	}
+	 $scope.getVitalOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Vital",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getVitalOrderList = data;
+			  });
+	}
+	 
+	 $scope.getNursingOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Nursing",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getNursingOrderList = data;
+			  });
+	}
+	 
+	 $scope.getOrderSetsOrderList = function() {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"OrderSets",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getOrderSetsOrderList = data;
+			  });
+	}
+	 
+	 $scope.getPatientMovementOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Patient Movement","Admit").then(function(data) {
+			  $scope.getPatientMovementOrderList = data;
+			  });
+	}
+	 $scope.getBloodComponentOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"BloodComponent",$rootScope.subCategoryValue).then(function(data) {
+			  $scope.getBloodComponentOrderList = data;
+			  });
+	}
+	
+	 $scope.getDietOrderList = function () {
+		 commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Diet","Diet").then(function(data) {
+				$scope.getDietOrderList = data;
+				});
+	}
+	 
+	 $scope.getPatientComplaintList = function(){
+		 pateintComplaintService.getPatientComplaintList($rootScope.patientInfo._id).then(function(data){
+				$scope.getPatientComplaintList = data;
+			})
+	 }
+	 
+	 $scope.getOpPharmacyOrderList = function(){
+			commonCrudService.getOrderByCategory($rootScope.patientInfo._id, "Op Pharmacy","Dosage").then(function(data) {
+				$scope.getOpPharmacyOrderList = data;
+				});
+			}
+	 
+	 //======= Diet =========//
+	 $scope.diet = function(){
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Diet","Diet").then(function(data) {
+			$scope.orderItems = angular.copy({
+				"billingCode"            :"",
+				"isolation"              :"",
+				"dietComponent"          :"",
+				"dietEffectiveDate"      :"",
+				"dietExirationDate"      :"",
+				"dietDelivery"           :"",
+				"dietPrecaution"         :"",
+				"dietSpecialInstructions":""
+			});
+			$scope.getDietOrderList = data;
+			});
+		}
+	 $scope.tubeFeeding = function(){
+		$scope.subCategory = "Tube Feeding";
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Diet","Tube Feeding").then(function(data) {
+			$scope.orderItems = angular.copy({
+				"billingCode"           :"",
+				"tubeFeedingProduct"    :"",
+				"strength"              :"",
+				"quantity"              :"",
+				"amount"                :"",
+				"specialInstructions"   :"",
+				"cancelFutureTRAYPOrder":""
+		})
+		$scope.getDietOrderList = data;
+		});
+	}
+	
+	$scope.earlyLateTray = function(){
+		$scope.subCategory = "Early/Late Tray";
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Diet","Early/Late Tray").then(function(data) {
+			$scope.orderItems = angular.copy({
+				"billingCode":"",
+				"Meal":"",
+				"startDate":"",
+				"endDate":"",
+				"dayOfWeek":{"Monday":false,"Tuesday":false,"Wednesday":false,"Thursday":false,"Friday":false,"Saturday":false,"Sunday":false}
+			})	
+		$scope.getDietOrderList = data;
+		});
+	}
+	
+	$scope.addtionalOrders = function(){
+		$scope.subCategory = "Additional Orders";
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Diet","Additional Orders").then(function(data) {
+			$scope.orderItems = angular.copy({
+				"billingCode":"",
+				"additionalOrder":""
+			});
+		$scope.getDietOrderList = data;
+		});
+	}
+	 
+	 //========Patient Movement ===========//
+	$scope.admit = function(){
+		$scope.subCategory = "Admit";
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Patient Movement","Admit").then(function(data) {
+			$scope.orderItems = angular.copy({
+				"billingCode"       :"",
+				"wardName"          :"",
+				"careProvider"      :"",
+				"speciality"        :"",
+				"startDate"         :"",
+				"endDate"           :"",
+				"admissionDiagnosis":"",
+				"description"       :""
+			});
+			$scope.getPatientMovementOrderList = data;
+		});
+	}
+	
+	$scope.transfer = function(){
+		$scope.subCategory = "Transfer";
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Patient Movement","Transfer").then(function(data) {
+			$scope.orderItems = angular.copy({
+				"billingCode" :"",
+				"wardName"    :"",
+				"careProvider":"",
+				"speciality"  :"",
+				"startDate"   :"",
+				"endDate"     :"",
+				"description" :""
+			});
+			$scope.getPatientMovementOrderList = data;
+		});
+	}
+	
+	$scope.discharge = function(){
+		$scope.subCategory = "Discharge";
+		commonCrudService.getOrderByCategory($rootScope.patientInfo._id,"Patient Movement","Discharge").then(function(data) {
+			$scope.orderItems = angular.copy({
+				"billingCode"       :"",
+				"Type"              :"",
+				"dischargeDiagnosis":"",
+				"description"       :""
+			});
+			$scope.getPatientMovementOrderList = data;
+		});
+	}
+	 
+	 
+	 
+	 //----------------------- allergy module ------------------------//
+	 
+	 
+		$scope.setAllergiesVital = function(allergyName){
+			$scope.allergyObj.allergyName = allergyName;
+		}
+		
+		$scope.saveAllergy = function(){
+			console.log($scope.allergyObj);
+			allergyService.saveAllergy($scope.allergyObj,$rootScope.patientInfo._id).then(function(data){
+				console.log(data);
+				$scope.reset();
+				getAllergyList();
+			});
+			
+		}
+	
+	 
+		$scope.deleteAllergy = function(allergy){
+			allergyService.deleteAllergy(allergy).then(function(data) {
+				getAllergyList();
+			});
+		}
+		
+		$scope.getAllergyList = function(){
+			allergyService.getAllergyList($rootScope.patientInfo._id).then(function(data) {
+				$scope.getAllergyList = data;
+				$scope.reset();
+				console.log($scope.getAllergyList);
+			});
+		}
+		
+		function getAllergyList(){
+				allergyService.getAllergyList($rootScope.patientInfo._id).then(function(data) {
+					$scope.getAllergyList = data;
+				});
+			}
+		
+		$scope.reset = function() {
+			//$scope.allergyObj = angular.copy({});
+			$scope.allergyObj ={
+					 "allergyName"    :"Dust",
+					 "date"           :"",
+					 "nature"         :"",
+					 "observedHistory":"",
+					 "serverity"      :"",
+					 "originators"    :"",
+					 "comments"       :""
+			 };
+		};
+		$scope.getDate = function(dateStr){
+			return CommonDateUtils.convertJSONStringToDate(dateStr);
+		}
+		
+		$scope.reset();
+		
+		
+		
+		//----------------- Posting -----------------------//
+		$scope.postingObj=[];
+		
+		$scope.savePosting = function(){
+			$scope.postingObj.patientId = $scope.patientId;
+			postingService.savePosting($scope.postingObj).then(function(data){
+				getPostingList();
+				$scope.resetPosting();
+			});
+		}
+		
+		 function getPostingList(){
+			postingService.getPostingList($scope.patientId).then(function(data){
+				$scope.getPostingList = data;
+			});
+		}
+		 $scope.getPostingList = function(){
+			 postingService.getPostingList($scope.patientId).then(function(data){
+					$scope.getPostingList = data;
+				});
+		 }
+		 
+		$scope.resetPosting = function(){
+			$scope.postingObj = {
+					"patientId" : "",
+					"postingType" : "",
+					"sliderValue" : "",
+					"date" : new Date().getTime(),
+					"title" : "",
+					"status" : "Pending",
+					"comment" : ""
+			}
+		}
+		$scope.resetPosting();
+		$scope.postingObj.postingType = "ER";
+		
+		$scope.ER = function(){
+			$scope.postingObj.postingType = "ER";
+		}
+		$scope.NOE = function(){
+			$scope.postingObj.postingType = "NOE";
+		}
+		//---------------- Point Of Care ------------------//
+		
+		$scope.setPOC = function(){
+			
+		} 
+		
+		$scope.resetPOC = function() {
+			$scope.POCObj ={
+					 "POCTestName":"ABG",
+					 "test"       :"",
+					 "unit"       :"",
+					 "testValue"  :"",
+					 "range"      :""
+			 };
+		};
+}]);
+
+

@@ -1,0 +1,29 @@
+/**
+ * Angularjs login controller
+ */
+var loginApp = angular.module('loginApp',['ngCookies']);
+loginApp.constant("urlConfig", {
+	url : "http://54.84.170.46:5100/ehr/"
+});
+loginApp.controller('loginController',['$scope','$window','$http','$rootScope','$location','urlConfig','$cookies', function($scope,$window,$http,$rootScope,$location,urlConfig,$cookies) {
+	$scope.hospitalName = 'LWEH';
+		$scope.validate = function() {
+			var user ={
+					accessCode : $scope.accessCode,
+					password : $scope.password,
+					hospitalName : $scope.hospitalName
+			}
+			var REST_SERVICE_URI = urlConfig.url + 'login';
+			var promise = $http.post(REST_SERVICE_URI, JSON.stringify(user)).then(function(response) {
+				console.log(response.data);
+				if(response.data._status_Code == '200'){
+					$scope.doctorId = response.data.result.doctorId;
+					$cookies.put("doctorId",$scope.doctorId);
+					$window.location.href = './patient_search.html';
+				}else{
+					alert('Invalid Access Code');
+				}
+				return response.data.status;
+			});
+		}
+}]);

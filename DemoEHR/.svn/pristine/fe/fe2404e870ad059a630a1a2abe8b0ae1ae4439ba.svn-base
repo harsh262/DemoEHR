@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 88% !important;
+}
+.padding-top10{
+padding-top: 10px;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+text-align:center;
+}
+.textarea-fix-ht{
+	height:114px;
+	max-height:114px;
+}
+.btnpadding12{
+padding-top:11% !important;
+}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/medical-icons/wfmi-style.css">
+<link rel="stylesheet" href="css/param.common.master.css">
+<link rel="stylesheet" href="css/param.common.master.popup.css">
+<link rel="stylesheet" href="Slider/jquery.range.css">
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row"><!-- row one start -->
+		<div class="col-md-12 col-sm-12">
+			<h4>IP Medication</h4>
+		</div>
+	</div><!-- row one end -->
+	<div class="row"><!-- row two start -->
+		<div class="col-md-12 col-sm-12">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<div class="col-md-3 col-sm-3">
+						<div class="right-inner-addon" style="color:gray;">
+			               	<i class="fa fa-search"></i>
+		               		<input type="search" class="form-control-search"  placeholder="Order Search" />
+			           	 </div>
+					</div>
+					<div class="col-md-9 col-sm-9"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 padding-top8">
+					<div class="col-md-4 col-sm-4">
+						<label>Dosage</label><br />
+							<select class="selectpicker">
+							  <option>Dosage 1</option>
+							  <option>Dosage 2</option>
+							  <option>Dosage 3</option>
+							</select>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<label>Route</label><br />
+							<select class="selectpicker">
+							  <option>Route 1</option>
+							  <option>Route 2</option>
+							  <option>Route 3</option>
+							</select>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<label>Schedule</label><br />
+							<select class="selectpicker">
+							  <option>Schedule 1</option>
+							  <option>Schedule 2</option>
+							  <option>Schedule 3</option>
+							</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 padding-top8">
+					<div class="col-md-4 col-sm-4">
+						<label>Priority</label><br />
+							<select class="selectpicker">
+							  <option>High</option>
+							  <option>Low</option>
+							  <option>Middiam</option>
+							</select>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<label>Duration</label><br />
+							<select class="selectpicker">
+							  <option>One Month</option>
+							  <option>Two Month</option>
+							  <option>Three Month</option>
+							</select>
+					</div>
+					<div class="col-md-4 col-sm-4">
+					 	<div class="form-group">
+	       					<label class="">Retis</label>
+	             			<input class="form-control" id="" type="text" value="" style="width:88%;">
+	         			</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 margin-set-search padding-top8">
+					<div class="col-md-offset-3 col-sm-offset-3">
+						<span><label>Pick up</label></span>
+						<span>
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio">Clinic
+						    </label>
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio">Mail
+						    </label>
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio">Window
+						    </label>
+						  </span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- row two end -->
+	<div class="row"><!-- row three start -->
+		<div class="col-md-12 col-sm-12">
+			<div class="col-md-6 col-sm-6">
+				<div class="form-group">
+					      <span><label for="">Comments:</label>
+					      	<textarea class="form-control textarea-fix-ht" rows="5" id="" ></textarea>
+					      </span>
+					</div>
+			</div>
+			<div class="col-md-6 col-sm-6">
+				<div class="form-group">
+					      <span><label for="">Description:</label>
+					      	<textarea class="form-control textarea-fix-ht" rows="5" id="" ></textarea>
+					      </span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 col-sm-12">
+			<div class="col-md-6 col-sm-6">
+				<div class="form-group">
+					      <span><label for="">Warring:</label>
+					      	<textarea class="form-control textarea-fix-ht" rows="5" id="" ></textarea>
+					      </span>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6">
+				<div class="btnpadding12">
+					<button type="button" id="add_btn" class="btn btn-primary">Add</button>
+					<button type="button" id="cancel_btn" class="btn btn-primary">Cancel</button>
+				</div>	
+			</div>
+		</div>
+		
+	</div><!-- row three end -->
+	
+	<div class="row padding-top8">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Order</th>
+					<th>Dosage</th>
+					<th>Route</th>
+					<th>Schedule</th>
+					<th>Priority</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Order 1</td>
+					<td>Night</td>
+					<td>Route 1</td>
+					<td>Schedule 1</td>
+					<td>High</td>
+					<td><i class="fa fa-times" aria-hidden="true"></i></td>
+				</tr>
+				<tr>
+					<td>Order 2</td>
+					<td>Moring</td>
+					<td>Route 2</td>
+					<td>Schedule 2</td>
+					<td>Low</td>
+					<td><i class="fa fa-times" aria-hidden="true"></i></td>
+				</tr>
+				<tr>
+					<td>Order 3</td>
+					<td>Night</td>
+					<td>Route 3</td>
+					<td>Schedule 3</td>
+					<td>Middiam</td>
+					<td><i class="fa fa-times" aria-hidden="true"></i></td>
+				</tr>
+				<tr>
+					<td>Order 4</td>
+					<td>Moring</td>
+					<td>Route 4</td>
+					<td>Schedule 4</td>
+					<td>High</td>
+					<td><i class="fa fa-times" aria-hidden="true"></i></td>
+				</tr>
+			</tbody>	
+		</table>
+	</div>	
+</div>
+
+<!-- Script -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>  
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<!-- Script -->
+</body>
+</html>

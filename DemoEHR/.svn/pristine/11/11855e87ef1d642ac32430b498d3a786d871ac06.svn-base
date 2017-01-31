@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "58639418af5d34803e0c49e9",
+    "CODE": "A0100",
+    "SHORT_Discription": "Typhoid fever, unspecified"
+  },
+  {
+    "_id": "58639418af5d34803e0c49ea",
+    "CODE": "A0101",
+    "SHORT_Discription": "Typhoid meningitis"
+  },
+  {
+    "_id": "58639418af5d34803e0c49eb",
+    "CODE": "A0102",
+    "SHORT_Discription": "Typhoid fever with heart involvement"
+  }
+]
