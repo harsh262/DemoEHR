@@ -1,14 +1,15 @@
-homePageApp.service('pateintComplaintService',['$http',function($http){
+ehrApp.service('pateintComplaintService',['$http','$rootScope',function($http,$rootScope){
 	
 	this.saveComplaint = function(patientComplaint,patientId,visitId){
 		//console.log(patientComplaint);
 		//var URI = urlConfig.url+"patients/"+patientId+"/addComplaints/"+visitId;
 		var URI = BASE_URL + ROOT_URL + PATIENTS + "/"+patientId+"/addComplaints/"+visitId;
 		var promise = $http.post(URI,JSON.stringify(patientComplaint)).then(function(response){
-			console.log(response);
+			$rootScope.showNotification(response.data._status_Code,response.data._status,response.data._error_message);
+			//console.log(response);
 			return response;
 		},function(){
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promise;
 	}
@@ -21,7 +22,7 @@ homePageApp.service('pateintComplaintService',['$http',function($http){
 				return (response.data.result);
 			}
 		},function(){
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		});
 		return promise;
 	}
@@ -30,10 +31,11 @@ homePageApp.service('pateintComplaintService',['$http',function($http){
 		//var URI = urlConfig.url+"patients/"+patientId+"/complaints/"+complaintId+"/addToError";
 		var URI = BASE_URL + ROOT_URL + PATIENTS + "/"+patientId+"/complaints/"+complaintId+"/addToError";
 		var promise = $http.put(URI,JSON.stringify(param)).then(function(response){
+			$rootScope.showNotification(response.data._status_Code,response.data._status,response.data._error_message);
 			//console.log(response);
 			return response;
 		},function(){
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promise;
 	}
@@ -45,7 +47,7 @@ homePageApp.service('pateintComplaintService',['$http',function($http){
 				//console.log(response);
 				return response.data;
 			},function(){
-				alert("error");
+				$rootScope.showNotification(0,"",$rootScope.connectionError);
 			})
 			return promise;
 		}catch(e){
@@ -60,7 +62,7 @@ homePageApp.service('pateintComplaintService',['$http',function($http){
 				return (response.data.result);
 			}
 		},function(){
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promise;
 	}

@@ -1,0 +1,77 @@
+<div class="row patient-detail-row">
+		<div class="col-md-9 col-sm-9 col-xs-9" >
+			<span class="profile_pic"> <img alt=""
+				src="images/Temp-images/patient2.jpg" class="img-circle"
+				style="margin-top: -18px; cursor: default">
+			</span> <label> <span class="font-size13">{{patientInformation.patientInfo[0].name}},
+					<span
+					ng-bind-html="getAgeByDate(patientInformation.patientInfo[0].dob)"></span>/{{patientInformation.patientInfo[0].gender}}
+			</span><br> <span class="subtitle-font"> <span
+					ng-bind-html="convertToIntAndGetDate(patientInformation.patientInfo[0].dob)">
+				</span> <span style="margin-left: 3px" class="subtitle-font">{{patientInformation.patientInfo[0].mrn}}</span></span>
+				<span class="hide-span font-size13"><a data-toggle="modal"
+					data-target="#patientDetailsModal" style="color: white"
+					class="cursor-pointer-set">Details</a></span>
+			</label> <span> <label class="label-margin10"> <i
+					class="fa fa-snowflake-o" aria-hidden="true"></i> <span
+					class="color-red cursor-pointer-set font-size13"
+					data-toggle="modal" data-target="#allergiesModal"
+					ng-click="resetFormValidation();getAllergy();getOriginatorList();">Allergies </span> <span
+					class="subtitle-font" style="cursor: pointer" data-toggle="modal"
+					data-target="#allergiesModal" ng-click="getAllergy();getAllergy();getOriginatorList();">:
+						{{patientCoverPageAllergy | limitTo : 11 :0}}{{patientInformation.Allergies.length > 1 ? ' ...' : ''}} </span> <br>
+					<i class="fa fa-map-marker" aria-hidden="true"
+					style="cursor: default"></i><span class="margin-left8 font-size13">Location
+				</span> <span class=" subtitle-font"> :
+						{{patientInformation.location}}</span>
+			</label>
+			</span> <span> 
+			<label class="label-margin10"> <!-- 	<i class="fa fa-flag" aria-hidden="true"></i>
+					<span class="color-red cursor-pointer-set font-size13" data-toggle="modal" data-target="#flagInfoModal"> Flag </span>
+						<span class="margin26 subtitle-font">: {{patientInfo.visitRecords[0].flag}} </span>  -->
+					<i class="fa fa-flag" aria-hidden="true"></i><span
+					class="color-red cursor-pointer-set font-size13 flag-popover resetVal"
+					data-toggle="modal" data-target="#flagInfoModal"
+					ng-click="getFlags();getFlagMasterList()"> Flag </span> <span
+					class="margin35 subtitle-font resetVal" data-toggle="modal"
+					data-target="#flagInfoModal" style="cursor: pointer"
+					ng-click="getFlags();getFlagMasterList()">:
+						{{patientCoverPageFlag}}{{patientInformation.flagResult.length > 1
+						? '...' : ''}} </span> <br> <i class="fa fa-user-md"
+					aria-hidden="true" style="cursor: default"></i><span
+					class="margin-left8 font-size13">Physician </span><span
+					class="subtitle-font"> : {{patientInformation.careProvider}}</span>
+			</label>
+			</span>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-3">
+			
+				<div class="col-md-4 col-sm-4 col-xs-4">
+					<div class="float_right unique-number margin-top9">C4502</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-6">
+					<div class="searchBox">
+						<span class="right-inner-addon1 " style="color: gray;"> <i class="fa fa-search"></i> 
+							<a href="#/patientSearch" style="color: white; text-decoration: none;"> 
+								<input type="search" class="form-control-search" placeholder="Search" ng-click = "setLoader(true)"/>
+							</a>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2 col-xs-2 logoutDiv">
+					<div class="margin-top8">
+						<i class="fa fa-sign-out" style=" font-size: 18px;color: white;" ng-click="logout();"></i>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2 float_right padding-top8 orderCloseDiv" style="padding-right: 5px;">
+						<button type="button" class="close orderCloseBtn" data-dismiss="modal">&times;</button>
+				</div>
+		</div>
+
+	</div> 
+	
+	<script>
+	$(document).ready(function() {
+		$(".orderCloseDiv").hide();
+	});
+	</script>

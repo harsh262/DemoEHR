@@ -1,6 +1,7 @@
-homePageApp.service('commonCrudService',['$http',function($http){
+ehrApp.service('commonCrudService',['$http','$rootScope','setGetService',function($http,$rootScope,setGetService){
 	this.saveOrder = function(orderItems,patientInfo,category,subCategory){
-		var commonObj = {"doctorId": getCookie("doctorId"),
+		var setGetObj = setGetService.getValue();
+		var commonObj = {"doctorId": setGetObj.doctorId,
 				  "patientId": patientInfo._id,
 				  "visitId":  patientInfo.visitRecords[0]._id,
 				  "orderSubCategory": "BioChemestry",
@@ -12,31 +13,36 @@ homePageApp.service('commonCrudService',['$http',function($http){
 		var promise = $http.post(URI, JSON.stringify(commonObj)).then(function(response) {
 			//console.log(commonObj);
 					//console.log(response);
+			//change in response
+			$rootScope.showNotification(response.data._status_Code,response.data._status,response.data._error_message);
 					return response;
 				},
 				function() {
-					alert("error");
+					$rootScope.showNotification(0,"",$rootScope.connectionError);
 				})
 				return promise;
 	}
 	
 	this.updateOrder = function(orderId,orderItems,patientInfo,category,subcategory){
-		var commonObj = {"doctorId": getCookie("doctorId"),
+		var setGetObj = setGetService.getValue();
+		var commonObj = {"doctorId": setGetObj.doctorId,
 				  "patientId": patientInfo._id,
 				  "visitId":  patientInfo.visitRecords[0]._id,
 				  "orderSubCategory": "BioChemestry",
-				  "encounterType": "OPD","orderCategory": category,"orderSubCategory": subcategory,"orderItems":orderItems,"orderDate": "17-11-2016",
+				  "encounterType": "OPD","orderCategory": category,"orderSubCategory": subcategory,"orderItems":orderItems,"orderDate": new Date().getTime(),
 				  "isFavorite": true,"frequencyMaster": []};
 		
 		//var URI = urlConfig.url+"cpoe/"+orderId+"/updateOrder";
 		var URI = BASE_URL + ROOT_URL + CPOE + '/' + orderId+'/updateOrder';
-		//console.log(commonObj.toString());
+		//console.log(JSON.stringify(commonObj));
 		var promise = $http.put(URI, JSON.stringify(commonObj)).then(function(response) {
-					//console.log(response);
+					console.log(response);
+			//change in response
+			$rootScope.showNotification(response.data._status_Code,response.data._status,response.data._error_message);
 					return response;
 				},
 				function() {
-					alert("error");
+					$rootScope.showNotification(0,"",$rootScope.connectionError);
 				})
 				return promise;
 	}
@@ -52,7 +58,7 @@ homePageApp.service('commonCrudService',['$http',function($http){
 			}
 		},
 		function() {
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promise;
 	}
@@ -68,7 +74,7 @@ homePageApp.service('commonCrudService',['$http',function($http){
 			}
 		},
 		function() {
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promise;
 	}
@@ -84,8 +90,22 @@ homePageApp.service('commonCrudService',['$http',function($http){
 			}
 		},
 		function() {
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promise;
 	}
+	
+	 this.searchProcedureName = function(keyword){
+		 var URI = "http://35.154.76.183:5100/procedureSearch/"+ keyword;
+		  var promise = $http.get(URI).then(function(response){
+		   /*if(response.data._status_Code === 200){
+		    return response.data.result;
+		   }*/
+			  return response;
+		  },
+		  function(){
+		   $rootScope.showNotification(0,"",$rootScope.connectionError);
+		  })
+		  return promise; 
+	 }
 }]);

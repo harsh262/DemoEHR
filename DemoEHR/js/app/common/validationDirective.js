@@ -1,4 +1,4 @@
-homePageApp.directive('showErrors', function($timeout) {
+ehrApp.directive('showErrors', function($timeout) {
     return {
       restrict: 'A',
       require: '^form',
@@ -18,7 +18,12 @@ homePageApp.directive('showErrors', function($timeout) {
         });
         
         scope.$watch(function() {
-        	return formCtrl[inputName].$invalid;
+        	try {
+        		return formCtrl[inputName].$invalid;
+			} catch (e) {
+				console.log(el[0]);
+			}
+        	
         }, function(invalid) {
           // event or if the control becomes valid
           if (!blurred && invalid) { return }

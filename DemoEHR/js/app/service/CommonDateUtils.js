@@ -1,10 +1,10 @@
 /**
  * Common Date Utils
  */
-homePageApp.factory('CommonDateUtils', function ($window) {
+ehrApp.factory('CommonDateUtils', function ($window) {
     var root = {};
     root.show = function(msg){
-        $window.alert(msg);
+        //$window.alert(msg);
     };
     
     root.getTime = function(){
@@ -18,6 +18,10 @@ homePageApp.factory('CommonDateUtils', function ($window) {
    	root.getTimeByDate = function(jsonDate){
    		return getTimeByDate(jsonDate);
    	}
+   	
+   	root.getDateTimeByDate = function(jsonDate){
+        return getDateTimeByDate(jsonDate);
+    }
     return root;
     
     function DisplayCurrentTime() {
@@ -30,6 +34,26 @@ homePageApp.factory('CommonDateUtils', function ($window) {
         time = hours + ":" + minutes + ":" + seconds + " " + am_pm;
         return hours + ":" + minutes + " " + am_pm;
     };
+    //-----get date and time by json date----//
+    function getDateTimeByDate(jsonDate){
+        var dateObj = new Date(jsonDate);
+        var m_names = new Array("Jan", "Feb", "Mar", 
+             "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+             "Oct", "Nov", "Dec");
+             var month = dateObj.getMonth();
+             var day = dateObj.getDate();
+             var year = dateObj.getFullYear();
+             var formatedDay = '';
+             var formatedMonth = '';
+             
+             var suffix = getDayOfMonthSuffix(day)
+             formatedDay = day+"<sup>"+suffix+"</sup>";
+             //alert(formatedDay);
+             if(formatedDay == 'Nan' || m_names[month] == undefined ||  year == 'NaN')
+              return "-";
+             var time = getTimeByDate(jsonDate);
+             return formatedDay+" " + m_names[month]  + " " + year +" "+time;
+       }
     
     function getTimeByDate(jsonDate){
     	var date = new Date(jsonDate);

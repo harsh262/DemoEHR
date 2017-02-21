@@ -1,4 +1,4 @@
-loginApp.directive('showErrors', function($timeout) {
+ehrApp.directive('showErrors', function($timeout) {
     return {
       restrict: 'A',
       require: '^form',

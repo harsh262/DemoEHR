@@ -1,7 +1,7 @@
 /**
  * 
  */
-vitalApp.factory('vitalService', ['$http',function($http) {
+ehrApp.factory('vitalService', ['$http',function($http) {
 /*	this.getVitalList = function() {
 	return 	$http.jsonp("vitalList.json")
 	    .then(function(response) {

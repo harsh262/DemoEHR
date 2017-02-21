@@ -1,0 +1,88 @@
+<style>
+	body{
+		 	background-image:url("images/Finalworld.jpg");
+		    background-repeat: round; 
+		}
+</style>
+
+<!-- <div ng-show="loading"><img class="preloaderimg" src="https://ilt.taxmann.com/images/loading.gif"></div> -->
+
+<div class="container-fluid">
+	<div class="row logo" style="float:right;margin-right: 18px">
+			<div style="padding-left: 21px"><img src="images/sd-logo (2).png"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 col-sm-12" style="height:20%;">
+		</div>
+	</div>
+	<div class="row">
+		<form name="loginForm" novalidate>
+			<div class="col-md-9 col-sm-9"></div>
+			<div class="col-md-2 col-sm-2 content-bg" style="padding:7px;">
+				
+				<div class="form-group" show-errors>
+					<label for="accessCode">User Name</label>
+					<input class="form-control" id="accessCode" type="text" ng-model="accessCode"  tabindex="1" name="accessCode" required>
+					<p class="help-block" ng-if="loginForm.accessCode.$error.required">The user name is required</p>
+				</div>
+				<div class="form-group" show-errors>
+					<label for="verifyCode">Password</label>
+					<input class="form-control" id="verifyCode" type="password" ng-model="password"  tabindex="2" name="password" required>
+					<p class="help-block" ng-if="loginForm.password.$error.required">The password is required</p>
+				</div>
+				<div class="form-group" show-errors>
+					<label for="accessCode">Hospital Name</label>
+					<input class="form-control" id="accessCode" type="text" ng-model="hospitalName" value="LWEH"  tabindex="3" name="hospitalName" required>
+					<p class="help-block" ng-if="loginForm.hospitalName.$error.required">The hospital name is required</p>
+				</div>
+				<div class="form-group padding-top10">
+					<a class="btn btn-primary" ng-click="validate()"  tabindex="4">Login</a>
+					<a href="#"  class="btn btn-primary"  tabindex="5">Cancel</a>
+				</div>
+				<div class=" padding-top10">
+					<a data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password</a>
+				</div>
+			</div>
+			<div class="col-md-1 col-sm-1"></div>
+		</form>
+	</div>
+
+	<div class="row  logo">
+		<img src="images/logo.png">
+		<img src="images/login-logo.png">
+	</div>
+	
+	 <!-- Modal Change password start -->
+		  <div class="modal fade"  role="dialog" id="forgotPasswordModal">
+		  	 <div class="modal-dialog "  >
+			      <!-- Modal content start -->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			        	<div class="modal-title patient-detail-row title-style model-title-padding" >
+			        	<i class="fa fa-expeditedssl font-size20 margin-right10" aria-hidden="true"></i>Forgot Password
+			            	<button type="button" class="close" data-dismiss="modal">&times;</button>
+			            	<!-- <div class="float_right unique-number margin-right16">C4505</div> -->
+			            </div> 
+			            <div class="modal-body color_gray" ><!--Modal Body Start-->
+			            	<div class="row">
+			            		<div class="col-md-12 col-sm-12">
+				            		<div class="form-group">
+										<label for="accessCode" style="margin-left:5px;"><i class="fa fa-envelope margin-right10 color_gray" aria-hidden="true" style="font-size:15px; color:gray; margin-right:10px;"></i>Email ID</label>
+										<input class="form-control" id=" " type="text"  tabindex="1" name="emailID">
+										<p class="help-block" ng-if=""></p>
+									</div>
+									<div class="form-group padding-top10">
+										<a class="btn btn-primary"  tabindex="2">Send</a>
+										<a class="btn btn-primary"  tabindex="3" data-dismiss="modal">Cancel</a>
+									</div>
+								</div>
+			            	</div>
+			            </div><!--Modal Body End-->
+			        </div>
+			      </div>
+			      <!-- Modal content end -->
+			 </div>
+		  </div>
+		 <!-- Modal Change password end -->
+		
+</div>

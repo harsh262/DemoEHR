@@ -1,7 +1,7 @@
 /**
  * 
  */
-patientSearchApp.service('patientSearchService',['$http',function($http) {
+ehrApp.service('patientSearchService',['$http',function($http) {
 	// service to get all patients
 	this.fetchAllPatientList = function(doctorId){
 		//var URI = urlConfig.url + 'doctors/'+doctorId+'/patients';
@@ -13,8 +13,8 @@ patientSearchApp.service('patientSearchService',['$http',function($http) {
 				return (response.data.result.patients);
 			}
 		},
-		function() {
-			alert("error");
+		function(arg) {
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promis;
 	};
@@ -32,7 +32,7 @@ patientSearchApp.service('patientSearchService',['$http',function($http) {
 			}
 		},
 		function() {
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promis;
 	};
@@ -44,7 +44,7 @@ patientSearchApp.service('patientSearchService',['$http',function($http) {
 			if(response.data._status_Code == 200)
 				return response.data.result;
 		},function(){
-			alert("error");
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
 		})
 		return promise;
 	};
@@ -79,6 +79,17 @@ patientSearchApp.service('patientSearchService',['$http',function($http) {
 			}
 		})
 	}*/
+	this.getPatientByMrn = function(doctorId, searchBy, searchValue) {
+		var URI = BASE_URL + ROOT_URL + DOCTORS +"/"+ doctorId +"/searchPatient?searchBy="+ searchBy +'&searchValue='+searchValue;
+		var promise = $http.get(URI)
+		.then(function(response){
+			if(response.data._status_Code == 200)
+				return response.data.result;
+		},function(){
+			$rootScope.showNotification(0,"",$rootScope.connectionError);
+		})
+		return promise;
+	}
 }]);
 
 

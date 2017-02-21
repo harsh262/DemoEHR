@@ -276,11 +276,9 @@ div.custom-scroll:hover {
 	margin-left: 30px;
 } */
 
-  .table-design-vital table {
-            width: 100%;
-        }
 
-        .table-design-vital thead, .table-design-vital tbody, .table-design-vital tr, .table-design-vital td, .table-design-vital th { display: block; }
+ 
+/*   .table-design-vital thead, .table-design-vital tbody { display: block; }
 
        .table-design-vital tr:after {
             content: ' ';
@@ -290,28 +288,114 @@ div.custom-scroll:hover {
         }
 
         .table-design-vital thead th {
-           /*  height: 30px; */
-            text-align: left;
+            height: 30px;
+            text-align: center;
         }
 
-        .table-design-vital tbody {
-            height: 400px;
-            overflow-y: auto;
-        }
-
+       
         .table-design-vital thead {
             fallback
         }
-
-
-       .table-design-vital tbody td, .table-design-vital thead th {
-            width: 14%;
-            float: left;
+ 
+ 
+  .table-design-vital tbody {
+            height: 400px;
+            overflow-y: scroll;
         }
+    */
+   #orderModalMainContent .form-group
+   {
+   height: 69px !important;
+   } 
+    .btn-primary.focus, .btn-primary:focus
+    {
+        color: #39AB94 !important;
+    }
+    
+  .modal-header .close
+  {
+      padding: 2px 10px !important;
+  }
+ .patientSearchRow .date-range-textbox
+{
+	    height: 34px !important;
+    border-radius: 9px !important;
+    /* border: none !important; */
+    border: 1px solid #cccccc !important;
+    width: 100% !important;
+    color: #cccccc !important;
+    padding-left: 3px !important;
+        font-size: 11px !important;
+}
+  
+    
+  .labOrderCategory label.btn
+  {
+      padding: 7px 8px !important;
+  }
+  .labOrderUrgency label.btn
+  {
+  padding: 7px 11px !important;
+  }
+  .labOrderCollectionType label.btn
+  {
+      padding: 7px 10px !important;
+  }
+  
+  #orderModalMainContent .btn
+  {
+  padding: 7px 3px !important;
+  }
+  #nursingOrder .btn, #generalOrder .btn
+  {
+    padding: 7px 1px !important;
+  }
+  #imagingOrder .btn
+  {
+  padding: 7px 2px !important;
+  }
+    .uib-close
+    {
+    display:none !important;
+    }
+    
+  #ed, #noned
+  {
+  cursor:pointer;
+  }  
+  .paddingTop7
+  
+  {
+  	padding-top: 7px;
+  } 
+  .paddingTop4
+  
+  {
+  	padding-top: 4px;
+  }   
+  .table-design-vital .font-weight-date
+  {
+  font-weight: 700
+  }
+  
+  .table-design-vital table thead tr{
+    display:block;
+}
 
+.table-design-vital table th,.table-design-vital table td{
+    width:120px;
+}
+
+
+.table-design-vital table  tbody{
+  display:block;
+  height:400px;
+  overflow:auto;//set tbody to auto
+}
+ 
 .form-control
 {
-	 padding: 0px 0px !important; 
+	 padding: 0px 5px !important; 
 	 color: grey !important;
 }
 
@@ -325,6 +409,7 @@ div.custom-scroll:hover {
 #allergiesModal .select-box-custom
 {
 	border-color: #39ab94 !important;
+	background-color: white !important;
 }
  .carousel-control
 {
@@ -348,7 +433,7 @@ div.custom-scroll:hover {
 }
  .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next
 {
-	margin-right: -32px !important;
+	margin-right: -18px !important;
 }  
 .datetimepicker-wrapper .uib-increment .btn
 {
@@ -661,6 +746,11 @@ div.custom-scroll:hover {
 	height:130px;
 	/*  border:1px solid ; */
 }
+.table-height-580
+{
+	/*  border:1px solid ; */
+	height: 580px;
+}
 .table-height-540
 {
 	/*  border:1px solid ; */
@@ -715,6 +805,19 @@ div.custom-scroll:hover {
 .table-height-200
 {
 	height: 200px;
+}
+.table-height-150
+{
+	height: 150px;
+}
+.table-height-220
+{
+	height: 220px;
+}
+.table-height-240
+{
+	height: 240px;
+	
 }
 .table-height-250
 {
@@ -773,6 +876,11 @@ div.custom-scroll:hover {
 .font-size14
 {
 	    font-size: 14px;
+}
+.font-size10
+{
+	    font-size: 10px;
+	   
 }
 .font-size13
 {
@@ -922,6 +1030,7 @@ div.one >.nav>li>a {
 	margin-left: 5px;
 	color: grey;
 	cursor: pointer;
+	font-weight: 700
 }
 
 .border-margin-table
@@ -1147,6 +1256,19 @@ color:#d11507
 }
 .color-gray{
 	color:#ccc8c2;
+}
+
+.color-yellow{
+	color:yellow
+}
+.color-green{
+	color:green
+}
+.color-blue{
+	color:blue
+}
+.color-back{
+	color:black
 }
 .strikeout{
 	text-decoration: line-through;
@@ -1532,9 +1654,9 @@ padding-top: 10px;
  font-weight: bolder !important;
 }
 .btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default {
-    color: #fff;
-    background-color: #39ab94;
-    border-color: #adadad;
+    color:#fff !important;
+    background-color: #39ab94 !important;
+    border-color: #adadad !important;
 
 }
 #op_case_sheet label {
@@ -1593,4 +1715,23 @@ padding-top: 10px;
 }
 .tableleftborder{
 	border-left: 2px solid gray !important;
+}
+.preloaderimg{
+	z-index: 9999;
+    position: fixed;
+    left: 37%;
+    top: 20%;
+    right: 0px
+}
+
+/*************************/
+.uib-daypicker .btn-sm
+{
+padding: 4px 0px !important;
+}
+
+
+.chart {
+  width: 100%; 
+  min-height: 450px;
 }

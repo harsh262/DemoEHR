@@ -1,8 +1,7 @@
-//======================================Lab Order nikhil==============================================================
-homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','commonCrudService','VitalReviewService',function($scope,$rootScope,$cookies,commonCrudService,VitalReviewService) {
+//======================================Lab Order==============================================================
+ehrApp.controller("labOrderController",['$scope','$rootScope','commonCrudService','VitalReviewService',function($scope,$rootScope,commonCrudService,VitalReviewService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
-
 	 $scope.today = function() {
 	   	    $scope.orderItems.collectionDate = new Date();
 	   	  };
@@ -11,7 +10,10 @@ homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','c
 	$scope.saveLabOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.lab.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.labTest;
+			//console.log($scope.orderItems);
 			orderItemsNew.push($scope.orderItems);
+			
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Lab Order",$rootScope.subCategoryValue).then(function(data){
 				$scope.$broadcast('show-errors-reset');
@@ -21,6 +23,56 @@ homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','c
 		}
 	};
 	
+	
+	//**********************************DATEPICKER**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openLabCollectionDate = function() {
+     
+        $scope.popupLabCollectionDate.opened = true;
+      };
+
+      $scope.popupLabCollectionDate = {
+      
+        opened: false
+      };
+	
+    /*********************  COMPLEX ACTIVE INACTIVE ***************************/
+      $scope.message = 'Active';
+      $scope.status = true;
+      $scope.onChange = function(state) {
+          if($scope.status)
+       	   {
+       	   $scope.message = 'Active';
+       	   $scope.complexActiveInactive.status = "active";
+       	   }
+          else
+       	   {
+       	   $scope.message = 'Inactive';
+       	   $scope.complexActiveInactive.status = "inactive";
+       	   }
+         
+      };
+      
+      
+      
+      $scope.message = 'Active';
+      $scope.status1 = true;
+      $scope.onChange1 = function(state) {
+          if($scope.status)
+       	   {
+       	   $scope.message = 'Active';
+       	   $scope.complexActiveInactive1.status1 = "active";
+       	   }
+          else
+       	   {
+       	   $scope.message = 'Inactive';
+       	   $scope.complexActiveInactive1.status1 = "inactive";
+       	   }
+         
+      };
 	//getOrderList();
 
 	$scope.cancelOrder = function(orderId){
@@ -29,6 +81,8 @@ homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','c
 		});
 	}
 		
+	
+	
 	$scope.getOrderById = function(orderId){
 		commonCrudService.getOrderById(orderId).then(function(data){
 			$scope.orderItems = angular.copy(data.orderItems[0]);
@@ -57,6 +111,8 @@ homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','c
 			$scope.getLabOrderList = data;
 		});
 	}
+	 $scope.orderItems = {};
+	 
 	 $scope.init = function(){
 			$scope.orderItems = angular.copy({
 				"category"		:"",
@@ -69,7 +125,12 @@ homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','c
 				"collectionDate":"",
 				"howOften"		:"",
 				"howLong"		:"",
-				"description"	:""
+				"description"	:"",
+				"orderName"     :"",
+				"category"		:"biochemistry",
+				"urgency"		:"regular",
+				"collectionType":"labCollect",
+				"offen"			:"once"
 			});
 		}
 	 $scope.init();
@@ -81,13 +142,14 @@ homePageApp.controller("labOrderController",['$scope','$rootScope','$cookies','c
 }]);
 
 //==========================================Imaging Order==========================================================
-homePageApp.controller("imagingOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("imagingOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
 	$scope.saveImagingOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.imagingOrderForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.imagingProcedure;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Imaging Order", $rootScope.subCategoryValue).then(function(data){
@@ -97,6 +159,23 @@ homePageApp.controller("imagingOrderController",['$scope','$rootScope','commonCr
 			});
 		}
 	};
+	
+
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+	      $scope.today = function() {
+	          $scope.dt = new Date();
+	        };
+	      
+	        $scope.openImagingRequestedDate = function() {
+	       
+	          $scope.popupImagingRequestedDate.opened = true;
+	        };
+
+	        $scope.popupImagingRequestedDate = {
+	        
+	          opened: false
+	        };
+	
 	
 	//getImagingOrderList();
 
@@ -134,34 +213,38 @@ homePageApp.controller("imagingOrderController",['$scope','$rootScope','commonCr
 		});
 	}
 	
+	$scope.orderItems = {};
 	$scope.init = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode"            :"",
-			"imagingType"            :"",
+			"imagingType"            :"radiology",
 			"imagingProcedure"       :"",
 			"modifier"               :"",
 			"requestedDate"          :"",
 			"urgency"                :"",
-			"transport"              :"",
-			"category"               :"",
+			"transport"              :"wheelChair",
+			"category"               :"op",
 			"submitTo"				 :"",
 			"isolation"				 :"",
 			"preOpScheduled"		 :"",
 			"historyAndReasonForExam":"",
-			"examOverLast7Days"      :""
+			"examOverLast7Days"      :"",
+			"orderName"              :"",
+			"urgency"				 :"regular",
 		});
 	};
 	$scope.init();
 }]);
 
 //=====================================IP Pharmacy==========================================================================================
-homePageApp.controller("ipPharmacyController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("ipPharmacyController",['$scope','$rootScope','commonCrudService','$http',function($scope,$rootScope,commonCrudService,$http) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
 	$scope.saveIpPharmacyOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.ipPharmacyForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.drugName;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"IP Pharmacy",$rootScope.subCategoryValue).then(function(data){
@@ -213,17 +296,73 @@ homePageApp.controller("ipPharmacyController",['$scope','$rootScope','commonCrud
 			"drugName"   :"",
 			"route"      :"",
 			"schedule"   :"",
-			"priority"   :"",
+			"priority"   :"regular",
 			"comments"   :"",
-			"warning"    :""
+			"warning"    :"",
+			"orderName"  :""
 		});
 	};
 	$scope.init();
 	
+	
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openIVDate = function() {
+     
+        $scope.popupIVDate.opened = true;
+      };
+
+      $scope.popupIVDate = {
+      
+        opened: false
+      };
+	
+      
+      /*--------------------- Autocomplete --------------------*/
+      $scope.searchDosage = function(value, searchBy){
+    		//if(value.length >= 2){
+    	    	var drugList = [];
+    	    	return $http.get(BASE_URL2+'/drugSearch/'+value, {
+    	        }).then(function(response){
+    	        	if(response.data._status_Code === 200){
+		    	          angular.forEach(response.data.result, function(generic){
+		    	        	  var obj = {generic_id:'',generic_name:'', };
+		    	            obj.generic_id = generic._id;
+		    	            obj.generic_name = generic.Generic_name;
+		    	            drugList.push(obj);
+		    	          });
+		    	          //console.log(drugList);
+		    	          return drugList;
+    	        	}
+    	        },function() {
+    	            $rootScope.showNotification(0,"",$rootScope.connectionError);
+    	            //alert("error");
+    	           });
+    	   //   }
+    	}
+     
+    	$scope.on_drug_selected = function($item, $model, $label){
+    		$scope.orderItems.drugId = $item.generic_id;
+    			return $http.get(BASE_URL2+'/drugSearchById/'+$item.generic_id, {
+    	        }).then(function(response){
+    	        	if(response.data._status_Code === 200){
+	    	        	var value = response.data.result[0].Strength_value;
+	    	        	var unit = response.data.result[0].Unit_of_strength;
+	    	        	$scope.orderItems.dosage = value + unit;
+	    	        	return '';
+    	        	}
+    	        },function() {
+    	            $rootScope.showNotification(0,"",$rootScope.connectionError);
+    	            //alert("error");
+    	           });
+    	}
 }]);
 
 //==================================IV Pharmacy============================================================================================
-homePageApp.controller("ivPharmacyController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("ivPharmacyController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 	
@@ -277,6 +416,7 @@ homePageApp.controller("ivPharmacyController",['$scope','$rootScope','commonCrud
 	$scope.saveIvPharmacyOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.ivPharmacyForm.$valid){
+			$scope.orderItems.orderName = "";
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"IV Pharmacy",$rootScope.subCategoryValue).then(function(data){
@@ -322,7 +462,7 @@ homePageApp.controller("ivPharmacyController",['$scope','$rootScope','commonCrud
 		$scope.getIvPharmacyOrderList = data;
 		});
 	}
-	
+	$scope.orderItems = {};
 	$scope.init = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode"      :"",
@@ -335,16 +475,33 @@ homePageApp.controller("ivPharmacyController",['$scope','$rootScope','commonCrud
 			"prn"              :"",
 			"schedule"         :"",
 			"infusionRate"     :"",
-			"priority"         :"",
+			"priority"         :"regular",
 			"duration"         :"",
-			"totalVolume"      :""
+			"totalVolume"      :"",
+			"orderName"        :""
 		});
 	};
 	$scope.init();
+	
+	
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openImagingRequestedDate = function() {
+     
+        $scope.popupImagingRequestedDate.opened = true;
+      };
+
+      $scope.popupImagingRequestedDate = {
+      
+        opened: false
+      };
 }]);
 
 //=====================================Procedure Surgical=========================================================================================
-homePageApp.controller("procedureSurgicalOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("procedureSurgicalOrderController",['$scope','$rootScope','commonCrudService','$http',function($scope,$rootScope,commonCrudService,$http) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
@@ -352,6 +509,7 @@ homePageApp.controller("procedureSurgicalOrderController",['$scope','$rootScope'
 		
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.procedureSurgicalOrderForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.procedureName;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Procedure/Surgical",$rootScope.subCategoryValue).then(function(data){
@@ -397,26 +555,108 @@ homePageApp.controller("procedureSurgicalOrderController",['$scope','$rootScope'
 		$scope.getProcedureSurgicalOrderList = data;
 		});
 	}
-	
+	$scope.orderItems ={};
 	$scope.init = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode"                  :"",
-			"procedureName"                :"",
+			"patientWillSeen"              :"inpatient",
 			"procedureName"                :"",
 			"consultpatient"               :"",
-			"urgency"                      :"",
+			"urgency"                      :"regular",
 			"attention"                    :"",
 			"clinicalIndicateDate"         :"",
 			"serviceToPerformThisProcedure":"",
 			"reasonForRequest"             :"",
-			"provisionalDiagnosis"         :""
+			"provisionalDiagnosis"         :"",
+			"orderName"                    :""
 		});
 	};
 	$scope.init();
+	
+	/* ================ Procedure/Surgical Order Autocomplete ================= */
+	/* $scope.searchProcedureName = function(keyword){
+		 var procedureNameList = [];
+		 commonCrudService.searchProcedureName(keyword).then(function(result){
+			 console.log(result.data);
+			 angular.forEach(result.data, function(item){
+	       	  var obj = {id:'',procedureId:'', procedureName:'', serviceId: ''};
+	           obj.id = item._id;
+	           obj.procedureId = item.Procedure_Id;
+	           obj.procedureName = item.Procedure_Name;
+	           obj.serviceId = item.Service_Id;
+	           procedureNameList.push(obj);
+	         });
+			 console.log(procedureNameList);
+			 return procedureNameList;
+		 });
+	 }*/
+	 
+	  $scope.searchProcedureName = function(keyword) {
+	    	//if(val.length >= 2){
+		  var procedureNameList = [];
+	    	return $http.get(BASE_URL2+"/procedureSearch/"+keyword, {
+	        }).then(function(res){
+	        	if(res.data._status_Code === 200){
+			          angular.forEach(res.data.result, function(item){
+			        	  var obj = {id:'',procedureId:'', procedureName:'', serviceId: ''};
+				           obj.id = item._id;
+				           obj.procedureId = item.Procedure_Id;
+				           obj.procedureName = item.Procedure_Name;
+				           obj.serviceId = item.Service_Id;
+				           procedureNameList.push(obj);
+			          });
+			          //console.log(patientList);
+			          return procedureNameList;
+	        	}
+	        },function() {
+	            $rootScope.showNotification(0,"",$rootScope.connectionError);
+	            //alert("error");
+	           });
+	      };
+	      
+	      //-----ICD code ---//
+	  	$scope.searchPreferredProblemList = function(val){
+			//if(val.length >= 2){
+		    	var problemList = [];
+		    	return $http.get(BASE_URL2+'/icdCodeSearch/'+val, {
+		        }).then(function(res){
+		        	if(res.data._status_Code === 200){
+				          angular.forEach(res.data.result, function(item){
+				        	  var obj = {id:'',code:'', desc:''};
+				            obj.id = item._id;
+				            obj.code = item.CODE;
+				            obj.desc = item.SHORT_Discription;
+				            problemList.push(obj);
+				          });
+				          return problemList;
+		        	}
+		        },function() {
+		            $rootScope.showNotification(0,"",$rootScope.connectionError);
+		            //alert("error");
+		           });
+		    //  };
+		}
+	      
+	    //**********************************DATEPICKER FOR Requested date**********************************//*
+	      $scope.today = function() {
+	          $scope.dt = new Date();
+	        };
+	      
+	        $scope.openProcedureClinicDate = function() {
+	       
+	          $scope.popupProcedureClinicDate.opened = true;
+	        };
+
+	        $scope.popupProcedureClinicDate = {
+	        
+	          opened: false
+	        };
+	      
+	    
 }]);
 
 //======================================General========================================================================================
-homePageApp.controller("generalController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("generalController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
@@ -431,6 +671,7 @@ homePageApp.controller("generalController",['$scope','$rootScope','commonCrudSer
 	$scope.saveGeneralOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.generalForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.order;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"General",$rootScope.subCategoryValue).then(function(data){
@@ -486,20 +727,48 @@ homePageApp.controller("generalController",['$scope','$rootScope','commonCrudSer
 		$scope.getGeneralOrderList = data;
 		});
 	}
-	
+	$scope.orderItems = {};
 	$scope.init = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode":"",
 			"order"      :"",
 			"startDate"  :"",
-			"stopDate"   :""
+			"stopDate"   :"",
+			"orderName"  :"",
+			"urgency"	 :"regular"
 		});
 	};
 	$scope.init();
+	
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openGeneralOrderStartDate = function() {
+     
+        $scope.popupGeneralOrderStartDate.opened = true;
+      };
+
+      $scope.popupGeneralOrderStartDate = {
+      
+        opened: false
+      };
+      
+      
+        $scope.openGeneralOrderEndDate = function() {
+       
+          $scope.popupGeneralOrderEndDate.opened = true;
+        };
+
+        $scope.popupGeneralOrderEndDate = {
+        
+          opened: false
+        };
 }]);
 
 //=========================================Consult=====================================================================================
-homePageApp.controller("consultController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("consultController",['$scope','$rootScope','commonCrudService','$http',function($scope,$rootScope,commonCrudService,$http) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
@@ -512,9 +781,10 @@ homePageApp.controller("consultController",['$scope','$rootScope','commonCrudSer
 		});
 	};*/
 	
-	$scope.consultForm = function(){
+	$scope.saveConsultOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.consultForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.consultService;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Consult",$rootScope.subCategoryValue).then(function(data){
@@ -571,25 +841,65 @@ homePageApp.controller("consultController",['$scope','$rootScope','commonCrudSer
 		$scope.getConsultOrderList = data;
 		});
 	}
+	$scope.orderItems = {};
+	
 	$scope.init = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode"         :"",
 			"consultService"      :"",
-			"consultpatient"      :"",
-			"urgency"             :"",
+			"consultpatient"      :"clinic",
+			"urgency"             :"regular",
 			"attention"           :"",
 			"placeToConsultation" :"",
 			"clinicalIndicateDate":"",
 			"provisionalDiagnosis":"",
-			"reasonForRequest"    :""
+			"reasonForRequest"    :"",
+			"orderName"           :"",
+			"patientWillSeen" 	:"Inpatient"
 		});
 	};
 	$scope.init();
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openConsultDate = function() {
+     
+        $scope.popupConsultDate.opened = true;
+      };
+
+      $scope.popupConsultDate = {
+      
+        opened: false
+      };
 	
+      //-----ICD code ---//
+	  	$scope.searchPreferredProblemList = function(val){
+			//if(val.length >= 2){
+		    	var problemList = [];
+		    	return $http.get(BASE_URL2+'/icdCodeSearch/'+val, {
+		        }).then(function(res){
+		        	if(res.data._status_Code === 200){
+				          angular.forEach(res.data.result, function(item){
+				        	  var obj = {id:'',code:'', desc:''};
+				            obj.id = item._id;
+				            obj.code = item.CODE;
+				            obj.desc = item.SHORT_Discription;
+				            problemList.push(obj);
+				          });
+				          return problemList;
+		        	}
+		        },function() {
+		            $rootScope.showNotification(0,"",$rootScope.connectionError);
+		            //alert("error");
+		           });
+		    //  };
+		}
 }]);
 
 //==========================================Vitals Order ====================================================================================
-homePageApp.controller("vitalOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("vitalOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
@@ -603,6 +913,7 @@ homePageApp.controller("vitalOrderController",['$scope','$rootScope','commonCrud
 		
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.vitalsForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.vitalSign;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Vital",$rootScope.subCategoryValue).then(function(data){
@@ -667,14 +978,40 @@ homePageApp.controller("vitalOrderController",['$scope','$rootScope','commonCrud
 			"startDateTime"     :"",
 			"stopDateTime"      :"",
 			"schedule"          :"",
-			"specialInstruction":""
+			"specialInstruction":"",
+			"orderName"         :""
 		});
 	};
 	$scope.init();
+	
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openVitalsOrderDate = function() {
+     
+        $scope.popupVitalsOrderDate.opened = true;
+      };
+
+      $scope.popupVitalsOrderDate = {
+      
+        opened: false
+      };
+      
+      $scope.openVitalsOrderEndDate = function() {
+    	     
+          $scope.popupVitalsOrderEndDate.opened = true;
+        };
+
+        $scope.popupVitalsOrderEndDate = {
+        
+          opened: false
+        };
 }]);
 
 //===============================================Nursing Order===============================================================================
-homePageApp.controller("nursingOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("nursingOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
@@ -690,6 +1027,7 @@ homePageApp.controller("nursingOrderController",['$scope','$rootScope','commonCr
 	$scope.saveNursingOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.nurshingOrderForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.order;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Nursing",$rootScope.subCategoryValue).then(function(data){
@@ -752,14 +1090,41 @@ homePageApp.controller("nursingOrderController",['$scope','$rootScope','commonCr
 			"billingCode":"",
 			"order"      :"",
 			"startDate"  :"",
-			"stopDate"   :""
+			"stopDate"   :"",
+			"orderName"  :"",
+			"urgency"	 :"regular"
 		});
 	};
 	$scope.init();
+	
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openNursingOrderStartDate = function() {
+     
+        $scope.popupNursingOrderStartDate.opened = true;
+      };
+
+      $scope.popupNursingOrderStartDate = {
+      
+        opened: false
+      };
+      
+      $scope.openNursingOrderEndDate = function() {
+    	     
+          $scope.popupNursingOrderEndDate.opened = true;
+        };
+
+        $scope.popupNursingOrderEndDate = {
+        
+          opened: false
+        };
 }]);
 
 //===============================================Order Sets ===============================================================================
-homePageApp.controller("orderSetsController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("orderSetsController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
@@ -816,7 +1181,7 @@ homePageApp.controller("orderSetsController",['$scope','$rootScope','commonCrudS
 }]);
 
 //===============================================Diet===============================================================================
-homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("dietOrderController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	$scope.subCategory = "Diet";
 	var orderItemsNew = new Array();
 	$scope.orderId1;
@@ -827,6 +1192,7 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.dietForm.$valid){
 			var orderItemsNew = new Array();
+			$scope.orderItems.orderName = $scope.orderItems.dietComponent;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
 			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Diet",$scope.subCategory ).then(function(data){
@@ -881,7 +1247,8 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 			"dietExirationDate"      :"",
 			"dietDelivery"           :"",
 			"dietPrecaution"         :"",
-			"dietSpecialInstructions":""
+			"dietSpecialInstructions":"",
+			"orderName"              :""
 		});
 	};
 	
@@ -892,7 +1259,7 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 }]);
 	
 	/*===============Tube Feeding==============*/
-	homePageApp.controller("dietTubeFeedingController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("dietTubeFeedingController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 		$scope.subCategory = "Tube Feeding";
 		var orderItemsNew = new Array();
 		$scope.orderId1;
@@ -901,6 +1268,7 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 			$scope.$broadcast('show-errors-check-validity');
 			if($scope.tubeFeedingForm.$valid){
 				var orderItemsNew = new Array();
+				$scope.orderItems.orderName = $scope.orderItems.tubeFeedingProduct;
 				orderItemsNew.push($scope.orderItems);
 				//console.log(orderItemsNew);
 				commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Diet", $scope.subCategory).then(function(data){
@@ -952,12 +1320,13 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 			"quantity"              :"",
 			"amount"                :"",
 			"specialInstructions"   :"",
-			"cancelFutureTRAYPOrder":""
+			"cancelFutureTRAYPOrder":"",
+			"orderName"              :""
 		})
 	};
 	}]);
 	/*============ Early/Late Tray ===============*/
-	homePageApp.controller("dietEarlyLateController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("dietEarlyLateController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 		$scope.subCategory = "Early/Late Tray";
 		var orderItemsNew = new Array();
 		$scope.orderId1;
@@ -966,6 +1335,7 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 			$scope.$broadcast('show-errors-check-validity');
 			if($scope.earkyLateTrayForm.$valid){
 				var orderItemsNew = new Array();
+				$scope.orderItems.orderName = "";
 				orderItemsNew.push($scope.orderItems);
 				//console.log(orderItemsNew);
 				commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Diet", $scope.subCategory).then(function(data){
@@ -1013,15 +1383,16 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 	$scope.initEarlyLateTray = function(){
 		$scope.orderItems = angular.copy({
 			"billingCode":"",
-			"Meal":"",
-			"startDate":"",
-			"endDate":"",
-			"dayOfWeek":{"Monday":false,"Tuesday":false,"Wednesday":false,"Thursday":false,"Friday":false,"Saturday":false,"Sunday":false}
+			"Meal"       :"",
+			"startDate"  :"",
+			"endDate"    :"",
+			"dayOfWeek"  :{"Monday":false,"Tuesday":false,"Wednesday":false,"Thursday":false,"Friday":false,"Saturday":false,"Sunday":false},
+			"orderName"  :""
 		})
 	};
 	}]);
 	/*============ Diet Additional Orders ==============*/
-	homePageApp.controller("dietDietAdditionalController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("dietDietAdditionalController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 		$scope.subCategory = "Additional Orders";
 		var orderItemsNew = new Array();
 		$scope.orderId1;
@@ -1030,6 +1401,7 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 			$scope.$broadcast('show-errors-check-validity');
 			if($scope.additionalOrdersForm.$valid){
 				var orderItemsNew = new Array();
+				$scope.orderItems.orderName = "";
 				orderItemsNew.push($scope.orderItems);
 				//console.log(orderItemsNew);
 				commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Diet", $scope.subCategory).then(function(data){
@@ -1076,8 +1448,9 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 	}
 	$scope.initAdditionalOrders = function(){
 		$scope.orderItems = angular.copy({
-			"billingCode":"",
-			"additionalOrder":""
+			"billingCode"    :"",
+			"additionalOrder":"",
+			"orderName"      :""
 		});
 	};
 }]);
@@ -1086,7 +1459,7 @@ homePageApp.controller("dietOrderController",['$scope','$rootScope','commonCrudS
 
 
 /*==================== patient movement ===========*/
-homePageApp.controller("patientMovementController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("patientMovementController",['$scope','$rootScope','commonCrudService','$http',function($scope,$rootScope,commonCrudService,$http) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 	$scope.subCategory = 'Admit';
@@ -1108,23 +1481,14 @@ homePageApp.controller("patientMovementController",['$scope','$rootScope','commo
 		getPatientMovementAdmitOrderList();
 	} 
 	
-	/*$scope.savePatientMovementAdmitOrder = function(){
-		var orderItemsNew = new Array();
-		orderItemsNew.push($scope.orderItems);
-		console.log(orderItemsNew);
-		commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory).then(function(data){
-			getPatientMovementAdmitOrderList();
-				$scope.initAdmit();
-		});
-	};
-	*/
 	$scope.savePatientMovementAdmitOrder = function(){
 		var orderItemsNew = new Array();
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.patientMovementTabAdmitForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.wardName;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
-			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$rootScope.subCategoryValue).then(function(data){
+			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory ).then(function(data){
 				$scope.$broadcast('show-errors-reset');
 				getPatientMovementAdmitOrderList();
 				$scope.initAdmit();
@@ -1147,23 +1511,13 @@ homePageApp.controller("patientMovementController",['$scope','$rootScope','commo
 		$scope.orderId = orderId;
 	}
 	
-	/*$scope.updatePatientMovementAdmitOrder = function(){
-		orderItemsNew = new Array();
-		orderItemsNew.push($scope.orderItems);
-		commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory).then(function(data) {
-			console.log("update");
-			console.log($scope.orderItems);
-			getPatientMovementAdmitOrderList();
-				$scope.initAdmit();
-		});
-	}
-	*/
+	
 	$scope.updatePatientMovementAdmitOrder = function(){
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.patientMovementTabAdmitForm.$valid){
 			orderItemsNew = new Array();
 			orderItemsNew.push($scope.orderItems);
-			commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$rootScope.subCategoryValue).then(function(data) {
+			commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory ).then(function(data) {
 				$scope.$broadcast('show-errors-reset');
 				//console.log("update");
 				//console.log($scope.orderItems);
@@ -1179,7 +1533,7 @@ homePageApp.controller("patientMovementController",['$scope','$rootScope','commo
 		});
 	}
 	
-	
+	$scope.orderItems = {};
 	$scope.initAdmit = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode"       :"",
@@ -1189,16 +1543,105 @@ homePageApp.controller("patientMovementController",['$scope','$rootScope','commo
 			"startDate"         :"",
 			"endDate"           :"",
 			"admissionDiagnosis":"",
-			"description"       :""
+			"description"       :"",
+			"orderName"         :"",
+			"category"			:"admission"
 		});
 	};
 	
 	$scope.initAdmit();
 	
+	 //**********************************DATEPICKER FOR Requested date**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openPaitentDischargeDate = function() {
+     
+        $scope.popupPaitentDischargeDate.opened = true;
+      };
+
+      $scope.popupPaitentDischargeDate = {
+      
+        opened: false
+      };
+	
+      $scope.searchWard = function(value){
+	    	var pwardList = [];
+	    	return $http.get(BASE_URL2+'/wardSearch/'+value, {
+	        }).then(function(res){
+	        	console.log(res);
+	        	if(res.data._status_Code === 200){
+		          angular.forEach(res.data.result, function(item){
+		        	  var obj = {id:'',wardCode:'', wardDesc:'', gender:''};
+		            obj.id = item._id;
+		            obj.wardCode = item.Ward_Code;
+		            obj.wardDesc = item.Ward_Description;
+		            obj.gender = item.Gender
+		            pwardList.push(obj);
+		          });
+		          return pwardList;
+	        	}
+	        },function() {
+	            $rootScope.showNotification(0,"",$rootScope.connectionError);
+	            //alert("error");
+	         });
+}
+      
+      $scope.searchDepartment = function(value){
+    	  var deptList = [];
+    	  return $http.get(BASE_URL2+'/departmentSearch/'+value, {
+          }).then(function(res){
+        	  if(res.data._status_Code === 200){
+    	        angular.forEach(res.data.result, function(item){
+    	      	  var obj = {deptId:'',ID_HIS:'', code:'', desc:'', isClinical:''};
+    	          obj.deptId = item._id;
+    	          obj.ID_HIS = item.ID_HIS;
+    	          obj.code = item.Code;
+    	          obj.desc = item.Description
+    	          obj.isClinical = item.IsClinical
+    	          deptList.push(obj);
+    	        });
+    	        return deptList;
+        	  }
+          },function() {
+        	     $rootScope.showNotification(0,"",$rootScope.connectionError);
+        	     //alert("error");
+        	 });
+      }
+      
+      $scope.searchPreferredProblemList = function(val){
+			//if(val.length >= 2){
+		    	var problemList = [];
+		    	return $http.get(BASE_URL2+'/icdCodeSearch/'+val, {
+		        }).then(function(res){
+		        	 if(res.data._status_Code === 200){
+				          angular.forEach(res.data.result, function(item){
+				        	  var obj = {id:'',code:'', desc:''};
+				            obj.id = item._id;
+				            obj.code = item.CODE;
+				            obj.desc = item.SHORT_Discription;
+				            problemList.push(obj);
+				          });
+				          return problemList;
+		        	 }
+		        },function() {
+		            $rootScope.showNotification(0,"",$rootScope.connectionError);
+		            //alert("error");
+		           });
+		    //  };
+		}
+		
+		/*
+		 * autocompkte on selected 
+		 */
+		 $scope.on_problem_selected = function($item, $model, $label){
+			 $scope.orderItems.icd = $item.code;
+		 }
 }]);
 
 //=================== patient movement - Transfer ============================//
-homePageApp.controller("patientMovementTranferController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("patientMovementTranferController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 	$scope.subCategory = 'Transfer';
@@ -1218,9 +1661,10 @@ homePageApp.controller("patientMovementTranferController",['$scope','$rootScope'
 		var orderItemsNew = new Array();
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.patientMovementTabTransferForm.$valid){
+			$scope.orderItems.orderName = $scope.orderItems.wardName;
 			orderItemsNew.push($scope.orderItems);
 			//console.log(orderItemsNew);
-			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$rootScope.subCategoryValue).then(function(data){
+			commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory ).then(function(data){
 				$scope.$broadcast('show-errors-reset');
 				getPatientMovementAdmitOrderList();
 				$scope.initTranfer();
@@ -1228,7 +1672,7 @@ homePageApp.controller("patientMovementTranferController",['$scope','$rootScope'
 		}
 	};
 	
-	$scope.saveLabOrder = function(){
+/*	$scope.saveLabOrder = function(){
 		var orderItemsNew = new Array();
 		$scope.$broadcast('show-errors-check-validity');
 		if($scope.patientMovementTabAdmitForm.$valid){
@@ -1240,7 +1684,7 @@ homePageApp.controller("patientMovementTranferController",['$scope','$rootScope'
 				$scope.initAdmit();
 			});
 		}
-	};
+	};*/
 	
 	//getPatientMovementAdmitOrderList();
 
@@ -1272,7 +1716,7 @@ homePageApp.controller("patientMovementTranferController",['$scope','$rootScope'
 		if($scope.patientMovementTabTransferForm.$valid){
 			orderItemsNew = new Array();
 			orderItemsNew.push($scope.orderItems);
-			commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$rootScope.subCategoryValue).then(function(data) {
+			commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory).then(function(data) {
 				$scope.$broadcast('show-errors-reset');
 				//console.log("update");
 				//console.log($scope.orderItems);
@@ -1296,7 +1740,9 @@ homePageApp.controller("patientMovementTranferController",['$scope','$rootScope'
 			"speciality"  :"",
 			"startDate"   :"",
 			"endDate"     :"",
-			"description" :""
+			"description" :"",
+			"orderName"   :"",
+			"category"	  :"admission"
 		})
 	};
 	
@@ -1304,7 +1750,7 @@ homePageApp.controller("patientMovementTranferController",['$scope','$rootScope'
 	
 }]);
 //============================ Patient Movement - Discharge =================================//
-homePageApp.controller("patientMovementDischargeController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("patientMovementDischargeController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 
@@ -1323,9 +1769,10 @@ homePageApp.controller("patientMovementDischargeController",['$scope','$rootScop
 			var orderItemsNew = new Array();
 			$scope.$broadcast('show-errors-check-validity');
 			if($scope.patientMovementTabDischargeForm.$valid){
+				$scope.orderItems.orderName = $scope.orderItems.Type;
 				orderItemsNew.push($scope.orderItems);
 				//console.log(orderItemsNew);
-				commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$rootScope.subCategoryValue).then(function(data){
+				commonCrudService.saveOrder(orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory).then(function(data){
 					$scope.$broadcast('show-errors-reset');
 					getPatientMovementAdmitOrderList();
 					$scope.initDischarge();
@@ -1363,7 +1810,7 @@ homePageApp.controller("patientMovementDischargeController",['$scope','$rootScop
 		if($scope.patientMovementTabDischargeForm.$valid){
 			orderItemsNew = new Array();
 			orderItemsNew.push($scope.orderItems);
-			commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$rootScope.subCategoryValue).then(function(data) {
+			commonCrudService.updateOrder($scope.orderId,orderItemsNew,$rootScope.patientInfo,"Patient Movement",$scope.subCategory).then(function(data) {
 				$scope.$broadcast('show-errors-reset');
 				//console.log("update");
 				//console.log($scope.orderItems);
@@ -1384,14 +1831,15 @@ homePageApp.controller("patientMovementDischargeController",['$scope','$rootScop
 			"billingCode"       :"",
 			"Type"              :"",
 			"dischargeDiagnosis":"",
-			"description"       :""
+			"description"       :"",
+			"orderName"         :""
 		})
 	};
 	$scope.initDischarge();
 	
 }]);
 //===============================================Blood Component===============================================================================
-homePageApp.controller("bloodComponentController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
+ehrApp.controller("bloodComponentController",['$scope','$rootScope','commonCrudService',function($scope,$rootScope,commonCrudService) {
    
 	var orderItemsNew = new Array();
 	$scope.orderId1;
@@ -1413,7 +1861,38 @@ homePageApp.controller("bloodComponentController",['$scope','$rootScope','common
 			getBloodComponentOrderList();
 		});
 	}
-		
+	
+	//**********************************DATEPICKER**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openBloodComponentDate = function() {
+     
+        $scope.popupBloodCompDate.opened = true;
+      };
+
+      $scope.popupBloodCompDate = {
+      
+        opened: false
+      };
+      
+      
+    //**********************************DATEPICKER FOR Collection date and time**********************************//*
+      $scope.today = function() {
+          $scope.dt = new Date();
+        };
+      
+        $scope.openBloodComponentCollectionDate = function() {
+       
+          $scope.popupBloodCompCollectionDate.opened = true;
+        };
+
+        $scope.popupBloodCompCollectionDate = {
+        
+          opened: false
+        };
+	
 	$scope.getBloodComponentOrderById = function(orderId){
 		commonCrudService.getOrderById(orderId).then(function(data){
 			$scope.orderItems = angular.copy(data.orderItems[0]);
@@ -1438,26 +1917,30 @@ homePageApp.controller("bloodComponentController",['$scope','$rootScope','common
 		});
 	}
 	
+	 $scope.orderItems = {};
+	
 	$scope.init = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode"       :"",
-			"component"         :"",
+			"component"         :"wholeBlood",
 			"bloodComponent"    :"",
 			"component1"        :"",
 			"reasonForRequest"  :"",
 			"quantity"          :"",
 			"collectionTest"    :"",
 			"dateTime"          :"",
-			"urgency"           :"",
+			"urgency"           :"regularBloodComp",
 			"surgery"           :"",
 			"collectionDateTime":"",
 			"comment"           :""
+				
+				
 		});
 	};
 	$scope.init();
 }]);
 /*============================ OP Pharmacy =========================*/
-homePageApp.controller("opPharmacyController",['$scope','$rootScope','commonCrudService','$http',function($scope,$rootScope,commonCrudService,$http) {
+ehrApp.controller("opPharmacyController",['$scope','$rootScope','commonCrudService','$http',function($scope,$rootScope,commonCrudService,$http) {
 	var orderItemsNew = new Array();
 	$scope.orderId1;
 	$scope.subCategory = "Dosage";
@@ -1522,6 +2005,7 @@ homePageApp.controller("opPharmacyController",['$scope','$rootScope','commonCrud
 		$scope.subCategory = "Complex";
 		getOpPharmacyOrderList();
 	}
+	$scope.orderItems = {};
 	$scope.initDosage = function() {
 		$scope.orderItems = angular.copy({
 			"billingCode":"",
@@ -1530,42 +2014,67 @@ homePageApp.controller("opPharmacyController",['$scope','$rootScope','commonCrud
 			"drugId"     :"",
 			"dosage"     :"",
 			"route"      :"",
-			"pickUp"     :"",
+			"pickUp"     :"'Clinic'",
 			"schedule"   :"",
 			"daysSupply" :"",
 			"qty"        :"",
 			"refils"     :"",
-			"priority"   :"",
+			"priority"   :"regular",
 			"comment"    :""
 		});
 	};
 	$scope.initDosage();
+	//**********************************DATEPICKER FOR Collection date and time**********************************//*
+    $scope.today = function() {
+        $scope.dt = new Date();
+      };
+    
+      $scope.openOPDate = function() {
+     
+        $scope.popupOPDate.opened = true;
+      };
+
+      $scope.popupOPDate = {
+      
+        opened: false
+      };
 	
-	$scope.searchDosage = function(value, searchBy){
-		//if(value.length >= 2){
-	    	var drugList = [];
-	    	return $http.get('http://35.154.76.183:5100/drugSearch/'+value, {
-	        }).then(function(response){
-	          angular.forEach(response.data, function(generic){
-	        	  var obj = {generic_id:'',generic_name:'', };
-	            obj.generic_id = generic._id;
-	            obj.generic_name = generic.Generic_name;
-	            drugList.push(obj);
-	          });
-	          //console.log(drugList);
-	          return drugList;
-	        });
-	   //   }
-	}
-	
-	$scope.on_drug_selected = function($item, $model, $label){
-		$scope.orderItems.drugId = $item.generic_id;
-			return $http.get('http://35.154.76.183:5100/drugSearchById/'+$item.generic_id, {
-	        }).then(function(response){
-	        	var value = response.data[0].Strength_value;
-	        	var unit = response.data[0].Unit_of_strength;
-	        	$scope.orderItems.dosage = value + unit;
-	          return '';
-	        });
-	}
+      $scope.searchDosage = function(value, searchBy){
+  		//if(value.length >= 2){
+  	    	var drugList = [];
+  	    	return $http.get(BASE_URL2+'/drugSearch/'+value, {
+  	        }).then(function(response){
+  	        	if(response.data._status_Code === 200){
+	  	          angular.forEach(response.data.result, function(generic){
+	  	        	  var obj = {generic_id:'',generic_name:'', };
+	  	            obj.generic_id = generic._id;
+	  	            obj.generic_name = generic.Generic_name;
+	  	            drugList.push(obj);
+	  	          });
+	  	          //console.log(drugList);
+	  	          return drugList;
+  	        }
+  	        },function() {
+  	            $rootScope.showNotification(0,"",$rootScope.connectionError);
+  	            //alert("error");
+  	           });
+  	   //   }
+  	}
+   
+  	$scope.on_drug_selected = function($item, $model, $label){
+  		$scope.orderItems.drugId = $item.generic_id;
+  			return $http.get(BASE_URL2+'/drugSearchById/'+$item.generic_id, {
+  	        }).then(function(response){
+  	        	console.log(response);
+  	        	if(response.data._status_Code === 200){
+	  	        	var value = response.data.result[0].Strength_value;
+	  	        	var unit = response.data.result[0].Unit_of_strength;
+	  	        	$scope.orderItems.dosage = value + unit;
+	  	        	return '';
+  	        	}
+  	        },function() {
+  	            $rootScope.showNotification(0,"",$rootScope.connectionError);
+  	            //alert("error");
+  	           });
+  	}
 }]);

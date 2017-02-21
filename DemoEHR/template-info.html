@@ -1,0 +1,999 @@
+<div class="container-fluid">
+<div class="row patient-detail-row">
+		<div class="col-md-8 col-sm-8 col-xs-8" >
+			<span class="profile_pic"> <img alt=""
+				src="images/Temp-images/patient2.jpg" class="img-circle"
+				style="margin-top: -18px; cursor: default">
+			</span> <label> <span class="font-size13">{{patientInformation.patientInfo[0].name}},
+					<span
+					ng-bind-html="getAgeByDate(patientInformation.patientInfo[0].dob)"></span>/{{patientInformation.patientInfo[0].gender}}
+			</span><br> <span class="subtitle-font"> <span
+					ng-bind-html="convertToIntAndGetDate(patientInformation.patientInfo[0].dob)">
+				</span> <span style="margin-left: 3px" class="subtitle-font">{{patientInformation.patientInfo[0].mrn}}</span></span>
+				<span class="hide-span font-size13"><a data-toggle="modal"
+					data-target="#patientDetailsModal" style="color: white"
+					class="cursor-pointer-set"></a></span>
+			</label> <span> <label class="label-margin10"> <i
+					class="fa fa-snowflake-o" aria-hidden="true"></i> <span
+					class="color-red cursor-pointer-set font-size13"
+					data-toggle="modal" data-target="#allergiesModal"
+					ng-click="resetFormValidation();getAllergy();">Allergies </span> <span
+					class="subtitle-font" style="cursor: pointer" data-toggle="modal"
+					data-target="#allergiesModal" ng-click="getAllergy()">:
+						{{patientCoverPageAllergy | limitTo : 11 :0}}{{patientInformation.Allergies.length > 1 ? ' ...' : ''}} </span> <br>
+					<i class="fa fa-map-marker" aria-hidden="true"
+					style="cursor: default"></i><span class="margin-left8 font-size13">Location
+				</span> <span class=" subtitle-font"> :
+						{{patientInformation.locations}}</span>
+			</label>
+			</span> <span> <label class="label-margin10"> <!-- 	<i class="fa fa-flag" aria-hidden="true"></i><span class="color-red cursor-pointer-set font-size13" data-toggle="modal" data-target="#flagInfoModal"> Flag </span>
+						<span class="margin26 subtitle-font">: {{patientInfo.visitRecords[0].flag}} </span>  -->
+					<i class="fa fa-flag" aria-hidden="true"></i><span
+					class="color-red cursor-pointer-set font-size13 flag-popover"
+					data-toggle="modal" data-target="#flagInfoModal"
+					ng-click="getFlags()"> Flag </span> <span
+					class="margin35 subtitle-font" data-toggle="modal"
+					data-target="#flagInfoModal" style="cursor: pointer"
+					ng-click="getFlags()">:
+						{{patientCoverPageFlag}}{{patientInformation.flagResult.length > 1
+						? '...' : ''}} </span> <br> <i class="fa fa-user-md"
+					aria-hidden="true" style="cursor: default"></i><span
+					class="margin-left8 font-size13">Physician </span><span
+					class="subtitle-font"> : {{patientInformation.careProvider}}</span>
+			</label>
+			</span>
+		</div>
+		 <div class="col-md-4 col-sm-4 col-xs-4">
+			<!-- <div class="margin-top8 " style=" font-size: 15px;color: white;float:right">Close</div> -->
+			<a class="float_right unique-number margin-top9" href="#/homePage">Close</a>
+		</div> 
+		
+	</div>
+</div>
+<div id="dvContainer" class="container-fluid">
+	<section class="content">
+			<div class="row col-md-12">
+				<div class="col-md-6 col-sm-6 col-xs-6 logo">
+					<img src="images/logo.png"><span><img
+						src="images/login-logo.png"></span>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-6 padding-top15">
+					<div class="">
+						<h4>{{customTemplateData.template.title}}</h4>
+					</div>
+				</div>
+				<!-- <div class="col-md-4"></div> -->
+			</div>
+			<div class="col-md-12 col-sm-12"> 
+			<fieldset class="scheduler-border coolfieldset" id="patientInfoField">
+				<legend class="scheduler-border">Patient Information</legend>
+				<div class="row" style="padding-left: 10px;">
+					<div class="col-md-4" ng-repeat="(key,value) in customTemplateData.template.patient.result" ng-if="value">
+						<label>{{key | uppercase}} : {{value}}</label>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset id="vitalsField" class="scheduler-border coolfieldset" ng-show="customTemplateData.template.medicalHistory.vitals.checked">
+				<legend class="scheduler-border">Vitals</legend>
+				 <p style="float: right;">Last {{customTemplateData.template.medicalHistory.vitals.noOfDays}} day's</p> 
+				<div class="col-md-12">
+				<table class="table table-bordered" >
+                <tbody><tr class="table-font">
+                  <th style="width: 1%;"></th>
+                  <th style="width: 3%;">3rd Dec 7:00 Am</th>
+                  <th style="width: 3%;">4th Dec 7:00 Am</th>
+                  <th style="width: 3%;">5th Dec 7:00 Am</th>
+                  <th style="width: 3%;">6th Dec 7:00 Am</th>
+                  <th style="width: 3%;">7th Dec 7:00 Am</th>
+                  <th style="width: 3%;">8th Dec 7:00 Am</th>
+                  <th style="width: 3%;">9th Dec 7:00 Am</th>
+                  <th style="width: 3%;">10th Dec 7:00 Am</th>
+                  <th style="width: 3%;">11th Dec 7:00 Am</th>
+                  <th style="width: 3%;">12th Dec 7:00 Am</th>
+                  <th style="width: 3%;">13th Dec 7:00 Am</th>
+                  <th style="width: 3%;">14th Dec 7:00 Am</th>
+                  <th style="width: 3%;">15th Dec 7:00 Am</th>
+                  <th style="width: 3%;">16th Dec 7:00 Am</th>
+                  <th style="width: 3%;">17th Dec 7:00 Am</th>
+                  <th style="width: 3%;">18th Dec 7:00 Am</th>
+                </tr>
+                <tr>
+                  <td>T</td>
+                  <td>45&#8451;</td>
+                  <td>45&#8451;</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>BP</td>
+                  <td>70</td>
+                  <td>75</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>WT</td>
+                  <td>65</td>
+                  <td>65</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>HT</td>
+                  <td>6.5</td>
+                  <td>6.5</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              </tbody></table>
+              </div>
+			</fieldset>
+			<fieldset id="labsField" class="scheduler-border coolfieldset" ng-show="customTemplateData.template.medicalHistory.labs.checked">
+				<legend class="scheduler-border">Lab</legend>
+				<p style="float: right;">Last {{customTemplateData.template.medicalHistory.labs.noOfDays}} day's</p> 
+				<div class="col-md-12">
+				<table class="table table-bordered">
+                <tbody><tr class="table-font">
+                  <th style="width: 1%;"></th>
+                  <th style="width: 3%;">3rd Dec 7:00 Am</th>
+                  <th style="width: 3%;">4th Dec 7:00 Am</th>
+                  <th style="width: 3%;">5th Dec 7:00 Am</th>
+                  <th style="width: 3%;">6th Dec 7:00 Am</th>
+                  <th style="width: 3%;">7th Dec 7:00 Am</th>
+                  <th style="width: 3%;">8th Dec 7:00 Am</th>
+                  <th style="width: 3%;">9th Dec 7:00 Am</th>
+                  <th style="width: 3%;">10th Dec 7:00 Am</th>
+                  <th style="width: 3%;">11th Dec 7:00 Am</th>
+                  <th style="width: 3%;">12th Dec 7:00 Am</th>
+                  <th style="width: 3%;">13th Dec 7:00 Am</th>
+                  <th style="width: 3%;">14th Dec 7:00 Am</th>
+                  <th style="width: 3%;">15th Dec 7:00 Am</th>
+                  <th style="width: 3%;">16th Dec 7:00 Am</th>
+                  <th style="width: 3%;">17th Dec 7:00 Am</th>
+                  <th style="width: 3%;">18th Dec 7:00 Am</th>
+                </tr>
+                <tr>
+                  <td>ABG</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>50&#8451;</td>
+                </tr>
+                <tr>
+                  <td>Blood Sugar</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>50&#8451;</td>
+                </tr>
+                <tr>
+                  <td>Arterial Blood</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>50&#8451;</td>
+                </tr>
+                <tr>
+                  <td>Oxygen Saturation</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>50&#8451;</td>
+                </tr>
+                <tr>
+                  <td>Bicarbonate</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>50&#8451;</td>
+                </tr>
+              </tbody></table>
+              </div>
+			</fieldset>
+			<fieldset id="pharmacyField" class="scheduler-border coolfieldset" ng-show="customTemplateData.template.medicalHistory.pharmacy.checked">
+				<legend class="scheduler-border">Pharmacy</legend>
+				 <p style="float: right;">Last {{customTemplateData.template.medicalHistory.pharmacy.noOfDays}} day's</p> 
+				<div class="col-md-12">
+				<table class="table table-bordered">
+                <tbody><tr>
+                  <th>Drug</th>
+                  <th>Dosage</th>
+                  <th>Schedule</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+                <tr>
+                  <td>Oxycodone/APAP</td>
+                  <td>50mg</td>
+                  <td>12-4</td>
+                  <td>Active</td>
+                  <td><button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button></td>
+                </tr>
+                <tr>
+                  <td>Hydrocodone/APAP</td>
+                  <td>125mg</td>
+                  <td>-</td>
+                  <td>Inactive</td>
+                  <td><button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button></td>
+                </tr>
+                <tr>
+                  <td>Azithromycin</td>
+                  <td>75mg</td>
+                  <td>-</td>
+                  <td>Active</td>
+                  <td><button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button></td>
+                </tr>
+                <tr>
+                  <td>Cyclobenzaprine</td>
+                  <td>80mg</td>
+                  <td>8-12</td>
+                  <td>Inactive</td>
+                  <td><button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button></td>
+                </tr>
+                <tr>
+                  <td>Memantine</td>
+                  <td>250mg</td>
+                  <td>Daily</td>
+                  <td>Active</td>
+                  <td><button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button></td>
+                </tr>
+              </tbody></table>
+              </div>
+			</fieldset>
+			
+			<fieldset id="medicationField" class="scheduler-border coolfieldset" ng-show="customTemplateData.template.medicalHistory.medication.checked">
+				<legend class="scheduler-border">Medication</legend>
+				<p style="float: right;">Last {{customTemplateData.template.medicalHistory.medication.noOfDays}} day's</p>
+				<div class="col-md-12">
+				<table class="table table-bordered">
+                <tbody><tr>
+                  <th>Drug Name</th>
+                  <th>Start Date</th>
+                  <th>Stop Date</th>
+                  <th>Order By</th>
+                  <th>Status</th>
+                </tr>
+                <tr>
+                  <td>Oxycodone/APAP</td>
+                  <td>01-01-2017</td>
+                  <td>01-01-2017</td>
+                  <td>-</td>
+                  <td>Active</td>
+                </tr>
+                <tr>
+                  <td>Hydrocodone/APAP</td>
+                  <td>02-01-2017</td>
+                  <td>02-01-2017</td>
+                  <td>-</td>
+                  <td>Inactive</td>
+                </tr>
+                <tr>
+                  <td>Azithromycin</td>
+                  <td>03-01-2017</td>
+                  <td>03-01-2017</td>
+                  <td>-</td>
+                  <td>Active</td>
+                </tr>
+                <tr>
+                  <td>Cyclobenzaprine</td>
+                  <td>04-01-2017</td>
+                  <td>04-01-2017</td>
+                  <td>-</td>
+                  <td>Inactive</td>
+                </tr>
+                <tr>
+                  <td>Memantine</td>
+                  <td>05-01-2017</td>
+                  <td>05-01-2017</td>
+                  <td>-</td>
+                  <td>Active</td>
+                </tr>
+              </tbody></table>
+              </div>
+			</fieldset>
+			
+			
+			<fieldset id="diagnosisField" class="scheduler-border coolfieldset" ng-show="customTemplateData.template.medicalHistory.diagnosis.checked">
+				<legend class="scheduler-border">Diagnosis</legend>
+			<div class="col-md-12 col-xs-12 col-sm-12 table-height-540 custom-scroll" ><!-- start main content div -->
+			       			<div class="row">
+			       				<div class="col-md-12 col-sm-12">
+				       				<table class="table table-hover" style="width: 100%; margin-left:0px;">
+									    <thead>
+									      <tr>
+									      	<th style="width:10%">ICD</th>
+									        <th style="width:25%">Problem</th>
+									       	<th style="width:23%">Doctor Name</th>
+									        <th style="width:19%">Severity</th>
+									        <th style="width:14%">Date Of Onset</th>
+									        <th>Action</th>
+									      </tr>
+									    </thead>
+									</table>
+								</div>
+			       			</div>
+			       				<div class="row">
+			       					<div class="col-md-12 col-sm-12">
+			       					
+			       					<table class="table table-hover margin-top10">
+								    <thead>
+									      <tr>
+									        <th class="">Active</th>
+									      </tr>
+								    </thead>
+	  							</table>
+			       					
+				       					<table class="table table-hover" style="width: 100%; margin-left:0px;">
+										    
+										    <tbody>
+										      <tr ng-repeat="diag in customTemplateData.template.medicalHistory.diagnosis.result" ng-if="diag.status == 'active'">
+										      	<td style="width:10%">{{diag.icdCode}}</td>
+										        <td style="width:25%">{{diag.description}}</td>
+										        <td style="width:23%">{{diag.doctorName}}</td>
+										        <td style="width:19%">{{diag.severity}}</td>
+										        <td style="width:14%" ng-bind-html="getDate(diag.date)"></td>
+										        <td><i class="fa fa-times" aria-hidden="true"></i></td>
+										     </tr>
+										    </tbody>
+										  </table>
+									  </div>
+			       				</div>
+			       				<div class="row">
+			       					<div class="col-md-12 col-sm-12">
+			       					
+			       					<table class="table table-hover margin-top10">
+								    <thead>
+									      <tr>
+									        <th class="">Inactive</th>
+									      </tr>
+								    </thead>
+	  							</table>
+			       					
+				       					<table class="table table-hover" style="width: 100%; margin-left:0px;">
+										    
+										    <tbody>
+										      <tr ng-repeat="diag in customTemplateData.template.medicalHistory.diagnosis.result" ng-if="diag.status == 'inactive'">
+										      	<td style="width:10%">{{diag.icdCode}}</td>
+										        <td style="width:25%">{{diag.description}}</td>
+										        <td style="width:23%">{{diag.doctorName}}</td>
+										        <td style="width:19%">{{diag.severity}}</td>
+										        <td style="width:14%" ng-bind-html="getDate(diag.date)"></td>
+										        <td><i class="fa fa-times" aria-hidden="true"></i></td>
+										      </tr>
+										    </tbody>
+										  </table>
+									  </div>
+			       				</div>
+			       				<div class="row">
+			       					<div class="col-md-12 col-sm-12">
+			       					
+			       					<table class="table table-hover margin-top10">
+								    <thead>
+									      <tr>
+									        <th class="">Entered in error</th>
+									      </tr>
+								    </thead>
+	  							</table>
+			       					
+				       					<table class="table table-hover" style="width: 100%; margin-left:0px;">
+										    <tbody>
+										      <tr ng-repeat="diag in customTemplateData.template.medicalHistory.diagnosis.result" ng-if="diag.status == 'error'">
+										      	<td style="width:10%">{{diag.icdCode}}</td>
+										        <td style="width:25%">{{diag.description}}</td>
+										        <td style="width:23%">{{diag.doctorName}}</td>
+										        <td style="width:19%">{{diag.severity}}</td>
+										        <td style="width:14%" ng-bind-html="getDate(diag.date)"></td>
+										        <td><i class="fa fa-times" aria-hidden="true"></i></td>
+										      </tr>
+										    </tbody>
+										  </table>
+									  </div>
+			       				</div>
+			       			</div>
+			</fieldset>
+			
+			<fieldset id="allergyField" class="scheduler-border coolfieldset" ng-show="customTemplateData.template.medicalHistory.allergy.checked">
+				<legend class="scheduler-border">Allergy</legend>
+				<div class="col-md-12">
+				<table class="table table-bordered">
+				<thead>
+				<tr>
+                  <th>Allergy Name</th>
+                  <th>Severity</th>
+                  <th>Nature of Reaction</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                </tr> 
+                </thead>
+                <tbody>
+                <tr ng-repeat="allergy in customTemplateData.template.medicalHistory.allergy.result">
+                  <td>{{allergy.allergyName}}</td>
+                  <td>{{allergy.severity}}</td>
+                  <td>{{allergy.nature}}</td>
+                  <td>{{allergy.type}}</td>
+                  <td><button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button></td>
+                </tr>
+              </tbody>
+              </table>
+              </div>
+			</fieldset>
+			<br>
+			<fieldset id="createdFormFiled"  class="scheduler-border coolfieldset">
+				<legend class="scheduler-border" ng-click="bindHtml()">Created Form</legend>
+			<div class="w3-rest" id="dynamicHtmlContent" >
+			
+			</div>
+			</fieldset>
+			<fieldset id="orderField" class="scheduler-border coolfieldset" ng-show="customTemplateData.template.medicalHistory.order.checked">
+				<legend class="scheduler-border">Orders</legend>
+				<div class="col-md-12 col-xs-12 col-sm-12 border-left">
+											<div class="row">
+								    			<table class="table table-hover margin-top10 th-width">
+													 <tbody><tr>
+														  <th style="width:35%"></th>
+														  <th style="width:20%">Provider</th>
+														  <th style="width:20%">Location</th>
+												          <th style="width:15%">Date Of Order</th>
+														  <th>Status</th>
+													 </tr>   
+												</tbody></table>	
+											</div>
+											<div class="row">
+													<table class="table table-hover margin-top10" style="margin-top:0px;">
+													    <thead>
+														      <tr>
+														        <th>
+															        <span class="icon icon-i-laboratory" aria-hidden="true"></span>
+															        <span>Lab</span>
+														        </th>
+														      </tr>
+													    </thead>
+						  							</table>
+						  							<table class="table table-hover">
+													      <tbody>
+													      	 <tr>
+														        <td style="width:35%">
+															       <span>lipid profile</span>
+														        </td>
+														        <td style="width:20%">
+															      <span>Dr. Smith</span> 
+														        </td>
+														        <td style="width:20%">
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td style="width:15%">
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span> Completed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>HbA1c</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														        <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Pending</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>PPBlood Glucose</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>confirmed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Fasting Blood Glucose</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Pending</span>
+														        </td>
+													      	</tr>
+													      </tbody>
+													      
+						  							</table>
+											</div>
+											<div class="row">
+													<table class="table table-hover margin-top10">
+													    <thead>
+														      <tr>
+														        <th>
+															        <span class="icon icon-i-mri-pet" aria-hidden="true"></span>
+															        <span>Imaging</span>
+														        </th>
+														      </tr>
+													    </thead>
+						  							</table>
+						  							<table class="table table-hover">
+													      <tbody>
+													      	<tr>
+														        <td style="width:35%">
+															       <span>CT Colonography</span>
+														        </td>
+														        <td style="width:20%">
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td style="width:20%">
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td style="width:15%">
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span> Completed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>CT Colonography</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Completed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Ultrasound – Abdomen</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Completed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Magnetic Resonance Imaging (MRI)</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Pending</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Breast Cancer Screening (Acrobat file)</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Confirmed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Mammography</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Pending</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Angiography, CT</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Confirmed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Angiogram, Cerebral</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Confirmed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Intravascular Ultrasound</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Confirmed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Image-guided Radiation Therapy (IGRT)</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Confirmed</span>
+														        </td>
+													      	</tr>
+													      	<tr>
+														        <td>
+															       <span>Inferior Vena Cava Filter Placement and Removal</span>
+														        </td>
+														        <td>
+															      <span>Dr. Smith</span> 
+														        </td>
+														         <td>
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td>
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span>Confirmed</span>
+														        </td>
+													      	</tr>
+													      </tbody>
+													      
+						  							</table>
+											</div>
+											<div class="row">
+													<table class="table table-hover margin-top10">
+													    <thead>
+														      <tr>
+														        <th>
+															        <span class="icon icon-i-pharmacy " aria-hidden="true"></span>
+															        <span>Pharmacy</span>
+														        </th>
+														      </tr>
+													    </thead>
+						  							</table>
+						  									<table class="table table-hover">
+													      <tbody>
+													      	 	<tr>
+														        <td style="width:35%">
+															       <span>Captopril- 12.5-25 mg PO </span>
+														        </td>
+														        <td style="width:20%">
+															      <span>Dr. Smith</span> 
+														        </td>
+														        <td style="width:20%">
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td style="width:15%">
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span> Completed</span>
+														        </td>
+													      	</tr>
+													      </tbody>
+													      
+						  							</table>
+											</div>
+											<div class="row">
+													<table class="table table-hover margin-top10">
+													    <thead>
+														      <tr>
+														        <th>
+															        <span class="icon icon-i-pharmacy " aria-hidden="true"></span>
+															        <span>Consult</span>
+														        </th>
+														      </tr>
+													    </thead>
+						  							</table>
+						  									<table class="table table-hover">
+													      <tbody>
+													      	 	<tr>
+														        <td style="width:35%">
+															       <span>opthalmologist  </span>
+														        </td>
+														        <td style="width:20%">
+															      <span>Dr. Smith</span> 
+														        </td>
+														        <td style="width:20%">
+															      <span>Diabetes Clinic</span> 
+														        </td>
+														        <td style="width:15%">
+															       <span>28th Nov 2016</span>
+														        </td>
+														         <td>
+															     <span> Completed</span>
+														        </td>
+													      	</tr>
+													      </tbody>
+													      
+						  							</table>
+											</div>
+									</div>
+				</fieldset>
+			<fieldset id="imageAnnFieldset" class="scheduler-border coolfieldset">
+	<legend class="scheduler-border">Image Annotation</legend>
+	<input class="btnAddAnnotation" id="btnAddAnnotation" type="button" value="Add Annotation" />
+<div id="finalContainer">
+			<!-- <canvas id="imageCanvas" class="imageCanvas" width="500" height="500"></canvas> -->
+</div>
+	</fieldset>
+	
+	<fieldset id="signatureField" class="scheduler-border coolfieldset" >
+				<legend class="scheduler-border">Signature</legend>
+				<div class="row">
+				<div class="col-md-12">
+				<div class="col-md-4">
+					<div class="form-group">
+					    <label for="">Signature</label>
+					    <input class="form-control" id="" type="text" ng-model="digitalSignature">
+					  </div>
+				</div>
+				</div>
+				</div>
+	</fieldset>
+	
+<!-- Image Annotation Modal -->
+<div id="annotation-modal" class="modal fade annotation-modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header patient-detail-row">
+        <button type="button" onclick="downloadCanvas()" class="btn btn-primary" data-dismiss="modal" style="float: right; margin-top: 10px; margin-right: 10px;">Save Image</button>
+        <h4 class="modal-title">Annotation</h4> 
+      </div>
+    <div class="modal-body">
+	<div class="fs-container">
+      <div id="lc"></div>
+    </div>
+		<!-- <div class="annotaionDiv">
+			<div>
+			<p><label>Drawing tool: <select id="dtool">
+					<option value="line">Line</option>
+					<option value="rect">Rectangle</option>
+					<option value="pencil">Pencil</option>
+				</select></label></p>
+			<label>Image File:</label><br/>
+			<input type="file" id="imageLoader" name="imageLoader"/> 
+			</div>
+			<div class="imageContainer">
+				<div id="container">
+					<canvas id="imageView" class="imageView" height="500px" width="500px"></canvas>
+				</div>
+			 </div>
+		 </div>  -->
+    </div>
+  </div>
+</div>
+</div>
+			<br>
+			<br>
+		</div>
+	</section>
+</div>
+<div class="row" >
+	<div class="col-md-12">
+	<div class="col-md-4"></div><div class="col-md-4"></div>
+	<div class="col-md-4" style="text-align: right;">
+	 <button type="button" id="saveUpload" ng-click="downloadPdf()" class="btn btn-primary" >Save & Download PDF</button>
+	<button type="button" class="btn btn-primary" >Save & Exit</button>
+	</div>
+	</div>
+</div>	
+	<br>
+<script>
+$(document).ready(function(){
+	$('#patientInfoField').coolfieldset();
+	$('#vitalsField').coolfieldset();
+	$('#labsField').coolfieldset();
+	$('#pharmacyField').coolfieldset();
+	$('#medicationField').coolfieldset();
+	$('#orderFiled').coolfieldset();
+	$('#diagnosisField').coolfieldset();
+	$('#allergyField').coolfieldset();
+	$('#signatureField').coolfieldset();
+	$('#createdFormFiled').coolfieldset({collapsed:false});
+	$('#imageAnnFieldset').coolfieldset({collapsed:true});
+	
+	drawCanvas();
+});
+
+$('#btnAddAnnotation').click(function(){
+	$('#annotation-modal').modal();
+	//drawCanvas();
+});
+</script>
+

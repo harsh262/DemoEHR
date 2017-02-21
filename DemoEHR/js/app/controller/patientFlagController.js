@@ -1,7 +1,7 @@
 /**
  * 
  */
-homePageApp.controller("patientFlagController",['$scope','$rootScope','$cookies','$http',function($scope,$rootScope,$cookies,$http){
+ehrApp.controller("patientFlagController",['$scope','$rootScope','$http',function($scope,$rootScope,$http){
 	//----------------------- FLAG  DROP DOWN ------------------------// 
 
 	$scope.flagDropModel = [];

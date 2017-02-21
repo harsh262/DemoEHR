@@ -376,7 +376,7 @@
 
 .mCSB_scrollTools .mCSB_buttonDown, .mCSB_scrollTools .mCSB_buttonLeft,
 	.mCSB_scrollTools .mCSB_buttonRight, .mCSB_scrollTools .mCSB_buttonUp {
-	background-image: url(mCSB_buttons.png);
+	/* background-image: url(mCSB_buttons.png); */
 	background-repeat: no-repeat;
 	opacity: .4;
 	filter: "alpha(opacity=40)";
@@ -427,7 +427,7 @@
 }
 
 .mCS-dark.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar {
-	background-color: rgba(0, 0, 0, .85)
+	background-color: white
 }
 
 .mCS-dark.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar,
