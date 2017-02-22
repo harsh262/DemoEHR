@@ -137,17 +137,107 @@ ehrApp.controller("HomePageController",['$scope','$rootScope','VitalReviewServic
 			angular.element(document.getElementById("vital_tab_row")).show();
 			angular.element(document.getElementById("vital_tab")).removeClass('active').addClass('active');
 			angular.element(document.getElementById("vital_graph")).removeClass('active');
-			angular.element(document.getElementById("vital_graph_row")).hide();
+			angular.element(document.getElementById("chart_div")).hide();
 			
 			VitalReviewService.getVitalReview($scope.patientId).then(function(data) {
 				console.log("vitals list");
 				$scope.vitalReviewList = data;
 				generateVitalReviewTable();
-				$scope.getVitalGraph();
+				google.charts.load('current', {packages: ['corechart', 'line']});
+				google.charts.setOnLoadCallback(drawTrendlines);
+				
+				//$scope.getVitalGraph();
 				$scope.vitalReviewLoader = false;
 			})
 		};
+		
+		$('#vital_graph').click(function(){
+        	angular.element(document.getElementById("vital_tab_row")).show();
+  			angular.element(document.getElementById("vital_tab")).removeClass('active');
+  			angular.element(document.getElementById("vital_graph")).removeClass('active').addClass('active');
+  			angular.element(document.getElementById("vital_tab_row")).hide();
+  			angular.element(document.getElementById("chart_div")).show();
+  			angular.element(document.getElementById("searchBox")).hide();
+  			
+  			VitalReviewService.getVitalReview($scope.patientId).then(function(data){
+				$scope.vitalReviewList = data;
+				console.log("list of vitals", data);
+				//generateVitalReviewTable();
+				google.charts.load('current', {packages: ['corechart', 'line']});
+				google.charts.setOnLoadCallback(drawTrendlines);
+				
+				//$scope.getVitalGraph();
+				//$scope.vitalReviewLoader = false;
+			})
+         })
+         
+         function ListCheck(vitalReviewList){
+			var checkList = [];
+			
+			
+		}
+         
 	
+         function graphVitalList(){
+       	 var array = $scope.vitalReviewList;
+       	 console.log("array", array);
+       	 var graphList = [[{label: 'date', type: 'date'},
+//       	                      {label: 'Pulse Oximeter', type: 'date'},
+//       	                      {label: 'Temperature', type: 'date'},
+//       	                      {label: 'Respiration', type: 'date'},
+//       	                      {label: 'Height', type: 'date'},
+//       	                      {label: 'Diastolic Blood Pressure', type: 'date'},
+//       	                      {label: 'Weight', type: 'date'}
+       	                   ]
+       	                   ];
+       	 for(var i = 0; i < array.length; i++){
+       		 graphList.push([
+             		array[i].date
+             	])
+             }
+       	 console.log("date list ", graphList);
+       	 return graphList;
+        }
+         
+		function drawTrendlines() {
+			var graphData = graphVitalList();
+		      var data = new google.visualization.DataTable();
+		      data.addColumn('date', 'X');
+//		      data.addColumn('number', 'Pulse Oximeter');
+//		      data.addColumn('number', 'Temperature');
+//		      data.addColumn('number', 'Respiration');
+//		      data.addColumn('number', 'Height');
+//		      data.addColumn('number', 'Diastolic Blood Pressure');
+//		      data.addColumn('number', 'Weight');
+
+		      data.addRows([
+		                    graphData
+//		        [new Date(1484480961000), 40 , 35, 33, 70, 30], 
+//		        [new Date(1484475028000), 23 , 40, 24, 56, 45], 
+//		        [new Date(1484734228000), 0 , 0, 40, 36, 62]
+		      ]);
+
+		      var options = {
+		        hAxis: {
+		          title: 'Time',
+		          format:'MMM d, y'
+		        },
+		        vAxis: {
+		          title: 'Value'
+		        },
+		        
+		        colors: ['#AB0D06', '#E859E5', '#23776F', '#CAE859', '#598AE8'],
+		        trendlines: {
+		          0: {type: 'exponential', color: '#333', opacity: 1},
+		          1: {type: 'linear', color: '#111', opacity: .3}
+		        }
+		      };
+
+		      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+		      chart.draw(data, options);
+		    }
+		
+		
 	/*
 	 * get vital review list by date range
 	 */
